@@ -2,6 +2,7 @@
   <div>
     dashboard - {{$route.query.title}}
     <el-input v-model="name"></el-input>
+    <div v-point="'button'">button</div>
     <el-button @click="openNewTab">open new self</el-button>
   </div>
 
