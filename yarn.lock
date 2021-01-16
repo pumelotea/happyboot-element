@@ -1036,11 +1036,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.7.tgz#8ea1e8f8eae2430cf440564b98c6dfce1ec5945d"
   integrity sha512-Zw1vhUSQZYw+7u5dAwNbIA9TuTotpzY/OF7sJM9FqPOF3SPjKnxrjoTktXDZgUjybf4cWVBP7O8wvKdSaGHweg==
 
-"@types/node@^14.14.17":
-  version "14.14.19"
-  resolved "https://registry.npmjs.org/@types/node/-/node-14.14.19.tgz#5135176a8330b88ece4e9ab1fdcfc0a545b4bab4"
-  integrity sha512-4nhBPStMK04rruRVtVc6cDqhu7S9GZai0fpXgPXrFpcPX6Xul8xnrjSdGB4KPBVYG/R5+fXWdCM8qBoiULWGPQ==
-
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
@@ -4591,12 +4586,11 @@ handle-thing@^2.0.0:
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
   integrity sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==
 
-happykit@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/happykit/-/happykit-1.0.3.tgz#a7e50736b72d16595bee5ed4bc37702b3e49b741"
-  integrity sha512-reNXkKbbnPwlwDIW67fd4MZdMMRdRZ2pLGNrdcmatb/VXS/C76N137fyeT1wMRPYhB5W1/WvvB22gijJBwu2tg==
+happykit@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/happykit/-/happykit-1.1.0.tgz#752842ca76c28ea3f46b2946949524b3bd9db012"
+  integrity sha512-aseYa/2FbNVViKWYhfzbsls4KCUlHtiinngTQbi1bC+raHw7MFSjjRUm4+W803X4bPUUAep3+vhPPRj69N0iZQ==
   dependencies:
-    "@types/node" "^14.14.17"
     axios "^0.21.0"
     core-js "^3.6.5"
     js-md5 "0.7.3"

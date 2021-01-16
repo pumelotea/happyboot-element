@@ -2,14 +2,14 @@
   <div class="nav-bar-container">
     <div class="nav-wrap">
       <el-tabs
-        v-show="navList.value.length > 0"
+        v-show="navList.length > 0"
         v-model="activeTab"
         type="card"
         closable
         @edit="handleTabsEdit"
         @tab-click="goto"
       >
-        <template v-for="item in navList.value" :key="item.pageId">
+        <template v-for="item in navList" :key="item.pageId">
           <el-tab-pane
             :name="item.pageId"
             :pageId="item.pageId"
@@ -28,7 +28,7 @@
         </template>
       </el-tabs>
     </div>
-    <div class="tab-actions" v-if="navList.value.length > 0">
+    <div class="tab-actions" v-if="navList.length > 0">
       <el-dropdown trigger="hover">
         <div class="el-dropdown-link">
           <div class="tab-actions-bg">

@@ -2,10 +2,10 @@
   <transition name="fade-transverse">
     <div class="page-container">
       <div class="page-body">
-        <div class="title" v-if="!noTitle">{{ currentRouteMenu.value?.title }}</div>
+        <div class="title" v-if="!noTitle">{{ currentRouteMenu?.title }}</div>
         <div class="breadcrumb" v-if="breadcrumb">
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <template v-for="e in currentRouteMenu.value?.menuItem.breadcrumb">
+            <template v-for="e in currentRouteMenu?.menuItem.breadcrumb">
               <el-breadcrumb-item
                 v-if="e.isRouter"
                 :to="{ path: e.routerPath }"

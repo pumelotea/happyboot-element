@@ -10,7 +10,7 @@
       :collapse-transition="false"
       @select="goto"
     >
-      <template v-for="e in menuTree.value">
+      <template v-for="e in menuTree">
         <el-menu-item v-if="e.isRouter && !e.hide" :index="e.menuId">
           <i :class="e.icon"></i>
           <span slot="title">{{ e.name }}</span>

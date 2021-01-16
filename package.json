@@ -10,23 +10,23 @@
     "build-test": "vue-cli-service build --mode=test --dest=dist-test"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "3.2.0",
+    "animate.css": "4.1.0",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "cropperjs": "1.5.1",
     "element-plus": "^1.0.1-beta.19",
-    "happykit": "^1.0.3",
+    "happykit": "^1.1.0",
+    "highlight.js": "^10.1.1",
     "js-md5": "0.7.3",
     "mitt": "^2.1.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
+    "tinymce": "5.2.1",
+    "v-viewer": "^1.5.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-rc.2",
-    "vuex": "^4.0.0-rc.1",
-    "@tinymce/tinymce-vue": "3.2.0",
-    "animate.css": "4.1.0",
-    "cropperjs": "1.5.1",
-    "highlight.js": "^10.1.1",
-    "tinymce": "5.2.1",
-    "v-viewer": "^1.5.1"
+    "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",

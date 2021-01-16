@@ -11,12 +11,14 @@
     </template>
     <template v-slot:content>
       <content-container ref="cache">
-        <router-view   v-slot="{ Component }">
-<!--          <keep-alive  >-->
+        <router-view   v-slot="{ Component }" >
+<!--          <keep-alive>-->
             <component :is="Component" :pageId="pageId" :key="pageId"></component>
 <!--          </keep-alive>-->
-<!--          <component v-if="!isKeepalive" :is="Component"></component>-->
         </router-view>
+<!--        <router-view v-slot="{ Component }" v-if="!isKeepalive">-->
+<!--          <component  :is="Component" :pageId="pageId"  :key="pageId"></component>-->
+<!--        </router-view>-->
       </content-container>
     </template>
   </main-layout>

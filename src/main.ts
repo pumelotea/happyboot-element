@@ -19,7 +19,7 @@ import 'highlight.js/styles/atom-one-light.css' //样式文件
 import happyFramework from '@/framework'
 
 
-const app = createApp(App as any)
+const app = createApp(App)
 app.config.errorHandler = errorHandler
 app.config.warnHandler = warnHandler
 app.use(router)

@@ -5,7 +5,7 @@
         <div class="title-container">
           <div class="breadcrumb">
             <el-breadcrumb separator-class="el-icon-arrow-right">
-              <template v-for="e in currentRouteMenu.value?.menuItem.breadcrumb">
+              <template v-for="e in currentRouteMenu?.menuItem.breadcrumb">
                 <el-breadcrumb-item
                   v-if="e.isRouter"
                   :to="{ path: e.routerPath }"
