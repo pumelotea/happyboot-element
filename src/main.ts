@@ -17,7 +17,7 @@ import 'highlight.js/styles/atom-one-light.css' //样式文件
 
 //导入框架实例
 import happyFramework from '@/framework'
-
+import security from '@/security'
 
 const app = createApp(App)
 app.config.errorHandler = errorHandler
@@ -29,6 +29,7 @@ app.use(eventBus)
 app.use(elementPlus)
 //作为插件安装
 app.use(happyFramework)
+app.use(security)
 //全局组件
 app.use(components)
 
