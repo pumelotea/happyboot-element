@@ -12,5 +12,6 @@ const router = createRouter({
 
 router.beforeEach(beforeEachHandler)
 router.afterEach(afterEachHandler)
-const happyKitRouter = upgradeRouter(happyFramework,router as any)
+
+const happyKitRouter = upgradeRouter(happyFramework,router)
 export default happyKitRouter
