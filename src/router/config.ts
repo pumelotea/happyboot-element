@@ -12,47 +12,7 @@ const beforeInterceptor = createDefaultRouterInterceptor({
   interceptorType:RouterInterceptorType.BEFORE,
   framework:happyFramework,
   async dataLoader(){
-    //准备请求接口获取菜单
-    let req: any = { code: 0, msg: '' }
-    let loading = null
-    const properties: any = happyFramework.options.app?.config.globalProperties
-    try {
-      loading = properties.$loading({
-        lock: true,
-        text: 'Loading',
-        background: 'rgba(255, 255, 255, 1)'
-      })
-      req = await apis.getAuthMenuTree()
-      loading.close()
-    } catch (e) {
-      loading && loading.close()
-      properties.$alert(e.message, '路由加载失败')
-      return false
-    }
-
-    if (req.code === 401) {
-      properties
-        .$confirm(req.msg, '请尝试重新登录', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-        })
-        .then(() => {
-          //清空过期或者损坏的token
-          security.refreshToken('')
-
-        })
-        .catch((e: any) => {
-          console.log(e)
-        })
-      return false
-    }
-
-    if (req.code !== 0) {
-      properties.$alert(req.msg, '路由加载失败')
-      return false
-    }
-
-    return req.data
+    return []
   },
   dataLoadFailureHandler(){
     console.log('数据加载失败')
