@@ -140,15 +140,13 @@ export default {
     const token = securityInstance.getToken()
 
     onMounted(() => {
+      document.addEventListener('keypress', onKeyEnter)
       getKaptcha()
-
       //如果记住登录，并且存在token就跳转进入首页
       if (saveLoginStatus.value && token) {
         router.push('/')
         return
       }
-
-      document.addEventListener('keypress', onKeyEnter)
     })
 
     onBeforeUnmount(() => {

@@ -2,7 +2,7 @@
   <div>
     dashboard - {{$route.query.title}}
     <el-input v-model="name"></el-input>
-    <div v-point="'button'">button</div>
+    <div v-point="'add'">button</div>
     <el-button @click="openNewTab">open new self</el-button>
   </div>
 
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { defineComponent,ref } from 'vue'
 import router from '@/router'
+// eslint-disable-next-line no-unused-vars
 import { HappyKitRouter } from 'happykit'
 // import { getHappykitInstance } from '@/framework'
 export default defineComponent({
