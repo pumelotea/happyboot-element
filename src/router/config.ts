@@ -1,20 +1,18 @@
 import { RouteRecordRaw } from 'vue-router'
 import { createDefaultRouterInterceptor,RouterInterceptorType } from 'happykit'
-
+import apis from '@/apis'
 //导入框架实例
 import happyFramework from '@/framework'
 // @ts-ignore
 import routerData from './routerData'
+import security from '@/security'
 
 //创建默认的拦截器
 const beforeInterceptor = createDefaultRouterInterceptor({
   interceptorType:RouterInterceptorType.BEFORE,
   framework:happyFramework,
-  dataLoader(){
-    //实际开发环境应该从服务端拉取数据
-    //同时应该根据实际的数据结构进行编写对应的适配器
-    //同时应该自行处理好请求失败等情况
-    return routerData
+  async dataLoader(){
+    return []
   },
   dataLoadFailureHandler(){
     console.log('数据加载失败')
@@ -23,7 +21,7 @@ const beforeInterceptor = createDefaultRouterInterceptor({
     parentRoute: {
       name: 'home',
       path: '/',
-      component: () => import('@/views/home'!)
+      component: () => import('@/views/home/index.vue')
     },
     routes: [],
     viewLoader(view){
@@ -36,7 +34,18 @@ const afterInterceptor = createDefaultRouterInterceptor({
   framework:happyFramework
 })
 
-const routes: Array<RouteRecordRaw> = []
+const routes: Array<RouteRecordRaw> = [
+  {
+    name: 'login',
+    path: '/login',
+    component: () => import('@/views/login/index.vue')
+  },
+  {
+    name: 'switch-user',
+    path: '/switch-user',
+    component: () => import('@/views/switch-user/index.vue')
+  }
+]
 
 export const beforeEachHandler = (to: any, from: any, next: any) => {
   //使用拦截器

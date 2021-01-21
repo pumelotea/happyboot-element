@@ -15,13 +15,12 @@ httpClient.interceptors.request.use(requestInterceptor, requestErrorHandler)
 httpClient.interceptors.response.use(responseInterceptor, responseErrorHandler)
 
 
-export function $post(url: string, params: any) {
+export function $post(url: string, params?: any) {
   return new Promise((resolve, reject) => {
     httpClient
       .post(url, params)
       .then(
         res => {
-          console.log(res)
           resolve(res.data)
         },
         err => {
@@ -34,7 +33,7 @@ export function $post(url: string, params: any) {
   })
 }
 
-export function $get(url: string, params: any) {
+export function $get(url: string, params?: any) {
   return new Promise((resolve, reject) => {
     httpClient
       .get(url, {
@@ -49,7 +48,7 @@ export function $get(url: string, params: any) {
   })
 }
 
-export function $delete(url: string, params: any) {
+export function $delete(url: string, params?: any) {
   return new Promise((resolve, reject) => {
     httpClient
       .delete(url, { params: params })
@@ -67,7 +66,7 @@ export function $delete(url: string, params: any) {
   })
 }
 
-export function $put(url: string, params: any) {
+export function $put(url: string, params?: any) {
   return new Promise((resolve, reject) => {
     httpClient
       .put(url, params)

@@ -1,4 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
+import security from '@/security'
+import happyFramework from '@/framework'
 
 const axiosConfig: AxiosRequestConfig = {
   // @ts-ignore
@@ -8,7 +10,8 @@ const axiosConfig: AxiosRequestConfig = {
 
 // eslint-disable-next-line no-unused-vars
 export const requestInterceptor = (config: any) => {
-  config.headers.Authorization = 'token string from local'
+  config.headers.Authorization = security.getToken()
+  config.headers.ClientId = happyFramework.getTracker().clientId
   return config
 }
 
