@@ -1,21 +1,64 @@
 import { RouteRecordRaw } from 'vue-router'
-import { createDefaultRouterInterceptor,RouterInterceptorType } from 'happykit'
+import { createDefaultRouterInterceptor, DataLoadResult, RouterInterceptorType } from 'happykit'
 import apis from '@/apis'
 //导入框架实例
 import happyFramework from '@/framework'
-// @ts-ignore
-import routerData from './routerData'
 import security from '@/security'
 
 //创建默认的拦截器
 const beforeInterceptor = createDefaultRouterInterceptor({
   interceptorType:RouterInterceptorType.BEFORE,
   framework:happyFramework,
-  async dataLoader(){
-    return []
+  async dataLoader(to, from, next) {
+    const $loading = happyFramework.options.app?.config.globalProperties.$loading
+    const $alert = happyFramework.options.app?.config.globalProperties.$alert
+    const $confirm = happyFramework.options.app?.config.globalProperties.$confirm
+    const result:DataLoadResult = {
+      rawData:null,
+      message:'',
+    }
+    let req:any = { code: 0, msg: '' }
+    let loading = null
+    try {
+      loading = $loading({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(255, 255, 255, 1)'
+      })
+      req = await apis.getAuthMenuTree()
+      loading.close()
+    } catch (e) {
+      loading && loading.close()
+      $alert(e.message, '路由加载失败')
+      result.message = e.message
+      return result
+    }
+
+    if (req.code === 401) {
+     $confirm(req.msg, '请尝试重新登录', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        })
+        .then(() => {
+          //清空过期或者损坏的token
+          security.refreshToken('')
+          next!('/login')
+        })
+        .catch((e:any) => {
+          console.log(e)
+        })
+      return result
+    }
+
+    if (req.code !== 0) {
+      $alert(req.msg, '路由加载失败')
+      return result
+    }
+    result.rawData = req.data
+    return result
   },
-  dataLoadFailureHandler(){
-    console.log('数据加载失败')
+  dataLoadFailureHandler(result, to, from, next){
+    console.log(result)
   },
   routerInjectOption:{
     parentRoute: {
@@ -48,6 +91,14 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 export const beforeEachHandler = (to: any, from: any, next: any) => {
+  if (!security.getToken()){
+    if (to.path !== '/login') {
+      next('/login')
+      return
+    }
+    next()
+    return
+  }
   //使用拦截器
   beforeInterceptor.filter(to,from,next)
 }

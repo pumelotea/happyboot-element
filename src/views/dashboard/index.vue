@@ -19,7 +19,7 @@ export default defineComponent({
     const name = ref('')
     // const hkf = getHappykitInstance()
     const openNewTab = () => {
-      (router as HappyKitRouter ).push('/dashboard1?id=1&title=123123','hahha')
+      (router as HappyKitRouter ).push('/dashboard?id=1&title='+name.value,name.value)
     }
 
     return {
