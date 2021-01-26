@@ -12,7 +12,7 @@
     <el-dialog
       title='上传头像'
       :append-to-body='true'
-      v-model:visible='dialog'
+      v-model='dialog'
       @close='close'
     >
       <div class='btns' v-show='canSave'>
@@ -87,35 +87,34 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
-import { ref, watch, getCurrentInstance } from 'vue'
+import { ref, watch, nextTick, defineComponent, toRefs } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     src: {
       type: String,
       default: ''
     }
   },
-  setup(props: any) {
-    const currentInstance: any = getCurrentInstance()
-
-    let headImg = ref(null)
-    let cropper = ref(null)
+  setup(props, { emit }) {
+    const headImg = ref(null)
+    let imageFile = ref(null)
+    let cropper: Cropper
     let canSave = ref(false)
     let dialog = ref(false)
     const avatar = ref('')
 
-    const src = {...props}.src
+    const { src } = toRefs(props)
     watch(src, () => {
-      avatar.value = src
+      avatar.value = props.src
     })
 
     const open = () => {
       dialog.value = true
-      currentInstance.ctx.$nextTick(() => {
+      nextTick(() => {
         initCropper()
       })
     }
@@ -124,12 +123,9 @@ export default {
       dialog.value = false
       canSave.value = false
     }
-
     const initCropper = () => {
-      if (cropper.value) {
-        (cropper.value as any).destroy()
-      }
-      (cropper.value as any) = new Cropper((headImg.value as any), {
+      cropper?.destroy()
+      cropper = new Cropper(headImg.value!, {
         guides: true,
         // strict: false,
         aspectRatio: 1,
@@ -142,46 +138,46 @@ export default {
     const selectImg = (event: any) => {
       const img = event.target.files[0]
       canSave.value = true
-      ;(cropper as any).replace(URL.createObjectURL(img))
-      currentInstance.ctx.$refs.imageFile.value = ''
+      cropper.replace(URL.createObjectURL(img));
+      (imageFile.value as any).value = ''
     }
 
-    const zoom = (d: any) => {
+    const zoom = (d: string) => {
       if (d === '+') {
-        (cropper as any).value.zoom(0.1)
+        cropper.zoom(0.1)
       }
       if (d === '-') {
-        (cropper as any).value.zoom(-0.1)
+        cropper.zoom(-0.1)
       }
     }
 
-    const rotate = (d: any) => {
+    const rotate = (d: string) => {
       if (d === '+') {
-        (cropper as any).value.rotate(45)
+        cropper.rotate(45)
       }
       if (d === '-') {
-        (cropper as any).value.rotate(-45)
+        cropper.rotate(-45)
       }
     }
 
-    const setDragMode = (type: any) => {
-      (cropper as any).value.setDragMode(type)
+    const setDragMode = (type: Cropper.DragMode) => {
+      cropper.setDragMode(type)
     }
 
     const chooseFile = () => {
       setTimeout(() => {
-        (document.documentElement.querySelector('#file') as any).click()
+        (document.documentElement.querySelector('#file') as HTMLInputElement)?.click()
       }, 400)
     }
 
     const save = () => {
-      const can = (cropper as any).value.getCroppedCanvas()
+      const can = cropper.getCroppedCanvas()
       if (!can) {
         close()
         return
       }
-      avatar.value = (can.toDataURL() as string)
-      currentInstance.ctx.$emit('cropped', can)
+      avatar.value = can.toDataURL()
+      emit('cropped', can)
       close()
     }
 
@@ -195,12 +191,14 @@ export default {
       setDragMode,
       chooseFile,
       save,
+      headImg,
+      imageFile,
       canSave,
       dialog,
       avatar
     }
   }
-}
+})
 </script>
 
 <style scoped>
@@ -224,6 +222,12 @@ export default {
 
 .avatar:hover {
   opacity: 0.8;
+}
+
+.dialog-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .btns {
