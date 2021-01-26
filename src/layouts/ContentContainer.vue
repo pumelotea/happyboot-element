@@ -2,7 +2,7 @@
   <div style="overflow: auto;height: 100%">
     <slot></slot>
     <transition name="fade-scale">
-      <div class="content-placeholder" v-if="navList.value.length === 0">
+      <div class="content-placeholder" v-if="navList.length === 0">
         <!--      这边可以定义未打开任何页面情况下的占位图或者文字      -->
         <img
           src="../../public/images/icon-403.svg"

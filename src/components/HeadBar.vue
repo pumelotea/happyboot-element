@@ -62,17 +62,17 @@
         </el-tooltip>
       </el-link>
       <div class="action-item" id="__user-avatar">
-        <span class="nickname">用户昵称</span>
+        <span class="nickname">{{ nickname }}</span>
         <el-dropdown trigger="click">
           <div class="el-dropdown-links">
-            <el-avatar></el-avatar>
+            <el-avatar :src="headImage"></el-avatar>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>
+              <el-dropdown-item @click='editUserInfo'>
                 <span><i class="el-icon-edit-outline"></i>修改信息</span>
               </el-dropdown-item>
-              <el-dropdown-item>
+              <el-dropdown-item @click='editPassword'>
                 <span><i class="el-icon-lock"></i>修改密码</span>
               </el-dropdown-item>
               <el-dropdown-item disabled
@@ -81,10 +81,14 @@
               >
               <el-dropdown-item
                 divided
+                @click="switchUser"
+                v-show="userType === '0'"
               >
                 <i class="el-icon-s-custom"></i>切换账号
               </el-dropdown-item>
               <el-dropdown-item
+                @click="logout"
+                :divided="userType !== '0'"
               >
                 <i class="el-icon-switch-button"></i>退出系统
               </el-dropdown-item>
@@ -96,14 +100,72 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { mapGetters } from 'vuex'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, getCurrentInstance } from 'vue'
+import router from '@/router'
+import { getSecurityInstance } from '@/security'
+import apis from '@/apis'
+import { HappyKitRouter } from 'happykit'
 
 export default defineComponent({
   name: 'HeadBar',
   computed: {
     ...mapGetters(['isCollapse'])
+  },
+  setup() {
+    const securityInstance = getSecurityInstance()
+    const currentInstance: any = getCurrentInstance()
+
+    const userInfo = computed(() => {
+      console.log(securityInstance.getUser().value?.data)
+      return securityInstance.getUser().value?.data
+    })
+
+    const userType = computed(() => {
+      return currentInstance.ctx.$store.getters['userType']
+    })
+
+    const nickname = computed(() => {
+      return userInfo.value?.nickname
+    })
+
+    const headImage = computed(() => {
+      return apis.$imgId2Url(userInfo.value?.headPic)
+    })
+
+    const editUserInfo = () => {
+      //把要打开的tab名字存到localstorage里
+      currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'userInfo' })
+
+      ;(router as HappyKitRouter).push('/user-center','个人中心')
+    }
+
+    const editPassword = () => {
+      //把要打开的tab名字存到localstorage里
+      currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'editPassword' })
+
+      ;(router as HappyKitRouter).push('/user-center','个人中心')
+    }
+
+    const switchUser = () => {
+      router.push('/switch-user')
+    }
+
+    const logout = () => {
+      securityInstance.signOut()
+      router.push('/login')
+    }
+
+    return {
+      userType,
+      nickname,
+      headImage,
+      switchUser,
+      logout,
+      editUserInfo,
+      editPassword
+    }
   }
 })
 </script>

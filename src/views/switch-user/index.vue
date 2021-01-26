@@ -13,30 +13,30 @@
             <div class="user-list" id="switch-user">
               <div
                 class="card-item active"
-                :class="user.id === selectedUser ? 'card-item-active' : ''"
-                v-for="user in userList"
-                :key="user.id"
-                @click="selectUser(user)"
+                :class="u.id === selectedUser ? 'card-item-active' : ''"
+                v-for="u in userList"
+                :key="u.id"
+                @click="selectUser(u)"
               >
                 <div class="card-content">
                   <div class="card-content-avatar">
                     <el-avatar
                       :size="48"
-                      :src="$imgId2Url(user.avatar)"
+                      :src="imgId2Url(u.avatar)"
                     ></el-avatar>
                   </div>
                   <div class="card-content-body">
-                    <div class="card-content-up" :title="user.nickname+user.username">
+                    <div class="card-content-up" :title="u.nickname+u.username">
                       <i
                         class="el-icon-star-on yellow"
-                        v-show="user.usertype === '0'"
+                        v-show="u.usertype === '0'"
                       ></i>
-                      {{ user.nickname }}({{ user.username }})
+                      {{ u.nickname }}({{ u.username }})
                     </div>
-                    <div class="card-content-down" :title="user.subjectname+user.deptname">
-                      {{ user.subjectname }}
-                      <span v-show="user.subjectname">-</span>
-                      {{ user.deptname }}
+                    <div class="card-content-down" :title="u.subjectname+u.deptname">
+                      {{ u.subjectname }}
+                      <span v-show="u.subjectname">-</span>
+                      {{ u.deptname }}
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@ export default {
   name: 'index',
   setup() {
     let userList = ref([])
-    const selectedUser = ref('')
+    let selectedUser = ref('')
     const securityInstance = getSecurityInstance()
     const happykitInstance = getHappykitInstance()
 
@@ -95,7 +95,7 @@ export default {
           resetFramework(happykitInstance)
 
           user.value.data = res.data
-          securityInstance.refreshUser(user)
+          securityInstance.refreshUser(user.value)
 
           router.push('/')
         } else {
@@ -110,13 +110,14 @@ export default {
 
     const out = async () => {
       securityInstance.signOut()
+      router.push('/login')
     }
 
     const getUserList = async () => {
       const res: any = await apis.userlist()
       if (res.code === 0) {
-        userList = res.data
-        userList.value.map( (e: any) => {
+        userList.value = res.data
+        res.data.map( (e: any) => {
           if (e.active) {
             selectedUser.value = e.id
           }
@@ -124,16 +125,22 @@ export default {
       }
     }
 
-    onMounted(() => {
-      getUserList()
+    const imgId2Url = (id: string) => {
+      return apis.$imgId2Url(id)
+    }
+
+    onMounted(async () => {
+      await getUserList()
     })
 
     return {
       userList,
+      user,
       selectedUser,
       login,
       out,
-      selectUser
+      selectUser,
+      imgId2Url
     }
   }
 }
