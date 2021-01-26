@@ -20,8 +20,8 @@ import happyFramework from '@/framework'
 import security from '@/security'
 
 const app = createApp(App)
-app.config.errorHandler = errorHandler
-app.config.warnHandler = warnHandler
+// app.config.errorHandler = errorHandler
+// app.config.warnHandler = warnHandler
 app.use(router)
 app.use(http)
 app.use(store)

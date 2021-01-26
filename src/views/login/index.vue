@@ -84,11 +84,11 @@ export default {
     const saveLoginStatusLocal = ref(true)
     let user: any = {
       saveLoginStatus: true,
-      data: null,
-      userType: ''
+      data: null
     }
+
     const securityInstance = getSecurityInstance()
-    const currentInstance = getCurrentInstance() as any
+    const currentInstance: any = getCurrentInstance()
     const getKaptcha =  async () => {
       const kaptcha: any = await apis.getKaptcha()
       if (kaptcha.code === 0) {
@@ -111,8 +111,9 @@ export default {
         const data = res.data
         user.saveLoginStatus = saveLoginStatusLocal.value
         user.data = data.userinfo
-        user.userType = data.userinfo.userType
         securityInstance.signIn(data.token, user)
+        currentInstance.ctx.$store.commit('setUserType', {userType: data.userinfo.userType})
+
         if(data.userlist_count === 0){
           router.push('/')
         }else {
@@ -134,7 +135,12 @@ export default {
     }
 
     const saveLoginStatus = computed(() => {
-      return securityInstance.getUser().value.saveLoginStatus
+      let user = securityInstance.getUser().value
+      if(user){
+        return user.saveLoginStatus
+      }else {
+        return false
+      }
     })
 
     const token = securityInstance.getToken()
