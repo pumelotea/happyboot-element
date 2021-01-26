@@ -146,6 +146,7 @@ import AvatarUploader from '@/components/AvatarUploader.vue'
 import { computed, getCurrentInstance, onMounted, ref, watch } from 'vue'
 import { getSecurityInstance } from '@/security'
 import router from '@/router'
+import axios from 'axios'
 
 export default {
   name: 'index',

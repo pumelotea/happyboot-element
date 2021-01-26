@@ -1,11 +1,10 @@
 <template>
-  <div>
+  <page-layout>
     dashboard - {{$route.query.title}}
     <el-input v-model="name"></el-input>
     <div v-point="'add'">button</div>
     <el-button @click="openNewTab">open new self</el-button>
-  </div>
-
+  </page-layout>
 </template>
 
 <script lang="ts">

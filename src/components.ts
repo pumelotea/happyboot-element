@@ -8,9 +8,9 @@ import NoData from '@/components/NoData.vue'
 
 export default {
   install(app: App){
-    app.component('page-layout', PageLayout as any)
-    app.component('page-layout-full', PageLayoutFull as any)
-    app.component('page-iframe-layout', PageIframeLayout as any)
-    app.component('no-data', NoData as any)
+    app.component('page-layout', PageLayout)
+    app.component('page-layout-full', PageLayoutFull)
+    app.component('page-iframe-layout', PageIframeLayout)
+    app.component('no-data', NoData)
   }
 }

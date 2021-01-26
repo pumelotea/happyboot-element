@@ -1,22 +1,21 @@
 <template>
-  <transition name="fade-transverse">
-    <div class="page-container">
-      <div class="page-body">
-        <div class="content">
-          <slot></slot>
-        </div>
+  <div class="page-container">
+    <div class="page-body">
+      <div class="content">
+        <slot></slot>
       </div>
-      <el-backtop target=".page-container"></el-backtop>
     </div>
-  </transition>
+    <el-backtop target=".page-container"></el-backtop>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getHappykitInstance } from '@/framework'
+
 export default defineComponent({
   name: 'PageLayoutFull',
-  setup(){
+  setup() {
     const hkf = getHappykitInstance()
     const currentRouteMenu = hkf.getCurrentMenuRoute()
     return {
@@ -38,7 +37,7 @@ export default defineComponent({
   bottom: 0;
 }
 
-.page-body{
+.page-body {
   overflow: auto;
   height: 100%;
   padding: 10px;

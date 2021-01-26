@@ -100,8 +100,8 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const headImg = ref(null)
-    let imageFile = ref(null)
+    const headImg = ref<HTMLImageElement | null>(null)
+    let imageFile = ref<HTMLInputElement | null>(null)
     let cropper: Cropper
     let canSave = ref(false)
     let dialog = ref(false)
@@ -138,8 +138,8 @@ export default defineComponent({
     const selectImg = (event: any) => {
       const img = event.target.files[0]
       canSave.value = true
-      cropper.replace(URL.createObjectURL(img));
-      (imageFile.value as any).value = ''
+      cropper.replace(URL.createObjectURL(img))
+      imageFile.value!.value = ''
     }
 
     const zoom = (d: string) => {
@@ -166,7 +166,8 @@ export default defineComponent({
 
     const chooseFile = () => {
       setTimeout(() => {
-        (document.documentElement.querySelector('#file') as HTMLInputElement)?.click()
+        const input: HTMLInputElement | null = document.documentElement.querySelector('#file')
+        input?.click()
       }, 400)
     }
 
@@ -178,6 +179,7 @@ export default defineComponent({
       }
       avatar.value = can.toDataURL()
       emit('cropped', can)
+
       close()
     }
 
