@@ -1,9 +1,10 @@
 window.api = {
   dev: {
-    server: 'http://10.10.0.27:6630/system'
+    // server: 'http://10.10.0.27:6630/system'
+    server: 'http://www.jpldx.com:6630/system'
   },
   prod: {
-    server: 'http://10.10.0.27:6630/system'
+    server: 'http://www.jpldx.com:6630/system'
   },
   test: {
     server: 'http://10.10.0.27:6630/system'

@@ -58,7 +58,6 @@
       <input
         ref="imageFile"
         type="file"
-        id="file"
         style="display:none"
         accept="image/jpg, image/jpeg,image/png"
         @change="selectImg"
@@ -166,8 +165,7 @@ export default defineComponent({
 
     const chooseFile = () => {
       setTimeout(() => {
-        const input: HTMLInputElement | null = document.documentElement.querySelector('#file')
-        input?.click()
+        imageFile.value?.click()
       }, 400)
     }
 

@@ -3,7 +3,7 @@
  * @author wangyulue(wangyulue@gmail.com)
  */
 
-;(function(factory) {
+(function(factory) {
   typeof exports === 'object' && typeof module !== 'undefined'
     ? (module.exports = factory())
     : typeof define === 'function' && define.amd
