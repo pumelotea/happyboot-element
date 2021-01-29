@@ -118,7 +118,6 @@ export default defineComponent({
     const currentInstance: any = getCurrentInstance()
 
     const userInfo = computed(() => {
-      console.log(securityInstance.getUser().value?.data)
       return securityInstance.getUser().value?.data
     })
 
