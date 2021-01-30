@@ -1,0 +1,514 @@
+<template>
+  <page-layout id="page_user">
+    <template #actions>
+      <el-row :gutter="10">
+        <el-col :md="6">
+          <form-item-container :label="'账号'">
+            <el-input v-model="tableData.searchCondition.account"></el-input>
+          </form-item-container>
+        </el-col>
+        <el-col :md="6">
+          <form-item-container :label="'状态'">
+            <el-select
+              clearable
+              v-model="tableData.searchCondition.status"
+              placeholder="请选择"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in statusOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </form-item-container>
+        </el-col>
+        <el-col :md="6">
+          <form-item-container :label="'账号类型'">
+            <el-select
+              clearable
+              v-model="tableData.searchCondition.userType"
+              placeholder="请选择"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in userTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </form-item-container>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10" style="margin-top: 15px">
+        <el-col>
+          <el-button
+            type="primary"
+            permission-key="add"
+            size="medium"
+            @click="handleAdd"
+          >新增
+          </el-button>
+          <el-button type="primary" size="medium" @click="handleConditionSearch"
+          >查询
+          </el-button>
+          <el-button type="primary" size="medium" plain @click="handleReset"
+          >重置
+          </el-button>
+          <el-button
+            permission-key="delete"
+            type="danger"
+            size="medium"
+            @click="handleMultiDelete"
+            v-show="tableSelectedData.length > 0"
+          >批量删除
+          </el-button>
+        </el-col>
+      </el-row>
+    </template>
+    <el-table
+      size="mini"
+      :data="tableData.list"
+      @selection-change="tableSelected"
+      border
+      v-loading="tableData.loading"
+      style="width: 100%"
+    >
+      <el-table-column type="selection" align="center" width="50" />
+      <el-table-column
+        prop="username"
+        align="center"
+        label="账号"
+        width="150"
+      />
+      <el-table-column
+        prop="nickname"
+        align="center"
+        label="姓名"
+        width="120"
+      />
+      <el-table-column prop="headPic" align="center" label="头像" width="100">
+        <template #default="scope">
+          <el-avatar
+            shape="square"
+            :src="imgId2Url(scope.row.headPic)"
+            size="large"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" align="center" label="账号类型" width="90">
+        <template #default="scope">
+          <span :style="`color:${userTypeColor[scope.row.userType]}`">
+            {{ userTypeMapping[scope.row.userType] }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="lastIp"
+        align="center"
+        label="最后登录ip"
+        width="120"
+      />
+      <el-table-column prop="status" align="center" label="状态" width="60">
+        <template #default="scope">
+          <span :style="`color:${statusColor[scope.row.status]}`">
+            {{ statusMapping[scope.row.status] }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="lastLoginTime"
+        align="center"
+        label="最后登录时间"
+      />
+      <el-table-column fixed="right" align="center" label="操作" width="200">
+        <template #default="scope">
+          <el-button @click="handleDetail(scope.row)" type="text"
+          >查看
+          </el-button>
+          <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
+          <el-dropdown>
+            <el-button class="el-dropdown-link" type="text"
+            >更多<em class="el-icon-arrow-down el-icon--right"
+            /></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+              <el-dropdown-item>
+                <el-button
+                  @click="handleDelete(scope.row)"
+                  type="text"
+                  permission-key="delete"
+                  style="color: red"
+                >
+                  删除
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button @click="handlePasswordChange(scope.row)" type="text">
+                  密码修改
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button @click="handleRoleLink(scope.row)" type="text">
+                  角色关联
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button @click="handleDeptLink(scope.row)" type="text">
+                  部门关联
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button @click="handleRegionLink(scope.row)" type="text">
+                  区域关联
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button
+                  @click="handleFacilityGroupLink(scope.row)"
+                  type="text"
+                >
+                  配置功能
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button
+                  @click="handleFacilityConfigurationLink(scope.row)"
+                  type="text"
+                >
+                  参数配置
+                </el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #pagination>
+      <el-pagination
+        :page-sizes="[20, 50, 100]"
+        :page-size="tableData.searchCondition.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.total"
+        @size-change="pageSizeChange"
+        @current-change="currentClick"
+      >
+      </el-pagination>
+    </template>
+
+    <user-info-drawer ref="UID" @ok="handleSearch" />
+    <user-info-edit-drawer ref="UIED" @ok="handleSearch" />
+    <user-info-detail-drawer ref="UIDD" />
+    <role-link-drawer ref="RLD" />
+    <dept-link-drawer ref="DLD" />
+    <region-link-drawer ref="ReLD" />
+    <facility-group-link-drawer ref="FGLD" />
+    <user-password-edit-drawer ref="UPED" />
+    <facility-configuration-drawer ref="FCD" />
+  </page-layout>
+</template>
+
+<script lang='ts'>
+import { getCurrentInstance, onMounted, ref } from 'vue'
+import apis from '@/apis'
+
+import UserInfoDrawer from './drawer/UserInfoDrawer.vue'
+import UserInfoEditDrawer from './drawer/UserInfoEditDrawer.vue'
+import UserInfoDetailDrawer from './drawer/UserInfoDetailDrawer.vue'
+import RoleLinkDrawer from './drawer/RoleLinkDrawer.vue'
+import DeptLinkDrawer from './drawer/DeptLinkDrawer.vue'
+import RegionLinkDrawer from './drawer/RegionLinkDrawer.vue'
+import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
+import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
+import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
+
+export default {
+  name: 'index',
+  components: {
+    UserInfoDrawer,
+    UserInfoEditDrawer,
+    UserInfoDetailDrawer,
+    RoleLinkDrawer,
+    DeptLinkDrawer,
+    RegionLinkDrawer,
+    UserPasswordEditDrawer,
+    FacilityGroupLinkDrawer,
+    FacilityConfigurationDrawer
+  },
+  setup() {
+
+    let currentInstance: any = getCurrentInstance()
+
+    const statusColor = ['#ea0143', '#02b654', '#0290ef']
+    const userTypeColor = ['#0290ef', '#fc7070']
+    const statusOptions = ref([])
+    const statusMapping: any = ref({})
+    const userTypeOptions = ref([])
+    const userTypeMapping: any = ref({})
+    const tableData = ref({
+      searchCondition: {
+        account: '',
+        status: '',
+        userType: '',
+        pageNo: 1,
+        pageSize: 20
+      },
+      total: 0,
+      loading: false,
+      list: []
+    })
+    const UID = ref(null)
+    const UIED = ref(null)
+    const UIDD = ref(null)
+    const UPED = ref(null)
+    const RLD = ref(null)
+    const DLD = ref(null)
+    const ReLD = ref(null)
+    const FGLD = ref(null)
+    const FCD = ref(null)
+    const userInfoDrawerDeploy: any = {}
+    const roleLinkDrawerDeploy: any = {}
+    const tableSelectedData = ref([])
+
+    const pageSizeChange = (val: any) => {
+      tableData.value.searchCondition.pageSize = val
+      tableData.value.searchCondition.pageNo = 1
+      handleSearch()
+    }
+
+    const currentClick = (val: any) => {
+      tableData.value.searchCondition.pageNo = val
+      handleSearch()
+    }
+
+    const handleConditionSearch = () => {
+      tableData.value.searchCondition.pageNo = 1
+      handleSearch()
+    }
+
+    const handleSearch = async () => {
+      tableData.value.loading = true
+      const res: any = await apis.userPage(tableData.value.searchCondition)
+      if (res.code === 0) {
+        tableData.value.list = res.data.records
+        tableData.value.total = Number(res.data.total)
+      }
+      tableData.value.loading = false
+    }
+
+    const tableSelected = (rows: any) => {
+      tableSelectedData.value = rows
+    }
+
+    const handleAdd = () => {
+      userInfoDrawerDeploy.title = '新增'
+      userInfoDrawerDeploy.haveSubmit = true
+      userInfoDrawerDeploy.disabled = false
+      ;(UID.value as any).open(userInfoDrawerDeploy, '')
+    }
+
+    const handleEdit = (row: any) => {
+      userInfoDrawerDeploy.title = '编辑'
+      userInfoDrawerDeploy.haveSubmit = true
+      userInfoDrawerDeploy.disabled = false
+      ;(UIED.value as any).open(userInfoDrawerDeploy, row.id)
+    }
+
+    const handleDetail = (row: any) => {
+      userInfoDrawerDeploy.title = '详情'
+      userInfoDrawerDeploy.haveSubmit = false
+      userInfoDrawerDeploy.disabled = true
+      ;(UIDD.value as any).open(userInfoDrawerDeploy, row.id)
+    }
+
+    const handlePasswordChange = (row: any) => {
+      userInfoDrawerDeploy.title = '密码修改'
+      userInfoDrawerDeploy.haveSubmit = true
+      userInfoDrawerDeploy.disabled = false
+      ;(UPED.value as any).open(userInfoDrawerDeploy, row.id)
+    }
+
+    const handleRoleLink = (row: any) => {
+      (RLD.value as any).open(row.id)
+    }
+
+    const handleDeptLink = (row: any) => {
+      (DLD.value as any).open(row)
+    }
+
+    const handleRegionLink = (row: any) => {
+      (ReLD.value as any).open(row)
+    }
+
+    const handleFacilityGroupLink = (row: any) => {
+      (FGLD.value as any).open(row.id)
+    }
+
+    const handleFacilityConfigurationLink = (row: any) => {
+      (FCD.value as any).open(row.id)
+    }
+
+    const handleDelete = (row: any) => {
+      currentInstance.ctx.$confirm('即将删除该条数据, 是否确认?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          apis.userDelete(row.id).then((res: any) => {
+            if (res.code === 0) {
+              tableData.value.searchCondition.pageNo = 1
+              handleSearch()
+              currentInstance.ctx.$notify({
+                type: 'success',
+                title: '提示',
+                message: '删除成功！'
+              })
+            } else {
+              currentInstance.ctx.$notify({
+                type: 'error',
+                title: '提示',
+                message: res.msg
+              })
+            }
+          })
+        })
+        .catch(() => {})
+    }
+
+    const handleMultiDelete = () => {
+      currentInstance.ctx.$confirm(
+        '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          let ids = ''
+          tableSelectedData.value.forEach((item: any) => {
+            ids = ids + ',' + item.id
+          })
+
+          apis.userDelete(ids.substr(1)).then((res: any) => {
+            if (res.code === 0) {
+              tableData.value.searchCondition.pageNo = 1
+              handleSearch()
+              currentInstance.ctx.$notify({
+                type: 'success',
+                title: '提示',
+                message: '删除成功！'
+              })
+            } else {
+              currentInstance.ctx.$notify({
+                type: 'error',
+                title: '提示',
+                message: res.msg
+              })
+            }
+          })
+        })
+        .catch(() => {})
+    }
+
+    const handleReset = () => {
+      tableData.value.searchCondition.account = ''
+      tableData.value.searchCondition.status = ''
+      tableData.value.searchCondition.userType = ''
+      handleSearch()
+    }
+
+    const initDict = async () => {
+      const res: any = await apis.dictItemsMap('STATUS,USER_TYPE')
+      if (res.code === 0) {
+        statusOptions.value = []
+        statusOptions.value = res.data.STATUS
+        statusMapping.value = {}
+        res.data.STATUS.map((e: any) => {
+          statusMapping.value[e.value] = e.label
+        })
+        userTypeOptions.value = []
+        userTypeOptions.value = res.data.USER_TYPE
+        userTypeMapping.value = {}
+        res.data.USER_TYPE.map((e: any) => {
+          userTypeMapping.value[e.value] = e.label
+        })
+      } else {
+        currentInstance.ctx.$notify({
+          type: 'error',
+          title: '提示',
+          message: res.msg
+        })
+      }
+    }
+
+    const imgId2Url = (data: any) => {
+      return apis.$imgId2Url(data)
+    }
+
+     onMounted(async () => {
+      await initDict()
+      await handleSearch()
+    })
+
+    return {
+      imgId2Url,
+      handleReset,
+      handleMultiDelete,
+      handleDelete,
+      handleFacilityConfigurationLink,
+      handleFacilityGroupLink,
+      pageSizeChange,
+      currentClick,
+      handleConditionSearch,
+      tableSelected,
+      handleAdd,
+      handleEdit,
+      handlePasswordChange,
+      handleDetail,
+      handleRegionLink,
+      handleRoleLink,
+      handleDeptLink,
+      handleSearch,
+      initDict,
+      statusColor,
+      userTypeColor,
+      statusOptions,
+      statusMapping,
+      userTypeOptions,
+      tableData,
+      userTypeMapping,
+      UID,
+      UIED,
+      UIDD,
+      UPED,
+      RLD,
+      DLD,
+      ReLD,
+      FGLD,
+      FCD,
+      userInfoDrawerDeploy,
+      roleLinkDrawerDeploy,
+      tableSelectedData
+    }
+  }
+}
+</script>
+
+<style scoped>
+.el-dropdown-link {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+</style>

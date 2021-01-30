@@ -8,6 +8,9 @@ import eventBus from '@/common/eventBus'
 
 import elementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
+import 'dayjs/locale/zh-cn'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
+
 import components from './components'
 import 'animate.css'
 import 'viewerjs/dist/viewer.css'
@@ -26,7 +29,7 @@ app.use(router)
 app.use(http)
 app.use(store)
 app.use(eventBus)
-app.use(elementPlus)
+app.use(elementPlus, { locale })
 //作为插件安装
 app.use(happyFramework)
 app.use(security)

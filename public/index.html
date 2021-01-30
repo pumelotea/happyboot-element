@@ -8,6 +8,28 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="<%= BASE_URL %>config/index.js"></script>
     <link rel="stylesheet" href="<%= BASE_URL %>css/index.css">
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #c0c4cc;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background-clip: padding-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #82868e;
+        }
+
+        ::-webkit-scrollbar-track {
+            width: 20px;
+            background-color: rgba(50, 50, 50, 0.05);
+        }
+    </style>
   </head>
   <body>
     <noscript>
