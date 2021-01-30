@@ -67,7 +67,7 @@
           <el-table-column prop="nickname" align="center" label="姓名">
           </el-table-column>
           <el-table-column fixed="right" align="center" label="操作">
-            <template #defalut="scope">
+            <template #default="scope">
               <el-button
                 @click="handleUnLink(scope.row)"
                 type="danger"
@@ -117,12 +117,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const currentInstance: any = getCurrentInstance()
 
-    let isShow = false
-    let selectLoading = false
-    let userInfoDrawerDeploy: any = {}
-    let linkUser: any = []
-    let linkOptions: any = []
-    let userLinkData: any = []
+    let isShow = ref(false)
+    let selectLoading = ref(false)
+    let userInfoDrawerDeploy: any = ref({})
+    let linkUser: any = ref([])
+    let linkOptions: any = ref([])
+    let userLinkData: any = ref([])
     const form: any = ref({
       id: 0,
       nickname: '',
@@ -142,13 +142,13 @@ export default defineComponent({
       }
       //将关联账号列表里的id 放到userIdList里
       let userIdList: any = []
-      userLinkData.map((e: any) => {
+      userLinkData.value.map((e: any) => {
         userIdList.push(e.id)
       })
       form.value.userIdList = userIdList
       const res: any = await apis.userEdit(form.value)
       if (res.code === 0) {
-        isShow = false
+        isShow.value = false
         currentInstance.ctx.$notify({
           type: 'success',
           title: '提示',
@@ -166,40 +166,40 @@ export default defineComponent({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = (deploy: any, data:any) => {
-      isShow = true
-      userInfoDrawerDeploy = deploy
+      isShow.value = true
+      userInfoDrawerDeploy.value = deploy
       nextTick(() => {
         if (data != null && data !== '') {
           apis.userGet(data).then((res: any) => {
             if (res.code === 0) {
               form.value = res.data
-              userLinkData = res.data.userlist
+              userLinkData.value = res.data.userlist
             }
           })
-          linkUser = ''
-          linkOptions = []
-          userLinkData = []
+          linkUser.value = ''
+          linkOptions.value = []
+          userLinkData.value = []
         }
       })
     }
 
     const remoteMethod = async (query: any) => {
       if (query !== '') {
-        selectLoading = true
+        selectLoading.value = true
         const res:any = await apis.queryMainAccountList(query)
         if (res.code === 0) {
-          linkOptions = res.data
+          linkOptions.value = res.data
         }
-        selectLoading = false
+        selectLoading.value = false
       } else {
-        linkOptions = []
+        linkOptions.value = []
       }
     }
 
     const handleLink = () => {
-      linkOptions.map((e: any) => {
-        if (e.id === linkUser) {
-          userLinkData.push({
+      linkOptions.value.map((e: any) => {
+        if (e.id === linkUser.value) {
+          userLinkData.value.push({
             id: e.id,
             username: e.username,
             nickname: e.nickname
@@ -210,12 +210,12 @@ export default defineComponent({
 
     const handleUnLink = (row: any) => {
       let index = 0
-      for (let i = 0; i < userLinkData.length; i++) {
+      for (let i = 0; i < userLinkData.value.length; i++) {
         if (row.id === userLinkData[i].id) {
           index = i
         }
       }
-      userLinkData.splice(index, 1)
+      userLinkData.value.splice(index, 1)
     }
 
     const onCropped = async (can: any) => {

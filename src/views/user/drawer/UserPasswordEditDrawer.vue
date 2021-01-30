@@ -44,8 +44,8 @@ export default defineComponent( {
   setup(props, { emit }) {
     const currentInstance: any = getCurrentInstance()
 
-    let isShow = false
-    let userInfoDrawerDeploy: any = {}
+    let isShow = ref(false)
+    let userInfoDrawerDeploy: any = ref({})
     const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -80,7 +80,7 @@ export default defineComponent( {
       }
       const res: any = await apis.userPwd(form.value)
       if (res.code === 0) {
-        isShow = false
+        isShow.value = false
         currentInstance.ctx.$notify({
           type: 'success',
           title: '提示',
@@ -98,8 +98,8 @@ export default defineComponent( {
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = (deploy: any, data: any) => {
-      isShow = true
-      userInfoDrawerDeploy = deploy
+      isShow.value = true
+      userInfoDrawerDeploy.value = deploy
       form.value.id = data
       form.value.password = ''
       form.value.passwordConfirm = ''

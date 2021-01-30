@@ -35,7 +35,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent, getCurrentInstance, ref } from 'vue'
 import apis from '@/apis'
 
 export default defineComponent ({
@@ -57,19 +57,18 @@ export default defineComponent ({
       }, 1)
     }
 
-    let form = {
+    let form: any = ref({
       facilityId: '',
-      facilityParamId: '',
       setFrom: 'user',
       userId: '',
       facilityParam: ''
-    }
+    })
 
     let rules = { facilityParam: [{ validator: checkParam, trigger: 'change' }] }
 
-    let isShow = false
+    let isShow = ref(false)
 
-    let configurationDrawerDeploy = { title: '参数配置' }
+    let configurationDrawerDeploy = ref({ title: '参数配置' })
 
     const isJson = (str: string) => {
       try {
@@ -81,9 +80,9 @@ export default defineComponent ({
     }
 
     const handleDelete = async () => {
-      let res: any = await apis.facilityParamDelete(form.facilityParamId)
+      let res: any = await apis.facilityParamDelete(form.value.facilityParamId)
       if (res.code === 0) {
-        isShow = false
+        isShow.value = false
         currentInstance.ctx.$notify({
           type: 'success',
           title: '提示',
@@ -108,9 +107,9 @@ export default defineComponent ({
         return
       }
 
-      let res: any = await apis.facilityParamSet(form)
+      let res: any = await apis.facilityParamSet(form.value)
       if (res.code === 0) {
-        isShow = false
+        isShow.value = false
         currentInstance.ctx.$notify({
           type: 'success',
           title: '提示',
@@ -128,17 +127,16 @@ export default defineComponent ({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = async (facilityId: any, userId: any) => {
-      isShow = true
+      isShow.value = true
       const res: any = await apis.facilityParamGet(facilityId, 'user', '', userId)
       if (res.code === 0 && res.data !== null) {
-        form = res.data
+        form.value = res.data
       } else {
-        form = {
+        form.value = {
           facilityId: facilityId,
           setFrom: 'user',
           userId: userId,
-          facilityParam: '',
-          facilityParamId: ''
+          facilityParam: ''
         }
       }
     }

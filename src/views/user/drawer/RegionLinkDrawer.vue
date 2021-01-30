@@ -30,13 +30,13 @@ export default defineComponent({
     const currentInstance: any = getCurrentInstance()
     const tree = ref(null)
 
-    let isShow = false
-    let deptLinkDrawerDeploy: any = { title: '区域关联' }
+    let isShow = ref(false)
+    let deptLinkDrawerDeploy: any = ref({ title: '区域关联' })
     let defaultProps = { label: 'title', id: 'id' }
     let userId = ''
-    let treeData: any = []
-    let treeLoading = false
-    let defaultChecked: any = []
+    let treeData: any = ref([])
+    let treeLoading = ref(false)
+    let defaultChecked: any = ref([])
 
     //接口请求树节点
     const getTreeArr = async () => {
@@ -69,14 +69,14 @@ export default defineComponent({
           type: 'error'
         })
       }
-      isShow = false
+      isShow.value = false
     }
 
     const loadTree = () => {
-      treeLoading = true
+      treeLoading.value = true
       getTreeArr()
       getRegionPower()
-      treeLoading = false
+      treeLoading.value = false
     }
 
     const handleSubmit = () => {
@@ -87,13 +87,13 @@ export default defineComponent({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = (data: any) => {
-      isShow = true
+      isShow.value = true
       userId = data.id
       loadTree()
     }
 
     const close = () => {
-      isShow = false
+      isShow.value = false
     }
 
     return {

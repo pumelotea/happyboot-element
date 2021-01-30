@@ -18,9 +18,9 @@
               v-for="point in pointGroup.list"
               :key="'point' + point.id"
             >
-              <slot name='header'>
+              <template #header>
                 <div class="clearfix">
-                <div style="display: flex">
+                  <div style="display: flex;align-items: center;height: 40px;">
                   <el-switch
                     v-model="point.flag"
                     disabled
@@ -32,7 +32,7 @@
                     </div>
                     <el-button
                       v-show="point.flag"
-                      style="float: right; padding: 3px 0"
+                      style="float: right;"
                       type="text"
                       @click="handleConfiguration(point.id)"
                       >参数配置</el-button
@@ -40,13 +40,13 @@
                   </div>
                 </div>
               </div>
-              </slot>
+              </template>
               {{ point.platform }}
-              <el-tooltip :content="point.des" placement="bottom">
+<!--              <el-tooltip :content="point.des" placement="bottom">-->
                 <div class="div-des">
                   {{ point.des }}
                 </div>
-              </el-tooltip>
+<!--              </el-tooltip>-->
             </el-card>
           </div>
         </el-collapse-item>
@@ -70,11 +70,11 @@ export default defineComponent({
     const currentInstance: any = getCurrentInstance()
     const ConfigurationDrawer = ref(null)
 
-    let isShow = false
-    let activeNames: any = []
-    let pointLinkDrawerDeploy: any = {title: '功能点关联'}
+    let isShow = ref(false)
+    let activeNames: any = ref([])
+    let pointLinkDrawerDeploy: any = ref({title: '功能点关联'})
     let userId = ''
-    let facilityPointData: any = []
+    let facilityPointData: any = ref([])
 
     const handleConfiguration = (facilityId:any) => {
       (ConfigurationDrawer.value as any).open(facilityId, userId)
@@ -82,11 +82,11 @@ export default defineComponent({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = async (userid: any) => {
-      isShow = true
+      isShow.value = true
       userId = userid
       const res: any = await apis.queryFacilityByUser(userId)
       if (res.code === 0) {
-        facilityPointData = res.data
+        facilityPointData.value = res.data
       } else {
         currentInstance.ctx.$notify({
           type: 'error',
@@ -133,6 +133,7 @@ export default defineComponent({
   margin-top: -2px;
   width: 100%;
   display: flex;
+  align-items: center;
 }
 .div-name {
   width: 165px;
@@ -142,9 +143,21 @@ export default defineComponent({
   padding-left: 5px;
 }
 .div-des {
-  flex: 1;
+  width: 280px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+</style>
+
+<style>
+.el-card__header {
+  padding: 10px;
+  border-bottom: 1px solid #EBEEF5;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.el-card__body{
+  padding: 10px 15px;
 }
 </style>

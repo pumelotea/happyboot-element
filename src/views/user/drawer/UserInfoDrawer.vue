@@ -103,7 +103,7 @@
         />
       </el-form-item>
       <el-form-item label="头像">
-        <avatar-uploader :src="$imgId2Url(form.headPic)" @cropped="onCropped" />
+        <avatar-uploader :src="imgId2Url(form.headPic)" @cropped="onCropped" />
       </el-form-item>
     </el-form>
     <template #actions v-if="userInfoDrawerDeploy.haveSubmit">
@@ -127,12 +127,12 @@ export default defineComponent ({
   setup(props, { emit }) {
     const currentInstance: any = getCurrentInstance()
 
-    let isShow = false
-    let userInfoDrawerDeploy: any = {}
-    let selectLoading = false
-    let linkUser: any = []
-    let linkOptions: any = []
-    let userLinkData: any = []
+    let isShow = ref(false)
+    let userInfoDrawerDeploy: any = ref({})
+    let selectLoading = ref(false)
+    let linkUser: any = ref([])
+    let linkOptions: any = ref([])
+    let userLinkData: any = ref([])
     const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -170,8 +170,8 @@ export default defineComponent ({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = (deploy: any) => {
-      isShow = true
-      userInfoDrawerDeploy = deploy
+      isShow.value = true
+      userInfoDrawerDeploy.value = deploy
       nextTick(() => {
         //初始化表单
         form.value = {
@@ -185,29 +185,29 @@ export default defineComponent ({
           userType: '0',
           userIdList: []
         }
-        linkUser = ''
-        linkOptions = []
-        userLinkData = []
+        linkUser.value = ''
+        linkOptions.value = []
+        userLinkData.value = []
       })
     }
 
     const remoteMethod = async (query: any) => {
       if (query !== '') {
-        selectLoading = true
+        selectLoading.value = true
         const res: any = await apis.queryMainAccountList(query)
         if (res.code === 0) {
-          linkOptions = res.data
+          linkOptions.value = res.data
         }
-        selectLoading = false
+        selectLoading.value = false
       } else {
-        linkOptions = []
+        linkOptions.value = []
       }
     }
 
     const handleLink = () => {
-      linkOptions.map((e: any) => {
-        if (e.id === linkUser) {
-          userLinkData.push({
+      linkOptions.value.map((e: any) => {
+        if (e.id === linkUser.value) {
+          userLinkData.value.push({
             id: e.id,
             username: e.username,
             nickname: e.nickname
@@ -218,13 +218,13 @@ export default defineComponent ({
 
     const handleUnLink = (row: any) => {
       let index = 0
-      for (let i = 0; i < userLinkData.length; i++) {
-        if (row.id === userLinkData[i].id) {
+      for (let i = 0; i < userLinkData.value.length; i++) {
+        if (row.id === userLinkData.value[i].id) {
           index = i
         }
       }
 
-      userLinkData.splice(index, 1)
+      userLinkData.value.splice(index, 1)
     }
 
     const handleSubmit = async (formName: any) => {
@@ -238,13 +238,13 @@ export default defineComponent ({
       }
       //将关联账号列表里的id 放到userIdList里
       let userIdList: any = []
-      userLinkData.map((e: any) => {
+      userLinkData.value.map((e: any) => {
         userIdList.push(e.id)
       })
       form.value.userIdList = userIdList
       const res: any = await apis.userAdd(form.value)
       if (res.code === 0) {
-        isShow = false
+        isShow.value = false
         currentInstance.ctx.$notify({
           type: 'success',
           title: '提示',
@@ -272,6 +272,10 @@ export default defineComponent ({
       }
     }
 
+    const imgId2Url = (data: any) => {
+      return apis.$imgId2Url(data)
+    }
+
     return {
       open,
       remoteMethod,
@@ -279,6 +283,7 @@ export default defineComponent ({
       handleUnLink,
       handleSubmit,
       onCropped,
+      imgId2Url,
       isShow,
       selectLoading,
       linkUser,

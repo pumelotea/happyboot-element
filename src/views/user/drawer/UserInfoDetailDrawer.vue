@@ -60,30 +60,30 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, nextTick } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import apis from '@/apis'
 
 export default defineComponent ({
   name: 'UserInfoDrawer',
   setup() {
-    let isShow = false
-    let form: any = {
+    let isShow = ref(false)
+    let form: any = ref({
       id: '',
       username: '',
       nickname: '',
       status: 1,
       headPic: ''
-    }
-    let userInfoDrawerDeploy: any = {}
+    })
+    let userInfoDrawerDeploy: any = ref({})
 
     const open = (deploy: any, data: any) => {
-      isShow = true
-      userInfoDrawerDeploy = deploy
+      isShow.value = true
+      userInfoDrawerDeploy.value = deploy
       nextTick(() => {
         if (data !== null && data !== '') {
           apis.userGet(data).then((res: any) => {
             if (res.code === 0) {
-              form = res.data
+              form.value = res.data
             }
           })
         }

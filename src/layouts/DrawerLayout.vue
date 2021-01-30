@@ -1,32 +1,32 @@
 <template>
   <el-drawer
+    ref="ED"
     :class="outType ? 'x-drawer-out' : 'x-drawer'"
     custom-class="drawer-layout"
     :size="size"
-    :visible.sync="isVisible"
+    v-model="isVisible"
     :modal="false"
     :direction="'rtl'"
     :show-close="false"
-    @closed="closed"
-    @opened="opened"
+    :closed="closed"
     :wrapperClosable="wrapperClosable"
   >
     <template #title>
       <div class="title-container">
-        <!--        让焦点自动在该input-->
-        <input style="position: fixed;left: -1000px;top: -1000px" />
+        <!--        让焦点自动在该input   vue3版本elementui已经没有这个骚操作了-->
+<!--        <input style="position: fixed;left: -1000px;top: -1000px" />-->
         <div class="title">
           {{ title }}
         </div>
         <div>
-          <el-link :underline="false" @click="closed">
+          <div @click="closed" class='div-close'>
             <i class="el-icon-close" style="font-size: 20px"></i>
-          </el-link>
+          </div>
         </div>
       </div>
     </template>
     <div class="drawer-container" v-loading="loading">
-      <div class="drawer-body">
+      <div class="drawer-body" ref='drawerBody'>
         <slot></slot>
       </div>
       <div class="drawer-foot" v-if="!noFoot">
@@ -39,8 +39,10 @@
   </el-drawer>
 </template>
 
-<script>
-export default {
+<script lang='ts'>
+import { defineComponent, onMounted, ref, watch, nextTick, getCurrentInstance, toRefs } from 'vue'
+
+export default defineComponent({
   name: 'DrawerLayout',
   props: {
     outType: {
@@ -48,7 +50,8 @@ export default {
       default: false
     },
     value: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     title: {
       type: String,
@@ -76,53 +79,53 @@ export default {
       default: false
     }
   },
-  watch: {
-    value() {
-      this.isVisible = this.value
-      //
-      this.$nextTick(() => {
-        const dom = this.$el.querySelector('.drawer-body')
-        if (dom) {
-          dom.scrollTop = 0
-        }
+  setup(props, { emit }) {
+
+    const ED = ref(null)
+
+    const { value, moveToElId } = toRefs(props)
+
+    const drawerBody = ref<HTMLDivElement | null>(null)
+
+    watch(value, () => {
+      isVisible.value = value.value
+      nextTick(() => {
+        drawerBody.value!.scrollTop = 0
       })
+    })
+
+    const isVisible = ref(false)
+
+    const closed = () => {
+      (ED.value as any).handleClose()
+      isVisible.value = false
+      emit('input', false)
     }
-  },
-  methods: {
-    closed() {
-      document.removeEventListener('keyup', this.handleEsc)
-      this.isVisible = false
-      this.$emit('input', false)
-    },
-    opened() {
-      document.addEventListener('keyup', this.handleEsc)
-    },
-    handleEsc(e) {
-      if (e.keyCode === 27) {
-        this.closed()
-      }
-    },
-    moveDom() {
-      if (!this.moveToElId) {
+
+
+    const moveDom = () => {
+      if (!moveToElId.value) {
         return
       }
       //滚动到顶部
-      const dom = document.getElementById(this.moveToElId)
+      const dom = document.getElementById(moveToElId.value)
       if (dom) {
-        dom.appendChild(this.$el)
+        dom.appendChild((getCurrentInstance() as any).ctx.$el)
       }
     }
-  },
-  data() {
+
+    onMounted(() => {
+      isVisible.value = value.value
+      moveDom()
+    })
+
     return {
-      isVisible: false
+      closed,
+      isVisible,
+      ED
     }
-  },
-  mounted() {
-    this.isVisible = this.value
-    this.moveDom()
   }
-}
+})
 </script>
 
 <style>
@@ -184,5 +187,12 @@ export default {
   box-sizing: border-box;
   border-top: 1px solid rgba(94, 94, 94, 0.2);
   text-align: right;
+}
+.div-close{
+  cursor: pointer;
+  border-radius: 3px;
+}
+.div-close:hover{
+  background-color: #eee;
 }
 </style>

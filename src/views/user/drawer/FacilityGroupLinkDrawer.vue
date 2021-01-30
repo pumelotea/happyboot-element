@@ -22,22 +22,22 @@
 
 <script lang='ts'>
 import apis from '@/apis'
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent, getCurrentInstance, ref } from 'vue'
 export default defineComponent({
   name: 'FacilityGroupLinkDrawer',
   setup(props, { emit }) {
     const currentInstance: any = getCurrentInstance()
 
-    let isShow = false
-    let facilityGroupLinkDrawerDeploy:any = {title: '功能组关联'}
-    let groupData: any = []
-    let checkedGroupData:any = []
+    let isShow = ref(false)
+    let facilityGroupLinkDrawerDeploy:any = ref({title: '功能组关联'})
+    let groupData: any = ref([])
+    let checkedGroupData:any = ref([])
     let userId = ''
 
     const handleLink = async () => {
-      const res: any = await apis.saveUserFacilityGroupRel(userId, checkedGroupData)
+      const res: any = await apis.saveUserFacilityGroupRel(userId, checkedGroupData.value)
         if (res.code === 0) {
-          isShow = false
+          isShow.value = false
           currentInstance.ctx.$notify({
             type: 'success',
             title: '提示',
@@ -55,15 +55,15 @@ export default defineComponent({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = async (userid: any) => {
-      isShow = true
+      isShow.value = true
       userId = userid
-      groupData = []
-      checkedGroupData = []
+      groupData.value = []
+      checkedGroupData.value = []
       const res:any = await apis.facilityGroupList()
       if (res.code === 0) {
         const list:any = res.data
         for (let i = 0; i < list.length; i++) {
-          groupData.push({
+          groupData.value.push({
             key: list[i].id,
             label: list[i].facilityGroupName,
             disabled: false
@@ -74,7 +74,7 @@ export default defineComponent({
       if (ret.code === 0) {
         ret.data.map((e: any) => {
           if (e.flag) {
-            checkedGroupData.push(e.id)
+            checkedGroupData.value.push(e.id)
           }
         })
       }

@@ -19,7 +19,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance } from 'vue'
+import { defineComponent, getCurrentInstance, ref } from 'vue'
 import apis from '@/apis'
 
 export default defineComponent({
@@ -27,16 +27,16 @@ export default defineComponent({
   setup(props, { emit }) {
     const currentInstance: any = getCurrentInstance()
 
-    let isShow = false
-    let roleLinkDrawerDeploy: any = { title: '角色关联' }
-    let roleData: any = []
-    let checkedRoleData: any = []
+    let isShow = ref(false)
+    let roleLinkDrawerDeploy: any = ref({ title: '角色关联' })
+    let roleData: any = ref([])
+    let checkedRoleData: any = ref([])
     let userId = ''
 
     const handleLink = async () => {
-      const res: any = await apis.saveUserRole(userId, checkedRoleData, '01')
+      const res: any = await apis.saveUserRole(userId, checkedRoleData.value, '01')
         if (res.code === 0) {
-          isShow = false
+          isShow.value = false
           currentInstance.ctx.$notify({
             type: 'success',
             title: '提示',
@@ -54,15 +54,15 @@ export default defineComponent({
 
     //开启抽屉的方法，可以传入一些需要的参数
     const open = async (userid: any) => {
-      isShow = true
+      isShow.value = true
       userId = userid
-      roleData = []
-      checkedRoleData = []
+      roleData.value = []
+      checkedRoleData.value = []
       const res: any = await apis.roleList()
       if (res.code === 0) {
         const list = res.data
         for (let i = 0; i < list.length; i++) {
-          roleData.push({
+          roleData.value.push({
             key: list[i].id,
             label: list[i].roleName,
             disabled: false
@@ -71,7 +71,7 @@ export default defineComponent({
       }
       const ret: any = await apis.queryIdsByUserIdAndType(userId, '01')
       if (ret.code === 0) {
-        checkedRoleData = ret.data
+        checkedRoleData.value = ret.data
       }
     }
 
