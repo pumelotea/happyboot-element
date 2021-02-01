@@ -215,11 +215,11 @@ export default {
 }
 
 .card-item:hover {
-  background: #ececec;
+  background: rgb(113 210 170 / 30%);
 }
 
 .card-item-active {
-  background: #ececec;
+  background: rgb(113 210 170 / 30%);
   transition: 0.3s;
 }
 

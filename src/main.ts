@@ -7,7 +7,7 @@ import {errorHandler,warnHandler} from '@/common/handlers.ts'
 import eventBus from '@/common/eventBus'
 
 import elementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+import './assets/element-variables.scss'
 import 'dayjs/locale/zh-cn'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 

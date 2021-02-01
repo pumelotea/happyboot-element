@@ -40,7 +40,7 @@ export default defineComponent({
   text-align: center;
   justify-content: center;
   font-size: 30px;
-  background: #ffd419;
+  background: #71d2aa;
 }
 
 .logo-svg {
@@ -48,12 +48,12 @@ export default defineComponent({
 }
 
 .brand {
-  color: #ffd419;
+  color: #71d2aa;
   font-weight: bold;
 }
 
 .brand-collapse {
-  color: #ffd419 !important;
+  color: #71d2aa !important;
   font-weight: bold;
 }
 </style>

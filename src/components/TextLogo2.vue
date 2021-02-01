@@ -18,16 +18,16 @@ export default {
   align-items: center;
 }
 .happy {
-  background: #ffd700;
-  color: black;
+  background: #71d2aa;
+  color: white;
   padding: 5px;
   box-sizing: border-box;
   font-size: 26px;
 }
 
 .boot {
-  background: black;
-  color: #ffd700;
+  background: white;
+  color: #71d2aa;
   padding: 5px;
   box-sizing: border-box;
   font-size: 20px;
