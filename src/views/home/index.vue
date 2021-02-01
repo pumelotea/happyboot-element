@@ -30,7 +30,7 @@ import HeadBar from '@/components/HeadBar.vue'
 import NavBar from '@/components/NavBar.vue'
 import MainLayout from '@/layouts/MainLayout.vue'
 import MenuList from '@/components/MenuList.vue'
-import { defineComponent, ref, onMounted, watch } from 'vue'
+import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import { getHappykitInstance } from '@/framework'
 import happyKitRouter from '@/router'
 
@@ -45,17 +45,20 @@ export default defineComponent({
     const hkf = getHappykitInstance()
     const isKeepalive = ref(false)
     const pageId = ref('')
-    const include = ref<string[]>([])
 
     const update = () => {
       pageId.value = hkf.getCurrentMenuRoute().value?.pageId || ''
       isKeepalive.value = hkf.getCurrentMenuRoute().value?.menuItem.isKeepalive || false
-      include.value = hkf.getNavList().value.map(e => e.pageId)
     }
 
     watch(happyKitRouter.currentRoute, () => {
       update()
     })
+
+    const include = computed(()=>{
+      return hkf.getNavList().value.map(e => e.pageId)
+    })
+
 
     onMounted(() => {
       update()
