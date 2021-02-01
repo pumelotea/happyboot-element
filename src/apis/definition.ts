@@ -206,5 +206,33 @@ const apiDefinition = {
       ...params
     })
   },
+  //主体管理列表
+  subjectPage(searchQuery: any) {
+    return $get('/sys/subject/page', searchQuery)
+  },
+  //主体管理新增
+  subjectAdd(params: any) {
+    return $post('/sys/subject/add', params)
+  },
+  //主体管理编辑
+  subjectEdit(params: any) {
+    return $post('/sys/subject/update', params)
+  },
+  //主体管理删除
+  subjectDelete(ids: any) {
+    return $delete('/sys/subject/delete?ids=' + ids)
+  },
+  //主体信息
+  subjectGet(id: any) {
+    return $get('/sys/subject/get', { id })
+  },
+  //新增对象与区域关联（1 - n）
+  saveObjRegion(params: any) {
+    return $post('/sys/obj/saveObjRegion', params)
+  },
+  //通过对象ID查询区域ID集合
+  queryIdsByObjId(objId: any) {
+    return $get('/sys/deptRegion/queryIdsByObjId', { objId })
+  },
 }
 export default apiDefinition
