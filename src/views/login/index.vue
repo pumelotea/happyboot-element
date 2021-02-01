@@ -7,7 +7,7 @@
             <img class="login-logo" src="favicon.svg" draggable="false" />
           </div>
           <div class="login-subtitle">
-            happyboot
+            <text-logo/>
           </div>
           <div class="login-form-item">
             <el-input
@@ -76,8 +76,10 @@ import { ref, computed, getCurrentInstance, onMounted, onBeforeUnmount } from 'v
 import { getSecurityInstance } from '@/security'
 import router from '@/router'
 import apis from '@/apis'
+import TextLogo from '@/components/TextLogo.vue'
 export default {
   name: 'index',
+  components: { TextLogo },
   setup(){
     const kaptchaImage = ref('')
     const kaptchaId = ref('')

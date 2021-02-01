@@ -8,10 +8,10 @@
       }"
   >
       <span v-if="!isCollapse" :class="{ brand: !isCollapse }">
-        happy
+        <text-logo-2/>
       </span>
+
     <img v-if="isCollapse" class="logo-svg" src="favicon.svg" />
-    <span v-if="!isCollapse">boot</span>
   </div>
 </template>
 
@@ -19,9 +19,11 @@
 
 import { mapGetters } from 'vuex'
 import { defineComponent } from 'vue'
+import TextLogo2 from '@/components/TextLogo2.vue'
 
 export default defineComponent({
   name: 'HeadBarLogo',
+  components: { TextLogo2 },
   computed: {
     ...mapGetters(['isCollapse'])
   }
@@ -38,6 +40,7 @@ export default defineComponent({
   text-align: center;
   justify-content: center;
   font-size: 30px;
+  background: #ffd419;
 }
 
 .logo-svg {

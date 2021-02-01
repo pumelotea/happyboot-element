@@ -7,7 +7,7 @@
             <img class="login-logo" src="favicon.svg" draggable="false" />
           </div>
           <div class="login-subtitle">
-            happyboot
+            <text-logo/>
           </div>
           <div class="login-form-item">
             <div class="user-list" id="switch-user">
