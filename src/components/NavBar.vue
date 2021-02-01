@@ -114,7 +114,6 @@ export default defineComponent({
     const closeTabs = (type:number) => {
       const tp: any = [ NavCloseType.LEFT, NavCloseType.RIGHT, NavCloseType.OTHER,NavCloseType.ALL, NavCloseType.SELF]
       hkf.closeNav(tp[type], currentRouteMenu.value?.pageId, (removedNavs: any, needNavs: any) => {
-        console.log(currentRouteMenu.value?.pageId)
         if (needNavs.length>0){
           router.push(needNavs[0].to)
         }

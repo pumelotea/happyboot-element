@@ -1,19 +1,6 @@
 <template>
   <div class="head-bar">
-    <div
-      class="logo"
-      :class="{
-        'collapse-width-menu': isCollapse,
-        'uncollapse-width-menu': !isCollapse,
-        'brand-collapse': isCollapse
-      }"
-    >
-      <span v-if="!isCollapse" :class="{ brand: !isCollapse }">
-        happy
-      </span>
-      <img v-if="isCollapse" class="logo-svg" src="favicon.svg" />
-      <span v-if="!isCollapse">boot</span>
-    </div>
+    <head-bar-logo/>
     <div class="actions">
       <a
         class="action-item"
@@ -100,16 +87,18 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { mapGetters } from 'vuex'
 import { computed, defineComponent, getCurrentInstance } from 'vue'
 import router from '@/router'
 import { getSecurityInstance } from '@/security'
 import apis from '@/apis'
 import { HappyKitRouter } from 'happykit'
+import HeadBarLogo from '@/components/HeadBarLogo.vue'
 
 export default defineComponent({
   name: 'HeadBar',
+  components: { HeadBarLogo },
   computed: {
     ...mapGetters(['isCollapse'])
   },
@@ -137,14 +126,14 @@ export default defineComponent({
       //把要打开的tab名字存到localstorage里
       currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'userInfo' })
 
-      ;(router as HappyKitRouter).push('/user-center','个人中心')
+      ;(router as HappyKitRouter).push('/user-center', '个人中心')
     }
 
     const editPassword = () => {
       //把要打开的tab名字存到localstorage里
       currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'editPassword' })
 
-      ;(router as HappyKitRouter).push('/user-center','个人中心')
+      ;(router as HappyKitRouter).push('/user-center', '个人中心')
     }
 
     const switchUser = () => {
@@ -179,16 +168,7 @@ export default defineComponent({
   box-sizing: border-box;
 }
 
-.logo {
-  width: 220px;
-  height: 100%;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  font-size: 30px;
-}
+
 
 .space {
   flex: 1;
@@ -222,16 +202,6 @@ export default defineComponent({
   transition: all 0.2s ease-in-out;
 }
 
-.brand {
-  color: #007cff;
-  font-weight: bold;
-}
-
-.brand-collapse {
-  color: #007cff !important;
-  font-weight: bold;
-}
-
 .nickname {
   font-size: 14px;
   color: #505050;
@@ -242,9 +212,6 @@ export default defineComponent({
   font-size: 14px;
 }
 
-.logo-svg {
-  width: 40px;
-}
 </style>
 <style>
 #__user-avatar .el-avatar {
