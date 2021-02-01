@@ -134,6 +134,46 @@ const apiDefinition = {
   //通过用户、授权类型查询角色ID集合
   queryIdsByUserIdAndType(userId: any, authType: any) {
     return $get('/sys/role/queryIdsByUserIdAndAuthType', { userId, authType })
+  },
+  //字典分页查询
+  dictPage(searchQuery: any) {
+    return $get('/sys/dict/page', searchQuery)
+  },
+  //字典单个查询
+  dictGet(id: any) {
+    return $get('/sys/dict/get', { id })
+  },
+  //字典新增
+  dictAdd(params: any) {
+    return $post('/sys/dict/add', params)
+  },
+  //字典修改
+  dictEdit(params: any) {
+    return $post('/sys/dict/update', params)
+  },
+  //字典删除
+  dictDelete(ids: any) {
+    return $delete('/sys/dict/delete?ids=' + ids)
+  },
+  //字典项分页列表
+  dictItemPage(searchQuery: any) {
+    return $get('/sys/dictItem/page', searchQuery)
+  },
+  //字典项查询
+  dictItemGet(id: any) {
+    return $get('/sys/dictItem/get', { id: id })
+  },
+  //字典项新增
+  dictItemAdd(params: any) {
+    return $post('/sys/dictItem/add', params)
+  },
+  //字典项修改
+  dictItemEdit(params: any) {
+    return $post('/sys/dictItem/update', params)
+  },
+  //字典项删除
+  dictItemDelete(ids: any) {
+    return $delete('/sys/dictItem/delete?ids=' + ids)
   }
 }
 export default apiDefinition
