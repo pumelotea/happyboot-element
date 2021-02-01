@@ -62,10 +62,6 @@ const apiDefinition = {
   userPage(searchQuery: any) {
     return $get('/sys/user/page', searchQuery)
   },
-  //角色列表
-  roleList() {
-    return $get('/sys/role/list')
-  },
   //用户角色关联保存
   saveUserRole(userId: any, roleIds: any, authType: any) {
     return $post('/sys/user/saveUserRole', {
@@ -174,6 +170,41 @@ const apiDefinition = {
   //字典项删除
   dictItemDelete(ids: any) {
     return $delete('/sys/dictItem/delete?ids=' + ids)
-  }
+  },
+  //角色列表
+  roleList() {
+    return $get('/sys/role/list')
+  },
+  //角色列表分页查询
+  rolePage(params: any) {
+    return $get('/sys/role/page', params)
+  },
+  //角色详情
+  roleGet(id: any) {
+    return $get('/sys/role/get', { id: id })
+  },
+  //角色新增
+  roleAdd(role: any) {
+    return $post('/sys/role/add', role)
+  },
+  //角色修改
+  roleEdit(role: any) {
+    return $post('/sys/role/update', role)
+  },
+  //角色删除
+  roleDelete(ids: any) {
+    return $delete('/sys/role/delete?ids=' + ids)
+  },
+  //角色菜单授权
+  roleMenuEmpower(params: any) {
+    return $post('/sys/role/saveRolePermission', params)
+  },
+  //角色已关联的菜单
+  getRoleMenuPower(params: any) {
+    return $get('/sys/permission/queryIdsByRoleIdAndTypeAndModule', {
+      module: 'admin',
+      ...params
+    })
+  },
 }
 export default apiDefinition
