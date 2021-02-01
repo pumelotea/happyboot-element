@@ -14,6 +14,7 @@
         <transition name="slide-fade">
           <keep-alive :include="include">
             <component
+              v-if="pageId"
               :is="Component"
               :pageId="pageId"
               :isKeepalive="isKeepalive"
