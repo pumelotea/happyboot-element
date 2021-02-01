@@ -125,7 +125,8 @@ export default defineComponent ({
       defaultProps,
       treeLoading,
       defaultChecked,
-      treeData
+      treeData,
+      tree
     }
   }
 })

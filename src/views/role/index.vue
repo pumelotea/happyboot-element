@@ -97,7 +97,7 @@
       </el-pagination>
     </template>
 
-    <role-info-drawer ref="RID" @ok="handleSearch" />
+    <role-info-drawer ref="RID" @ok="handleSearch()" />
     <permission-link-drawer ref="PLD" />
   </page-layout>
 </template>
@@ -280,6 +280,7 @@ export default defineComponent ({
       handlePermissionLink,
       handleDetail,
       handleEdit,
+      handleSearch,
       RID,
       PLD,
       tableSelectedData,
