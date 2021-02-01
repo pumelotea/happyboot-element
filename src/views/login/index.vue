@@ -237,6 +237,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  pointer-events: none;
 }
 
 .wave img{
