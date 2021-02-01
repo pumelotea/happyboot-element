@@ -1,24 +1,9 @@
 # happyboot-element
 
-## Project setup
-```
-yarn install
-```
+## 注意
 
-### Compiles and hot-reloads for development
+修改版的vue-runtime-core@3.0.5
 ```
-yarn serve
+https://github.com/pumelotea/vue-next/releases/download/v3.0.5/runtime-core-3.0.5.tgz#d0543d29b7420fe2669ccaae305a97c78e41d1a6
+sha512-1Vi8xd+5CBAKO2flZIQtd2o4vuXVjR9eVtpj2SaX3WVugLLNrugvChJlBgNkVt8mAmxXlD8rHQuI+8EF68h3tA==
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
