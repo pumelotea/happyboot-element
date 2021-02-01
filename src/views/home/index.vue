@@ -39,7 +39,7 @@ export default defineComponent({
     HeadBar,
     NavBar,
     MainLayout,
-    MenuList,
+    MenuList
   },
   setup() {
     const hkf = getHappykitInstance()
