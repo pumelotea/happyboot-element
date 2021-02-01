@@ -10,18 +10,20 @@
       <MenuList />
     </template>
     <template v-slot:content>
-      <router-view v-slot="{ Component }">
-        <transition name="slide-fade">
-          <keep-alive :include="include">
-            <component
-              v-if="pageId"
-              :is="Component"
-              :pageId="pageId"
-              :isKeepalive="isKeepalive"
-              :key="pageId"></component>
-          </keep-alive>
-        </transition>
-      </router-view>
+      <content-container>
+        <router-view v-slot="{ Component }">
+          <transition name="slide-fade">
+            <keep-alive :include="include">
+              <component
+                v-if="pageId"
+                :is="Component"
+                :pageId="pageId"
+                :isKeepalive="isKeepalive"
+                :key="pageId"></component>
+            </keep-alive>
+          </transition>
+        </router-view>
+      </content-container>
     </template>
   </main-layout>
 </template>
@@ -34,9 +36,11 @@ import MenuList from '@/components/MenuList.vue'
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import { getHappykitInstance } from '@/framework'
 import happyKitRouter from '@/router'
+import ContentContainer from '@/layouts/ContentContainer.vue'
 
 export default defineComponent({
   components: {
+    ContentContainer,
     HeadBar,
     NavBar,
     MainLayout,

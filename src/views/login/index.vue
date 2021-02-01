@@ -65,6 +65,9 @@
         </div>
       </div>
     </div>
+    <div class="wave">
+      <img src="../../../public/images/wave.svg">
+    </div>
   </div>
 </template>
 
@@ -224,5 +227,19 @@ export default {
 .login-logo {
   width: 100px;
   margin-bottom: 30px;
+}
+
+.wave{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.wave img{
+  width: 100%;
 }
 </style>

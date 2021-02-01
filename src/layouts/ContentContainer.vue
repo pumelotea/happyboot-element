@@ -1,23 +1,24 @@
 <template>
   <div style="overflow: auto;height: 100%">
     <slot></slot>
-      <div class="content-placeholder" v-if="navList.length === 0">
-        <!--      这边可以定义未打开任何页面情况下的占位图或者文字      -->
-        <img
-          src="../../public/images/icon-403.svg"
-          class="empty"
-          draggable="false"
-        />
-      </div>
+    <div class="content-placeholder animate__animated animate__fadeIn" v-if="navList.length === 0">
+      <!--      这边可以定义未打开任何页面情况下的占位图或者文字      -->
+      <img
+        src="../../public/images/icon-403.svg"
+        class="empty"
+        draggable="false"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getHappykitInstance } from '@/framework'
+
 export default defineComponent({
   name: 'ContentContainer',
-  setup(){
+  setup() {
     const hkf = getHappykitInstance()
     const navList = hkf.getNavList()
     return {
@@ -44,6 +45,6 @@ export default defineComponent({
 }
 
 .empty {
-  width: 40%;
+  width: 30%;
 }
 </style>
