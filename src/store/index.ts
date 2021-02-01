@@ -9,11 +9,6 @@ const store = createStore({
      * 备注：个人信息userInfo；修改密码editPassword；
      */
     userCenterActiveName: 'userInfo',
-    /**
-     * @保存登录时账号的类型 userType
-     * 备注：主账号:0; 子账号:1; 主账号在头像处有切换账号按钮；
-     */
-    userType: '1'
   },
   getters:{
     isCollapse(state){
@@ -22,8 +17,12 @@ const store = createStore({
     userCenterActiveName(state) {
       return state.userCenterActiveName
     },
-    userType(state) {
-      return state.userType
+    /**
+     * @保存登录时账号的类型 userType
+     * 备注：主账号:0; 子账号:1; 主账号在头像处有切换账号按钮；
+     */
+    userType() {
+      return localStorage.getItem('userType') || '1'
     }
   },
   mutations:{
@@ -43,7 +42,7 @@ const store = createStore({
      * 备注：主账号:0; 子账号:1; 主账号在头像处有切换账号按钮；
      * */
     setUserType(state, payload) {
-      state.userType = payload.userType
+      localStorage.setItem('userType',payload.userType)
     }
   }
 })

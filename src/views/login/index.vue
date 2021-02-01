@@ -81,7 +81,7 @@ export default {
     const username = ref('admin')
     const password = ref('123456')
     const code = ref('')
-    const saveLoginStatusLocal = ref(true)
+    const saveLoginStatusLocal = ref(false)
     let user: any = {
       saveLoginStatus: true,
       data: null
