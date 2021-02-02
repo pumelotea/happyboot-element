@@ -17,7 +17,7 @@
             <template v-if="item.title.length >= 10" #label>
               <el-tooltip :content="item.title">
                 <span>
-                  {{ textOverflow(item.title)}}
+                  {{ textOverflow(item.title) }}
                 </span>
               </el-tooltip>
             </template>
@@ -61,13 +61,12 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { NavCloseType } from 'happykit'
-import {getHappykitInstance} from '@/framework'
-import router from '@/router'
+import { self } from '@/common'
 
 export default defineComponent({
-  setup(){
-
-    const hkf = getHappykitInstance()
+  setup() {
+    const { $router, $happykit } = self()
+    const hkf = $happykit
     const navList = hkf.getNavList()
     const currentRouteMenu = hkf.getCurrentMenuRoute()
 
@@ -75,50 +74,50 @@ export default defineComponent({
     const activeTab = ref('')
 
 
-    watch(currentRouteMenu,()=>{
+    watch(currentRouteMenu, () => {
       activeTab.value = currentRouteMenu.value?.pageId || ''
     })
 
-    onMounted(()=>{
+    onMounted(() => {
       activeTab.value = currentRouteMenu.value?.pageId || ''
     })
 
-    const textOverflow = (value:string) => {
+    const textOverflow = (value: string) => {
       return String(value).length < 10
         ? value
         : `${String(value).substr(0, 10)}...`
     }
 
-    const goto = (ins:any) => {
+    const goto = (ins: any) => {
       hkf.clickNavItem(ins.instance.attrs.pageId, (a: any, needNavs: any) => {
-        if (needNavs.length>0){
-          router.push(needNavs[0].to)
+        if (needNavs.length > 0) {
+          $router.push(needNavs[0].to)
         }
       })
     }
 
-    const handleTabsEdit = (pageId:string, action:string) => {
+    const handleTabsEdit = (pageId: string, action: string) => {
       if ('remove' === action) {
         hkf.closeNav(NavCloseType.SELF, pageId, (removedNavs: any, needNavs: any) => {
-          if (needNavs.length>0){
-            router.push(needNavs[0].to)
+          if (needNavs.length > 0) {
+            $router.push(needNavs[0].to)
           }
 
-          if (navList.value.length === 0){
-            router.push('/')
+          if (navList.value.length === 0) {
+            $router.push('/')
           }
         })
       }
     }
 
-    const closeTabs = (type:number) => {
-      const tp: any = [ NavCloseType.LEFT, NavCloseType.RIGHT, NavCloseType.OTHER,NavCloseType.ALL, NavCloseType.SELF]
+    const closeTabs = (type: number) => {
+      const tp: any = [NavCloseType.LEFT, NavCloseType.RIGHT, NavCloseType.OTHER, NavCloseType.ALL, NavCloseType.SELF]
       hkf.closeNav(tp[type], currentRouteMenu.value?.pageId, (removedNavs: any, needNavs: any) => {
-        if (needNavs.length>0){
-          router.push(needNavs[0].to)
+        if (needNavs.length > 0) {
+          $router.push(needNavs[0].to)
         }
-        if (navList.value.length === 0){
-          router.push('/')
+        if (navList.value.length === 0) {
+          $router.push('/')
         }
       })
     }
@@ -153,6 +152,7 @@ export default defineComponent({
   box-sizing: border-box;
   display: flex;
 }
+
 .tab-actions-bg {
   background: white;
   border-radius: 3px;
@@ -182,6 +182,7 @@ export default defineComponent({
   padding-left: 5px;
   display: inline-block;
 }
+
 .el-tabs__nav-next,
 .el-tabs__nav-prev {
   display: flex;

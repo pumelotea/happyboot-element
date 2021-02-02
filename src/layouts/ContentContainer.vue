@@ -14,12 +14,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getHappykitInstance } from '@/framework'
-
+import { self } from '@/common'
 export default defineComponent({
   name: 'ContentContainer',
   setup() {
-    const hkf = getHappykitInstance()
+    const hkf = self().$happykit
     const navList = hkf.getNavList()
     return {
       navList

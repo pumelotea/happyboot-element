@@ -1,6 +1,6 @@
 <template>
   <div class="head-bar">
-    <head-bar-logo/>
+    <head-bar-logo />
     <div class="actions">
       <a
         class="action-item"
@@ -89,12 +89,9 @@
 
 <script lang="ts">
 import { mapGetters } from 'vuex'
-import { computed, defineComponent, getCurrentInstance } from 'vue'
-import router from '@/router'
-import { getSecurityInstance } from '@/security'
-import apis from '@/apis'
-import { HappyKitRouter } from 'happykit'
+import { computed, defineComponent } from 'vue'
 import HeadBarLogo from '@/components/HeadBarLogo.vue'
+import { self } from '@/common'
 
 export default defineComponent({
   name: 'HeadBar',
@@ -103,15 +100,14 @@ export default defineComponent({
     ...mapGetters(['isCollapse'])
   },
   setup() {
-    const securityInstance = getSecurityInstance()
-    const currentInstance: any = getCurrentInstance()
+    const { $router, $security, $api,$store } = self()
 
     const userInfo = computed(() => {
-      return securityInstance.getUser().value?.data
+      return $security.getUser().value?.data
     })
 
     const userType = computed(() => {
-      return currentInstance.ctx.$store.getters['userType']
+      return $store.getters['userType']
     })
 
     const nickname = computed(() => {
@@ -119,30 +115,28 @@ export default defineComponent({
     })
 
     const headImage = computed(() => {
-      return apis.$imgId2Url(userInfo.value?.headPic)
+      return $api.$imgId2Url(userInfo.value?.headPic)
     })
 
     const editUserInfo = () => {
       //把要打开的tab名字存到localstorage里
-      currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'userInfo' })
-
-      ;(router as HappyKitRouter).push('/user-center', '个人中心')
+      $store.commit('setUserCenterActiveName', { activeName: 'userInfo' })
+      $router.push('/user-center', '个人中心')
     }
 
     const editPassword = () => {
       //把要打开的tab名字存到localstorage里
-      currentInstance.ctx.$store.commit('setUserCenterActiveName', { activeName: 'editPassword' })
-
-      ;(router as HappyKitRouter).push('/user-center', '个人中心')
+      $store.commit('setUserCenterActiveName', { activeName: 'editPassword' })
+      $router.push('/user-center', '个人中心')
     }
 
     const switchUser = () => {
-      router.push('/switch-user')
+      $router.push('/switch-user')
     }
 
     const logout = () => {
-      securityInstance.signOut()
-      router.push('/login')
+      $security.signOut()
+      $router.push('/login')
     }
 
     return {
@@ -167,7 +161,6 @@ export default defineComponent({
   border-bottom: 1px solid rgba(128, 128, 128, 0.2);
   box-sizing: border-box;
 }
-
 
 
 .space {

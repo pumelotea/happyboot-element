@@ -8,18 +8,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from 'vue'
-import router from '@/router'
-// eslint-disable-next-line no-unused-vars
-import { HappyKitRouter } from 'happykit'
-// import { getHappykitInstance } from '@/framework'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 export default defineComponent({
   name: 'index',
   setup(){
+    const {$router} =  self()
+
     const name = ref('')
     // const hkf = getHappykitInstance()
     const openNewTab = () => {
-      (router as HappyKitRouter ).push('/dashboard?id=1&title='+name.value,name.value)
+     $router.push('/dashboard?id=1&title='+name.value,name.value)
     }
 
     return {

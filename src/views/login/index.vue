@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" ref="aaa">
     <div class="login-form">
       <div class="login-actions">
         <div class="login-form-content">
@@ -7,7 +7,7 @@
             <img class="login-logo" src="favicon.svg" draggable="false" />
           </div>
           <div class="login-subtitle">
-            <text-logo/>
+            <text-logo />
           </div>
           <div class="login-form-item">
             <el-input
@@ -48,7 +48,8 @@
           </div>
           <div class="login-form-item">
             <el-checkbox v-model="saveLoginStatusLocal"
-            >记住登录状态</el-checkbox
+            >记住登录状态
+            </el-checkbox
             >
           </div>
           <div class="login-form-item">
@@ -72,15 +73,16 @@
 </template>
 
 <script lang='ts'>
-import { ref, computed, getCurrentInstance, onMounted, onBeforeUnmount } from 'vue'
-import { getSecurityInstance } from '@/security'
-import router from '@/router'
-import apis from '@/apis'
+import { ref, computed, onMounted, onBeforeUnmount} from 'vue'
 import TextLogo from '@/components/TextLogo.vue'
+import { self } from '@/common'
+
 export default {
   name: 'index',
   components: { TextLogo },
-  setup(){
+  setup() {
+    const { $security, $api, $store, $router, $notify } = self()
+
     const kaptchaImage = ref('')
     const kaptchaId = ref('')
     const username = ref('admin')
@@ -92,10 +94,8 @@ export default {
       data: null
     }
 
-    const securityInstance = getSecurityInstance()
-    const currentInstance: any = getCurrentInstance()
-    const getKaptcha =  async () => {
-      const kaptcha: any = await apis.getKaptcha()
+    const getKaptcha = async () => {
+      const kaptcha: any = await $api.getKaptcha()
       if (kaptcha.code === 0) {
         kaptchaId.value = kaptcha.data.id
         kaptchaImage.value = 'data:image/png;base64,' + kaptcha.data.base64ImgStr
@@ -104,9 +104,9 @@ export default {
 
     const login = async () => {
       //登录操作前先清空一遍数据保障正常执行
-      securityInstance.signOut()
+      $security.signOut()
 
-      const res : any = await apis.login(
+      const res: any = await $api.login(
         username.value,
         password.value,
         kaptchaId.value,
@@ -116,16 +116,16 @@ export default {
         const data = res.data
         user.saveLoginStatus = saveLoginStatusLocal.value
         user.data = data.userinfo
-        securityInstance.signIn(data.token, user)
-        currentInstance.ctx.$store.commit('setUserType', {userType: data.userinfo.userType})
+        $security.signIn(data.token, user)
+        $store.commit('setUserType', { userType: data.userinfo.userType })
 
-        if(data.userlist_count === 0){
-          router.push('/')
-        }else {
-          router.push('/switch-user')
+        if (data.userlist_count === 0) {
+          $router.push('/')
+        } else {
+          $router.push('/switch-user')
         }
       } else {
-        currentInstance.ctx.$notify({
+        $notify({
           title: '登录失败',
           message: res.msg,
           type: 'error'
@@ -140,22 +140,22 @@ export default {
     }
 
     const saveLoginStatus = computed(() => {
-      let user = securityInstance.getUser().value
-      if(user){
+      let user = $security.getUser().value
+      if (user) {
         return user.saveLoginStatus
-      }else {
+      } else {
         return false
       }
     })
 
-    const token = securityInstance.getToken()
+    const token = $security.getToken()
 
     onMounted(() => {
       document.addEventListener('keypress', onKeyEnter)
       getKaptcha()
       //如果记住登录，并且存在token就跳转进入首页
       if (saveLoginStatus.value && token) {
-        router.push('/')
+        $router.push('/')
         return
       }
     })
@@ -226,12 +226,13 @@ export default {
 .login-form-item {
   margin-top: 10px;
 }
+
 .login-logo {
   width: 100px;
   margin-bottom: 30px;
 }
 
-.wave{
+.wave {
   position: absolute;
   left: 0;
   right: 0;
@@ -242,7 +243,7 @@ export default {
   pointer-events: none;
 }
 
-.wave img{
+.wave img {
   width: 100%;
 }
 </style>

@@ -32,8 +32,7 @@
 import { mapGetters } from 'vuex'
 import MenuContent from './MenuContent.vue'
 import { computed, defineComponent } from 'vue'
-import {getHappykitInstance} from '@/framework'
-import router from '@/router'
+import { self } from '@/common'
 
 export default defineComponent({
   props: {
@@ -49,23 +48,25 @@ export default defineComponent({
   components: {
     MenuContent
   },
-  computed:{
+  computed: {
     ...mapGetters(['isCollapse'])
   },
-  setup(){
-    const hkf = getHappykitInstance()
+  setup() {
+    const { $happykit, $router } = self()
+
+    const hkf = $happykit
     const menuTree = hkf.getMenuTree()
     const currentRouteMenu = hkf.getCurrentMenuRoute()
-    const activeMenu = computed(()=>{
-      return currentRouteMenu.value?.menuItem.menuPath.map(e=>e.menuId) || []
+    const activeMenu = computed(() => {
+      return currentRouteMenu.value?.menuItem.menuPath.map(e => e.menuId) || []
     })
 
-
-    const goto = (menuId:string) => {
-      hkf.clickMenuItem(menuId,menuItems=>{
-        router.push(menuItems[0].routerPath)
+    const goto = (menuId: string) => {
+      hkf.clickMenuItem(menuId, menuItems => {
+        $router.push(menuItems[0].routerPath)
       })
     }
+
     return {
       menuTree,
       currentRouteMenu,

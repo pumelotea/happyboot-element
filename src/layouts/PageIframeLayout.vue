@@ -23,8 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getHappykitInstance } from '@/framework'
-
+import { self } from '@/common'
 export default defineComponent({
   name: 'PageIframeLayout',
   props: {
@@ -41,7 +40,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const hkf = getHappykitInstance()
+    const hkf = self().$happykit
     const currentRouteMenu = hkf.getCurrentMenuRoute()
     return {
       currentRouteMenu
