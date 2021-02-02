@@ -16,7 +16,6 @@ export default defineComponent({
     const {$router} =  self()
 
     const name = ref('')
-    // const hkf = getHappykitInstance()
     const openNewTab = () => {
      $router.push('/dashboard?id=1&title='+name.value,name.value)
     }
