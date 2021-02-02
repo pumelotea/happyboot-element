@@ -58,16 +58,16 @@
 
 <script lang='ts'>
 import ConfigurationDrawer from './ConfigurationDrawer.vue'
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 export default defineComponent({
   name: 'FacilityConfigurationDrawer',
   components: {
     ConfigurationDrawer
   },
   setup() {
+    const context = self()
 
-    const currentInstance: any = getCurrentInstance()
     const ConfigurationDrawer = ref(null)
 
     let isShow = ref(false)
@@ -84,11 +84,11 @@ export default defineComponent({
     const open = async (userid: any) => {
       isShow.value = true
       userId = userid
-      const res: any = await apis.queryFacilityByUser(userId)
+      const res: any = await context.$api.queryFacilityByUser(userId)
       if (res.code === 0) {
         facilityPointData.value = res.data
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg

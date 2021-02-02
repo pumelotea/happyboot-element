@@ -36,13 +36,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref, nextTick } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref, nextTick } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'RoleInfoDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const isShow = ref(false)
     const roleInfoDrawerDeploy: any = ref({})
@@ -64,7 +64,7 @@ export default defineComponent ({
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -73,20 +73,20 @@ export default defineComponent ({
       }
       let res: any = {}
       if (roleInfoDrawerDeploy.value.mode === 'add') {
-        res = await apis.roleAdd(form.value)
+        res = await context.$api.roleAdd(form.value)
       } else if (roleInfoDrawerDeploy.value.mode === 'edit') {
-        res = await apis.roleEdit(form.value)
+        res = await context.$api.roleEdit(form.value)
       }
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -107,7 +107,7 @@ export default defineComponent ({
         form.value.roleType = ''
 
         if (data !== null && data !== '') {
-          apis.roleGet(data.id).then((res: any) => {
+          context.$api.roleGet(data.id).then((res: any) => {
             if(res.code === 0){
               form.value = res.data
             }

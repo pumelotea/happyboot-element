@@ -21,12 +21,12 @@
 </template>
 
 <script lang='ts'>
-import apis from '@/apis'
-import { defineComponent, getCurrentInstance, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 export default defineComponent({
   name: 'FacilityGroupLinkDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     let isShow = ref(false)
     let facilityGroupLinkDrawerDeploy:any = ref({title: '功能组关联'})
@@ -35,17 +35,17 @@ export default defineComponent({
     let userId = ''
 
     const handleLink = async () => {
-      const res: any = await apis.saveUserFacilityGroupRel(userId, checkedGroupData.value)
+      const res: any = await context.$api.saveUserFacilityGroupRel(userId, checkedGroupData.value)
         if (res.code === 0) {
           isShow.value = false
-          currentInstance.ctx.$notify({
+          context.$notify({
             type: 'success',
             title: '提示',
             message: '操作成功！'
           })
           emit('ok')
         } else {
-          currentInstance.ctx.$notify({
+          context.$notify({
             type: 'error',
             title: '提示',
             message: res.msg
@@ -59,7 +59,7 @@ export default defineComponent({
       userId = userid
       groupData.value = []
       checkedGroupData.value = []
-      const res:any = await apis.facilityGroupList()
+      const res:any = await context.$api.facilityGroupList()
       if (res.code === 0) {
         const list:any = res.data
         for (let i = 0; i < list.length; i++) {
@@ -70,7 +70,7 @@ export default defineComponent({
           })
         }
       }
-      const ret: any = await apis.queryFacilityGroupByUser(userId)
+      const ret: any = await context.$api.queryFacilityGroupByUser(userId)
       if (ret.code === 0) {
         ret.data.map((e: any) => {
           if (e.flag) {

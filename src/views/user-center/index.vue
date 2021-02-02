@@ -141,12 +141,9 @@
 </template>
 
 <script lang='ts'>
-import apis from '@/apis'
 import AvatarUploader from '@/components/AvatarUploader.vue'
-import { computed, getCurrentInstance, onMounted, ref, watch } from 'vue'
-import { getSecurityInstance } from '@/security'
-import router from '@/router'
-import axios from 'axios'
+import { computed, onMounted, ref, watch } from 'vue'
+import { self } from '@/common'
 
 export default {
   name: 'index',
@@ -154,8 +151,7 @@ export default {
     AvatarUploader
   },
   setup() {
-    const securityInstance = getSecurityInstance()
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
@@ -196,15 +192,15 @@ export default {
     const userLinkData = ref([])
 
     const imgId2Url = (id: string) => {
-      return apis.$imgId2Url(id)
+      return context.$api.$imgId2Url(id)
     }
 
     const userInfo = computed(() => {
-      return securityInstance.getUser().value.data
+      return context.$security.getUser().value.data
     })
 
     const activeName = computed(() => {
-      return currentInstance.ctx.$store.getters['userCenterActiveName']
+      return context.$store.getters['userCenterActiveName']
     })
 
     watch(activeTab, () => {
@@ -218,15 +214,15 @@ export default {
     })
 
     const updateUserInfo = async () => {
-      const res: any = await apis.userGet(userInfo.value.id)
+      const res: any = await context.$api.userGet(userInfo.value.id)
       if (res.code === 0) {
-        currentInstance.ctx.$store.commit('setCurrentUserInfo', res.data)
+        context.$store.commit('setCurrentUserInfo', res.data)
       }
     }
 
     const handleInfoSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -239,16 +235,16 @@ export default {
         userIdList.push(e.id)
       })
       ;(infoForm as any).value.userIdList = userIdList
-      const res: any = await apis.userEdit(infoForm.value)
+      const res: any = await context.$api.userEdit(infoForm.value)
       if (res.code === 0) {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         await updateUserInfo()
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -257,7 +253,7 @@ export default {
     }
 
     const open = async () => {
-      const res: any = await apis.userGet(userInfo.value.id)
+      const res: any = await context.$api.userGet(userInfo.value.id)
       if (res.code === 0) {
         infoForm.value = res.data
         userLinkData.value = res.data.userlist
@@ -271,7 +267,7 @@ export default {
     const remoteMethod = async (query: any) => {
       if (query !== '') {
         selectLoading.value = true
-        const res: any = await apis.queryMainAccountList(query)
+        const res: any = await context.$api.queryMainAccountList(query)
         if (res.code === 0) {
           linkOptions.value = res.data
         }
@@ -309,11 +305,11 @@ export default {
           resolve(data)
         })
       })
-      const res: any = await apis.uploadImage(data)
+      const res: any = await context.$api.uploadImage(data)
       if (res.code === 0) {
         infoForm.value.headPic = res.data
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -323,7 +319,7 @@ export default {
 
     const handlePasswordSubmit = async (formName: string) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate( (v: any) => {
+        context.$refs[formName].validate( (v: any) => {
           resolve(v)
         })
       })
@@ -331,9 +327,9 @@ export default {
         return
       }
       passwordForm.value.id = userInfo.value.id
-      const res: any = await apis.userPwd(passwordForm.value)
+      const res: any = await context.$api.userPwd(passwordForm.value)
       if (res.code === 0) {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
@@ -341,7 +337,7 @@ export default {
         passwordForm.value.password = ''
         passwordForm.value.passwordConfirm = ''
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg

@@ -24,13 +24,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref, nextTick } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref, nextTick } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'SubjectDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const isShow = ref(false)
     const subjectDrawerDeploy: any = ref({})
@@ -47,7 +47,7 @@ export default defineComponent ({
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -56,20 +56,20 @@ export default defineComponent ({
       }
       let res: any = {}
       if (subjectDrawerDeploy.value.mode === 'add') {
-        res = await apis.subjectAdd(form.value)
+        res = await context.$api.subjectAdd(form.value)
       } else if (subjectDrawerDeploy.value.mode === 'edit') {
-        res = await apis.subjectEdit(form.value)
+        res = await context.$api.subjectEdit(form.value)
       }
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -88,7 +88,7 @@ export default defineComponent ({
         form.value.regionIds = []
 
         if (data != null && data !== '') {
-          apis.subjectGet(data.id).then((res: any) => {
+          context.$api.subjectGet(data.id).then((res: any) => {
             if (res.code === 0) {
               form.value = res.data
             }

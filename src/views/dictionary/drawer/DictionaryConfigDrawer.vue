@@ -57,13 +57,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'DictionaryConfigDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const isShow = ref(false)
     const dictionaryConfigDrawerDeploy: any = ref({ title: '字典列表' })
@@ -119,7 +119,7 @@ export default defineComponent ({
     const handleSearch = async () => {
       tableData.value.loading = true
 
-      const res: any = await apis.dictItemPage(tableData.value.searchCondition)
+      const res: any = await context.$api.dictItemPage(tableData.value.searchCondition)
       if (res.code === 0) {
         tableData.value.list = res.data.records
         tableData.value.total = res.data.total
@@ -141,23 +141,23 @@ export default defineComponent ({
     }
 
     const handleDelete = (row: any) => {
-      currentInstance.ctx.$confirm('即将删除该条数据, 是否确认?', '提示', {
+      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          apis.dictItemDelete(row.id).then((res: any) => {
+          context.$api.dictItemDelete(row.id).then((res: any) => {
             if (res.code === 0) {
               tableData.value.searchCondition.pageNo = 1
               handleSearch()
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'success',
                 title: '提示',
                 message: '删除成功！'
               })
             } else {
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'error',
                 title: '提示',
                 message: res.msg

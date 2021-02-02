@@ -61,11 +61,13 @@
 
 <script lang='ts'>
 import { defineComponent, nextTick, ref } from 'vue'
-import apis from '@/apis'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'UserInfoDrawer',
   setup() {
+    const context = self()
+
     let isShow = ref(false)
     let form: any = ref({
       id: '',
@@ -81,7 +83,7 @@ export default defineComponent ({
       userInfoDrawerDeploy.value = deploy
       nextTick(() => {
         if (data !== null && data !== '') {
-          apis.userGet(data).then((res: any) => {
+          context.$api.userGet(data).then((res: any) => {
             if (res.code === 0) {
               form.value = res.data
             }
@@ -91,7 +93,7 @@ export default defineComponent ({
     }
 
     const imgId2Url = (data: any) => {
-      return apis.$imgId2Url(data)
+      return context.$api.$imgId2Url(data)
     }
 
     return {

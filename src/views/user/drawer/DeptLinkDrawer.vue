@@ -26,15 +26,15 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent (
   {
     name: 'RegionLinkDrawer',
     setup (){
 
-      const currentInstance: any = getCurrentInstance()
+      const context = self()
       const tree = ref(null)
 
       let isShow = ref(false)
@@ -47,30 +47,30 @@ export default defineComponent (
 
       //接口请求树节点
       const getTreeArr = async () => {
-        const res: any = await apis.getDeptTree()
+        const res: any = await context.$api.getDeptTree()
         if (res.code === 0) {
           treeData = res.data
         }
       }
 
       const getDeptPower = async () => {
-        const res: any = await apis.getUserDeptPower(userId)
+        const res: any = await context.$api.getUserDeptPower(userId)
         if (res.code === 0 && res.data !== null) {
           defaultChecked = [res.data]
         }
       }
 
       const userDeptEmpower = async (params: any) => {
-        const res: any = await apis.userDeptEmpower(params)
+        const res: any = await context.$api.userDeptEmpower(params)
         if (res.code === 0) {
-          currentInstance.ctx.$notify({
+          context.$notify({
             title: '成功',
             message: '操作成功',
             type: 'success'
           })
           close()
         } else {
-          currentInstance.ctx.$notify({
+          context.$notify({
             title: '失败',
             message: res.msg,
             type: 'error'

@@ -45,13 +45,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref, nextTick } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref, nextTick } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'DictionaryConfigItemDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const isShow = ref(false)
     const dictionaryConfigItemDrawerDeploy: any = ref({})
@@ -75,7 +75,7 @@ export default defineComponent ({
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -84,20 +84,20 @@ export default defineComponent ({
       }
       let res: any = {}
       if (dictionaryConfigItemDrawerDeploy.value.mode === 'add') {
-        res = await apis.dictItemAdd(form.value)
+        res = await context.$api.dictItemAdd(form.value)
       } else if (dictionaryConfigItemDrawerDeploy.value.mode === 'edit') {
-        res = await apis.dictItemEdit(form.value)
+        res = await context.$api.dictItemEdit(form.value)
       }
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -111,12 +111,12 @@ export default defineComponent ({
       dictionaryConfigItemDrawerDeploy.value = deploy
       nextTick(() => {
         //初始化表单
-        currentInstance.ctx.$refs['dictionaryConfigItemForm'].resetFields()
+        context.$refs['dictionaryConfigItemForm'].resetFields()
         form.value.id = ''
         form.value.dictId = data
 
         if (dictionaryConfigItemDrawerDeploy.value.mode === 'edit') {
-          apis.dictItemGet(data).then((res: any) => {
+          context.$api.dictItemGet(data).then((res: any) => {
             if (res.code === 0) {
               form.value = res.data
             }

@@ -35,14 +35,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'ConfigurationDrawer',
   setup(props, { emit }) {
-
-    let currentInstance: any = getCurrentInstance()
+    const context = self()
 
     let checkParam = (rule: any, value: any, callback: any) => {
       if (!value) {
@@ -80,16 +79,16 @@ export default defineComponent ({
     }
 
     const handleDelete = async () => {
-      let res: any = await apis.facilityParamDelete(form.value.facilityParamId)
+      let res: any = await context.$api.facilityParamDelete(form.value.facilityParamId)
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -99,7 +98,7 @@ export default defineComponent ({
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -107,17 +106,17 @@ export default defineComponent ({
         return
       }
 
-      let res: any = await apis.facilityParamSet(form.value)
+      let res: any = await context.$api.facilityParamSet(form.value)
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -128,7 +127,7 @@ export default defineComponent ({
     //开启抽屉的方法，可以传入一些需要的参数
     const open = async (facilityId: any, userId: any) => {
       isShow.value = true
-      const res: any = await apis.facilityParamGet(facilityId, 'user', '', userId)
+      const res: any = await context.$api.facilityParamGet(facilityId, 'user', '', userId)
       if (res.code === 0 && res.data !== null) {
         form.value = res.data
       } else {
