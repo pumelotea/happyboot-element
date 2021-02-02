@@ -1,5 +1,4 @@
-import { createHappySecurity, HappyKitFramework, HappyKitSecurity } from 'happykit'
-import { getCurrentInstance } from 'vue'
+import { createHappySecurity } from 'happykit'
 
 const security = createHappySecurity()
 

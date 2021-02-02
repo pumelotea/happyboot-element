@@ -1,13 +1,11 @@
 import {
   createEmptyMenuItem,
   createHappyFramework,
-  HappyKitFramework,
   LinkTarget,
   MenuAdapter,
   MenuItem,
   MenuType
 } from 'happykit'
-import { getCurrentInstance } from 'vue'
 import { uuid, deepClone } from 'happykit/lib/utils'
 
 
