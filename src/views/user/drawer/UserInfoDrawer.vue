@@ -117,15 +117,15 @@
 
 <script lang='ts'>
 import AvatarUploader from '@/components/AvatarUploader.vue'
-import { defineComponent, ref, nextTick, getCurrentInstance } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref, nextTick } from 'vue'
+import { self } from '@/common'
 export default defineComponent ({
   name: 'UserInfoDrawer',
   components: {
     AvatarUploader
   },
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     let isShow = ref(false)
     let userInfoDrawerDeploy: any = ref({})
@@ -194,7 +194,7 @@ export default defineComponent ({
     const remoteMethod = async (query: any) => {
       if (query !== '') {
         selectLoading.value = true
-        const res: any = await apis.queryMainAccountList(query)
+        const res: any = await context.$api.queryMainAccountList(query)
         if (res.code === 0) {
           linkOptions.value = res.data
         }
@@ -229,7 +229,7 @@ export default defineComponent ({
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
@@ -242,17 +242,17 @@ export default defineComponent ({
         userIdList.push(e.id)
       })
       form.value.userIdList = userIdList
-      const res: any = await apis.userAdd(form.value)
+      const res: any = await context.$api.userAdd(form.value)
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -266,14 +266,14 @@ export default defineComponent ({
           resolve(data)
         })
       })
-      const res: any = await apis.uploadImage(data)
+      const res: any = await context.$api.uploadImage(data)
       if (res.code === 0) {
         form.value.headPic = res.data
       }
     }
 
     const imgId2Url = (data: any) => {
-      return apis.$imgId2Url(data)
+      return context.$api.$imgId2Url(data)
     }
 
     return {

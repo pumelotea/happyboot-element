@@ -36,13 +36,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent( {
   name: 'UserInfoDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     let isShow = ref(false)
     let userInfoDrawerDeploy: any = ref({})
@@ -71,24 +71,24 @@ export default defineComponent( {
 
     const handleSubmit = async (formName:any) => {
       const valid = await new Promise(resolve => {
-        currentInstance.ctx.$refs[formName].validate((v: any) => {
+        context.$refs[formName].validate((v: any) => {
           resolve(v)
         })
       })
       if (!valid) {
         return
       }
-      const res: any = await apis.userPwd(form.value)
+      const res: any = await context.$api.userPwd(form.value)
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
         emit('ok')
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg

@@ -95,8 +95,8 @@
 import DictionaryInfoDrawer from '@/views/dictionary/drawer/DictionaryInfoDrawer.vue'
 import DictionaryConfigDrawer from '@/views/dictionary/drawer/DictionaryConfigDrawer.vue'
 import DictionaryConfigItemDrawer from '@/views/dictionary/drawer/DictionaryConfigItemDrawer.vue'
-import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, onMounted, ref } from 'vue'
+import { self } from '@/common'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -105,7 +105,7 @@ export default defineComponent ({
     DictionaryConfigItemDrawer
   },
   setup() {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const DID: any = ref(null)
     const DCD: any = ref(null)
@@ -143,7 +143,7 @@ export default defineComponent ({
 
     const handleSearch = async () => {
       tableData.value.loading = true
-      const res: any = await apis.dictPage(tableData.value.searchCondition)
+      const res: any = await context.$api.dictPage(tableData.value.searchCondition)
       if (res.code === 0) {
         tableData.value.list = res.data.records
         tableData.value.total = res.data.total
@@ -176,23 +176,23 @@ export default defineComponent ({
     }
 
     const handleDelete = (row: any) => {
-      currentInstance.ctx.$confirm('即将删除该条数据, 是否确认?', '提示', {
+      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          apis.dictDelete(row.id).then((res: any) => {
+          context.$api.dictDelete(row.id).then((res: any) => {
             if (res.code === 0) {
               tableData.value.searchCondition.pageNo = 1
               handleSearch()
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'success',
                 title: '提示',
                 message: '删除成功！'
               })
             } else {
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'error',
                 title: '提示',
                 message: res.msg
@@ -203,7 +203,7 @@ export default defineComponent ({
     }
 
     const handleMultiDelete = () => {
-      currentInstance.ctx.$confirm(
+      context.$confirm(
         '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
         '提示',
         {
@@ -218,17 +218,17 @@ export default defineComponent ({
             ids = ids + ',' + item.id
           })
 
-          apis.dictDelete(ids.substr(1)).then((res: any) => {
+          context.$api.dictDelete(ids.substr(1)).then((res: any) => {
             if (res.code === 0) {
               tableData.value.searchCondition.pageNo = 1
               handleSearch()
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'success',
                 title: '提示',
                 message: '删除成功！'
               })
             } else {
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'error',
                 title: '提示',
                 message: res.msg

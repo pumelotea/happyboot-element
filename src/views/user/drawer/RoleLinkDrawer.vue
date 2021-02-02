@@ -19,13 +19,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent({
   name: 'RoleLinkDrawer',
   setup(props, { emit }) {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     let isShow = ref(false)
     let roleLinkDrawerDeploy: any = ref({ title: '角色关联' })
@@ -34,17 +34,17 @@ export default defineComponent({
     let userId = ''
 
     const handleLink = async () => {
-      const res: any = await apis.saveUserRole(userId, checkedRoleData.value, '01')
+      const res: any = await context.$api.saveUserRole(userId, checkedRoleData.value, '01')
         if (res.code === 0) {
           isShow.value = false
-          currentInstance.ctx.$notify({
+          context.$notify({
             type: 'success',
             title: '提示',
             message: '操作成功！'
           })
           emit('ok')
         } else {
-          currentInstance.ctx.$notify({
+          context.$notify({
             type: 'error',
             title: '提示',
             message: res.msg
@@ -58,7 +58,7 @@ export default defineComponent({
       userId = userid
       roleData.value = []
       checkedRoleData.value = []
-      const res: any = await apis.roleList()
+      const res: any = await context.$api.roleList()
       if (res.code === 0) {
         const list = res.data
         for (let i = 0; i < list.length; i++) {
@@ -69,7 +69,7 @@ export default defineComponent({
           })
         }
       }
-      const ret: any = await apis.queryIdsByUserIdAndType(userId, '01')
+      const ret: any = await context.$api.queryIdsByUserIdAndType(userId, '01')
       if (ret.code === 0) {
         checkedRoleData.value = ret.data
       }

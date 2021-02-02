@@ -40,7 +40,8 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref, watch, nextTick, getCurrentInstance, toRefs } from 'vue'
+import { defineComponent, onMounted, ref, watch, nextTick, toRefs } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent({
   name: 'DrawerLayout',
@@ -80,6 +81,7 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const context = self()
 
     const ED = ref(null)
 
@@ -110,7 +112,7 @@ export default defineComponent({
       //滚动到顶部
       const dom = document.getElementById(moveToElId.value)
       if (dom) {
-        dom.appendChild((getCurrentInstance() as any).ctx.$el)
+        dom.appendChild(context.$el)
       }
     }
 

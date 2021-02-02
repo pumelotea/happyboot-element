@@ -60,46 +60,43 @@
 </template>
 
 <script lang='ts'>
-import { getCurrentInstance, onMounted, ref } from 'vue'
-import { getSecurityInstance } from '@/security'
-import { getHappykitInstance } from '@/framework'
+import { onMounted, ref } from 'vue'
 import { resetFramework } from 'happykit'
-import router from '@/router'
-import apis from '@/apis'
+import { self } from '@/common'
 
 export default {
   name: 'index',
   setup() {
+    const context = self()
+
     let userList = ref([])
     let selectedUser = ref('')
-    const securityInstance = getSecurityInstance()
-    const happykitInstance = getHappykitInstance()
 
     const selectUser = (user: any) => {
       selectedUser.value = user.id
     }
 
-    const user = securityInstance.getUser()
+    const user = context.$security.getUser()
 
     const login = async () => {
       if (selectedUser.value === '') {
-        (getCurrentInstance() as any).ctx.$notify({
+        context.$notify({
           title: '登录失败',
           message: '请选择登录账号',
           type: 'error'
         })
       } else {
-        const res: any = await apis.selectLogin(selectedUser.value)
+        const res: any = await context.$api.selectLogin(selectedUser.value)
         if (res.code === 0) {
           //登录操作前先清空一遍数据保障正常执行
-          resetFramework(happykitInstance)
+          resetFramework(context.$happykit)
 
           user.value.data = res.data
-          securityInstance.refreshUser(user.value)
+          context.$security.refreshUser(user.value)
 
-          router.push('/')
+          context.$router.push('/')
         } else {
-          (getCurrentInstance() as any).ctx.$notify({
+          context.$notify({
             title: '登录失败',
             message: res.msg,
             type: 'error'
@@ -109,12 +106,12 @@ export default {
     }
 
     const out = async () => {
-      securityInstance.signOut()
-      router.push('/login')
+      context.$security.signOut()
+      context.$router.push('/login')
     }
 
     const getUserList = async () => {
-      const res: any = await apis.userlist()
+      const res: any = await context.$api.userlist()
       if (res.code === 0) {
         userList.value = res.data
         res.data.map( (e: any) => {
@@ -126,7 +123,7 @@ export default {
     }
 
     const imgId2Url = (id: string) => {
-      return apis.$imgId2Url(id)
+      return context.$api.$imgId2Url(id)
     }
 
     onMounted(async () => {

@@ -28,13 +28,13 @@
 </template>
 
 <script lang='ts'>
-import {defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import {defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'PermissionLinkDrawer',
   setup() {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const tree: any = ref(null)
 
@@ -48,23 +48,23 @@ export default defineComponent ({
 
     //接口请求树节点
     const getTreeArr = async ( ) => {
-      const res: any = await apis.getMenuTree()
+      const res: any = await context.$api.getMenuTree()
       if (res.code === 0) {
         treeData.value = res.data
       }
     }
 
     const roleMenuEmpower = async (params: any)  => {
-      const res: any = await apis.roleMenuEmpower(params)
+      const res: any = await context.$api.roleMenuEmpower(params)
       if (res.code === 0) {
-        currentInstance.ctx.$notify({
+        context.$notify({
           title: '成功',
           message: '操作成功',
           type: 'success'
         })
         close()
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           title: '失败',
           message: res.msg,
           type: 'error'
@@ -77,7 +77,7 @@ export default defineComponent ({
       treeLoading.value = true
       await getTreeArr()
 
-      const res: any = await apis.getRoleMenuPower({
+      const res: any = await context.$api.getRoleMenuPower({
         roleId: roleId,
         authType: '01',
         neTypes: ['action']

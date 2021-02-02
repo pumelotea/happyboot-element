@@ -214,8 +214,8 @@
 </template>
 
 <script lang='ts'>
-import { getCurrentInstance, onMounted, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, onMounted, ref } from 'vue'
+import { self } from '@/common'
 
 import UserInfoDrawer from './drawer/UserInfoDrawer.vue'
 import UserInfoEditDrawer from './drawer/UserInfoEditDrawer.vue'
@@ -227,7 +227,7 @@ import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
 import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
 import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
 
-export default {
+export default defineComponent ({
   name: 'index',
   components: {
     UserInfoDrawer,
@@ -241,8 +241,7 @@ export default {
     FacilityConfigurationDrawer
   },
   setup() {
-
-    let currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const statusColor = ['#ea0143', '#02b654', '#0290ef']
     const userTypeColor = ['#0290ef', '#fc7070']
@@ -293,7 +292,7 @@ export default {
 
     const handleSearch = async () => {
       tableData.value.loading = true
-      const res: any = await apis.userPage(tableData.value.searchCondition)
+      const res: any = await context.$api.userPage(tableData.value.searchCondition)
       if (res.code === 0) {
         tableData.value.list = res.data.records
         tableData.value.total = Number(res.data.total)
@@ -354,23 +353,23 @@ export default {
     }
 
     const handleDelete = (row: any) => {
-      currentInstance.ctx.$confirm('即将删除该条数据, 是否确认?', '提示', {
+      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          apis.userDelete(row.id).then((res: any) => {
+          context.$api.userDelete(row.id).then((res: any) => {
             if (res.code === 0) {
               tableData.value.searchCondition.pageNo = 1
               handleSearch()
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'success',
                 title: '提示',
                 message: '删除成功！'
               })
             } else {
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'error',
                 title: '提示',
                 message: res.msg
@@ -382,7 +381,7 @@ export default {
     }
 
     const handleMultiDelete = () => {
-      currentInstance.ctx.$confirm(
+      context.$confirm(
         '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
         '提示',
         {
@@ -397,17 +396,17 @@ export default {
             ids = ids + ',' + item.id
           })
 
-          apis.userDelete(ids.substr(1)).then((res: any) => {
+          context.$api.userDelete(ids.substr(1)).then((res: any) => {
             if (res.code === 0) {
               tableData.value.searchCondition.pageNo = 1
               handleSearch()
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'success',
                 title: '提示',
                 message: '删除成功！'
               })
             } else {
-              currentInstance.ctx.$notify({
+              context.$notify({
                 type: 'error',
                 title: '提示',
                 message: res.msg
@@ -426,7 +425,7 @@ export default {
     }
 
     const initDict = async () => {
-      const res: any = await apis.dictItemsMap('STATUS,USER_TYPE')
+      const res: any = await context.$api.dictItemsMap('STATUS,USER_TYPE')
       if (res.code === 0) {
         statusOptions.value = []
         statusOptions.value = res.data.STATUS
@@ -441,7 +440,7 @@ export default {
           userTypeMapping.value[e.value] = e.label
         })
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
@@ -450,7 +449,7 @@ export default {
     }
 
     const imgId2Url = (data: any) => {
-      return apis.$imgId2Url(data)
+      return context.$api.$imgId2Url(data)
     }
 
      onMounted(async () => {
@@ -499,7 +498,7 @@ export default {
       tableSelectedData
     }
   }
-}
+})
 </script>
 
 <style scoped>

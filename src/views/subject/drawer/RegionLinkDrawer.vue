@@ -24,13 +24,13 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, getCurrentInstance, ref } from 'vue'
-import apis from '@/apis'
+import { defineComponent, ref } from 'vue'
+import { self } from '@/common'
 
 export default defineComponent ({
   name: 'RegionLinkDrawer',
   setup() {
-    const currentInstance: any = getCurrentInstance()
+    const context = self()
 
     const tree: any = ref(null)
 
@@ -57,14 +57,14 @@ export default defineComponent ({
 
     //接口请求树节点
     const getTreeArr = async () => {
-      const res: any = await apis.getRegionTree()
+      const res: any = await context.$api.getRegionTree()
       if (res.code === 0) {
         treeData.value = res.data
       }
     }
 
     const getObjectRegion = async () => {
-      const res: any = await apis.queryIdsByObjId(form.value.id)
+      const res: any = await context.$api.queryIdsByObjId(form.value.id)
       if (res.code === 0) {
         defaultChecked.value = res.data
       }
@@ -83,16 +83,16 @@ export default defineComponent ({
         objId: form.value.id,
         regionIds: form.value.regionIds
       }
-      const res: any = await apis.saveObjRegion(params)
+      const res: any = await context.$api.saveObjRegion(params)
       if (res.code === 0) {
         isShow.value = false
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'success',
           title: '提示',
           message: '操作成功！'
         })
       } else {
-        currentInstance.ctx.$notify({
+        context.$notify({
           type: 'error',
           title: '提示',
           message: res.msg
