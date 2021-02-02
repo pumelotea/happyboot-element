@@ -216,7 +216,8 @@ export default {
     const updateUserInfo = async () => {
       const res: any = await context.$api.userGet(userInfo.value.id)
       if (res.code === 0) {
-        context.$store.commit('setCurrentUserInfo', res.data)
+        let user = context.$security.getUser()
+        user.value.data = res.data
       }
     }
 
