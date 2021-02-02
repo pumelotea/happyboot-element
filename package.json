@@ -1,16 +1,15 @@
 {
   "name": "happyboot-element",
-  "version": "0.1.0",
+  "version": "0.1.0-preview",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode dev --dest=dist-dev",
     "build": "vue-cli-service build --mode prod --dest=dist-prod",
     "lint": "vue-cli-service lint",
     "build-prod": "vue-cli-service build --mode prod --dest=dist-prod",
-    "build-test": "vue-cli-service build --mode=test --dest=dist-test"
+    "build-test": "vue-cli-service build --mode test --dest=dist-test"
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "3.2.0",
     "animate.css": "4.1.0",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
@@ -22,7 +21,6 @@
     "mitt": "^2.1.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
-    "tinymce": "5.2.1",
     "v-viewer": "^1.5.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.3",

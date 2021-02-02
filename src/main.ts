@@ -16,7 +16,7 @@ import 'animate.css'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-light.css' //样式文件
+import 'highlight.js/styles/atom-one-light.css'
 
 //导入框架实例
 import happyFramework from '@/framework'
