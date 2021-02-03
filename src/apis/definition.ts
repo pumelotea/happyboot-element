@@ -234,5 +234,29 @@ const apiDefinition = {
   queryIdsByObjId(objId: any) {
     return $get('/sys/deptRegion/queryIdsByObjId', { objId })
   },
+  //懒加载获取区域树节点
+  getDeptRegionTreeByParentId(id: any) {
+    return $get('/sys/deptRegion/queryTreeByParentId', { parentId: id })
+  },
+  // 获取区域树节点数据
+  getDeptRegionTreeNodeData(id: any) {
+    return $get('/sys/deptRegion/get', { id: id })
+  },
+  //变更区域节点
+  modifyDeptRegionNode(params: any) {
+    return $post('/sys/deptRegion/modifyNode', params)
+  },
+  //新增区域节点
+  addDeptRegionNode(params: any) {
+    return $post('/sys/deptRegion/add', params)
+  },
+  //编辑区域节点
+  editDeptRegionNode(params: any) {
+    return $post('/sys/deptRegion/update', params)
+  },
+  //删除区域节点
+  deleteDeptRegionNode(id: any) {
+    return $delete('/sys/deptRegion/delete?ids=' + id)
+  },
 }
 export default apiDefinition
