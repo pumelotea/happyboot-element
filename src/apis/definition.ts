@@ -258,5 +258,22 @@ const apiDefinition = {
   deleteDeptRegionNode(id: any) {
     return $delete('/sys/deptRegion/delete?ids=' + id)
   },
+  //系统配置-----------------start
+  configPage(params: any) {
+    return $get('/sys/config/page', params)
+  },
+  configGet(id: any) {
+    return $get('/sys/config/get', { id })
+  },
+  configAdd(params: any) {
+    return $post('/sys/config/add', params)
+  },
+  configEdit(params: any) {
+    return $put('/sys/config/update', params)
+  },
+  configDelete(ids: any) {
+    return $delete('/sys/config/delete?ids=' + ids)
+  },
+  //系统配置-----------------end
 }
 export default apiDefinition
