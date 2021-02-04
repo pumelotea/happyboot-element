@@ -303,5 +303,33 @@ const apiDefinition = {
   logPage(params: any) {
     return $get('/sys/log/page', params)
   },
+  //上传文件
+  uploadFile(file: any) {
+    const f = new FormData()
+    f.append('file', file)
+    return $post('/sys/file/uploadFile', f)
+  },
+  //文件批量上传
+  uploadFiles(files: any) {
+    const f = new FormData()
+    files.forEach((file: any) => {
+      f.append('file', file)
+    })
+    return $post('/sys/file/uploadFiles', f)
+  },
+  //app版本管理-----------------begin
+  //列表查询
+  getApp(params: any) {
+    return $get('/sys/update/page', params)
+  },
+  //删除
+  deleteApp(ids: any) {
+    return $delete('/sys/update/delete?ids=' + ids)
+  },
+  //新增
+  addApp(params: any) {
+    return $post('/sys/update/add', params)
+  },
+  //app版本管理-----------------end
 }
 export default apiDefinition
