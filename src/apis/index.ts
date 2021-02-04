@@ -119,7 +119,8 @@ const http = {
   },
   ...apiDefinition,
   $imgId2Url,
-  $fileId2Url
+  $fileId2Url,
+  $download
 }
 
 export default http

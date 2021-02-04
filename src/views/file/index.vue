@@ -169,20 +169,12 @@ export default defineComponent({
 
       try {
         const res = await context.$api.download(item.id)
-        if (res.status !== 200 && res.status !== 201){
-          context.$notify({
-            type: 'error',
-            title: '下载失败',
-            message: res.statusText
-          })
-          return
-        }
-        downloadFile(res.data,item.fileName)
+        downloadFile(res.data,res.headers.file_name)
       } catch (e) {
         context.$notify({
           type: 'error',
           title: '下载失败',
-          message: e.message
+          message: '文件未找到'
         })
       }
     }
