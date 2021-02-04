@@ -299,5 +299,9 @@ const apiDefinition = {
   filePage(params: any) {
     return $get('/sys/file/page', params)
   },
+  //操作日志分页
+  logPage(params: any) {
+    return $get('/sys/log/page', params)
+  },
 }
 export default apiDefinition
