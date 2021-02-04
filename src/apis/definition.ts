@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import { $get, $post, $put, $delete } from '@/apis/index'
+import { $get, $post, $put, $delete, $download } from '@/apis/index'
 
 const apiDefinition = {
   login(username: string, password: string, captchaId: string, captchaCode: string) {
@@ -12,7 +11,7 @@ const apiDefinition = {
     return $post('/sys/user/selectLogin', { userId })
   },
   //查询关联账号列表
-  userlist(){
+  userlist() {
     return $get('/sys/user/userlist')
   },
   getMenuTree() {
@@ -331,5 +330,9 @@ const apiDefinition = {
     return $post('/sys/update/add', params)
   },
   //app版本管理-----------------end
+  //下载文件
+  download(fileId: string){
+    return $download(`/sys/file/download/${fileId}`)
+  }
 }
 export default apiDefinition

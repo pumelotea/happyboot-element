@@ -14,10 +14,12 @@
       <el-row :gutter="10" style="margin-top: 15px">
         <el-col>
           <el-button type="primary" size="medium" @click="handleSearch"
-            >查询</el-button
+          >查询
+          </el-button
           >
           <el-button type="primary" size="medium" plain @click="handleReset"
-            >重置</el-button
+          >重置
+          </el-button
           >
         </el-col>
       </el-row>
@@ -66,13 +68,12 @@
       <el-table-column fixed="right" align="center" label="操作" width="120">
         <template #default="scope">
           <a
-            :href="fileId2Url(scope.row.id)"
             style="margin-right: 10px;"
-            target="_blank"
-            download
+            @click="download(scope.row)"
           >
             <el-button type="text" permission-key="download"
-              >下载</el-button
+            >下载
+            </el-button
             >
           </a>
         </template>
@@ -93,7 +94,9 @@
 <script lang='ts'>
 import { defineComponent, onMounted, ref } from 'vue'
 import { self } from '@/common'
-export default defineComponent ({
+import { downloadFile } from '@/common/utils'
+
+export default defineComponent({
   name: 'index',
   setup() {
     const context = self()
@@ -162,8 +165,26 @@ export default defineComponent ({
       handleSearch()
     }
 
-    const fileId2Url = (data: any) => {
-      context.$api.$fileId2Url(data)
+    const download = async (item: any) => {
+
+      try {
+        const res = await context.$api.download(item.id)
+        if (res.status !== 200 && res.status !== 201){
+          context.$notify({
+            type: 'error',
+            title: '下载失败',
+            message: res.statusText
+          })
+          return
+        }
+        downloadFile(res.data,item.fileName)
+      } catch (e) {
+        context.$notify({
+          type: 'error',
+          title: '下载失败',
+          message: e.message
+        })
+      }
     }
 
     onMounted(() => {
@@ -177,7 +198,7 @@ export default defineComponent ({
       handleSearch,
       tableSelected,
       handleReset,
-      fileId2Url,
+      download,
       tableData,
       tableSelectedData
     }

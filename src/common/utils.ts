@@ -1,4 +1,3 @@
-
 /**
  * 时间格式化工具
  * @param time
@@ -26,7 +25,7 @@ export function timeFormat(time: Date | string | number, format?: string): strin
   if (date.toString() === 'Invalid Date') {
     return ''
   }
-  const formatObj:any = {
+  const formatObj: any = {
     y: date.getFullYear(),
     m: date.getMonth() + 1,
     d: date.getDate(),
@@ -88,12 +87,12 @@ export function debounce(func: Function, wait: any, immediate: any) {
   }
 }
 
-export function deepClone(source:any) {
+export function deepClone(source: any) {
   if (!source && typeof source !== 'object') {
     // @ts-ignore
     throw new Error('error arguments', 'shallowClone')
   }
-  const targetObj:any = source.constructor === Array ? [] : {}
+  const targetObj: any = source.constructor === Array ? [] : {}
   for (const keys in source) {
     // eslint-disable-next-line no-prototype-builtins
     if (source.hasOwnProperty(keys)) {
@@ -106,4 +105,15 @@ export function deepClone(source:any) {
     }
   }
   return targetObj
+}
+
+export function downloadFile(content: any, fileName: string) {
+  const blob = new Blob([content])
+  const a = document.createElement('a')
+  const url = window.URL.createObjectURL(blob)
+  const filename = fileName
+  a.href = url
+  a.download = filename
+  a.click()
+  window.URL.revokeObjectURL(url)
 }

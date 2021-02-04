@@ -48,6 +48,22 @@ export function $get(url: string, params?: any) {
   })
 }
 
+export function $download(url: string, params?: any) {
+  return new Promise((resolve, reject) => {
+    httpClient
+      .get(url, {
+        params: params,
+        responseType: "blob"
+      })
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 export function $delete(url: string, params?: any) {
   return new Promise((resolve, reject) => {
     httpClient
