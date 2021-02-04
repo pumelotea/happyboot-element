@@ -69,13 +69,12 @@
       <el-table-column fixed="right" align="center" label="操作" width="120">
         <template #default="scope">
           <a
-            :href="fileId2Url(scope.row.blobUrl)"
             style="margin-right: 10px;"
-            target="_blank"
-            download
+            @click="download(scope.row)"
           >
             <el-button type="text" permission-key="download"
-            >下载</el-button
+            >下载
+            </el-button
             >
           </a>
           <el-button
@@ -105,6 +104,7 @@
 import { self } from '@/common'
 import FormDrawer from './drawer/FormDrawer.vue'
 import { defineComponent, onMounted, ref } from 'vue'
+import { downloadFile } from '@/common/utils'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -245,6 +245,27 @@ export default defineComponent ({
       handleSearch()
     }
 
+    const download = async (item: any) => {
+      try {
+        const res: any = await context.$api.download(item.blobUrl)
+        if (res.status !== 200 && res.status !== 201){
+          context.$notify({
+            type: 'error',
+            title: '下载失败',
+            message: res.statusText
+          })
+          return
+        }
+        downloadFile(res.data,item.fileName)
+      } catch (e) {
+        context.$notify({
+          type: 'error',
+          title: '下载失败',
+          message: e.message
+        })
+      }
+    }
+
     const fileId2Url = (data: any) => {
       return context.$api.$fileId2Url(data)
     }
@@ -266,6 +287,7 @@ export default defineComponent ({
       implementDelete,
       handleReset,
       fileId2Url,
+      download,
       tableData,
       inspectionTypeOptions,
       dataScopeOptions,

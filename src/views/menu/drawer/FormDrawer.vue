@@ -176,6 +176,7 @@
 import { defineComponent, nextTick, ref } from 'vue'
 import { self } from '@/common'
 import Icons from '../icon/index.vue'
+import { partialCopying } from '@/common/utils'
 export default defineComponent ({
   components: {
     Icons
@@ -332,16 +333,6 @@ export default defineComponent ({
         (forms.value as any).resetFields()
         form.value = partialCopying(form.value, data)
       })
-    }
-
-    const partialCopying = (form: any, data: any) => {
-      if (!data) {
-        return form
-      }
-      Object.keys(form).forEach(key => {
-        form[key] = data[key] || form[key]
-      })
-      return form
     }
 
     const close = () => {

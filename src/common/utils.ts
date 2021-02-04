@@ -117,3 +117,13 @@ export function downloadFile(content: any, fileName: string) {
   a.click()
   window.URL.revokeObjectURL(url)
 }
+
+export function partialCopying(form: any, data: any) {
+  if (!data) {
+    return form
+  }
+  Object.keys(form).forEach(key => {
+    form[key] = data[key] || form[key]
+  })
+  return form
+}

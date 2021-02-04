@@ -261,7 +261,7 @@ export default defineComponent ({
       return true
     }
 
-    const nodeClick = (data: any, node: any) => {
+    const nodeClick = (data: any) => {
       (RD.value as any).open(data)
     }
 

@@ -43,6 +43,7 @@
 <script lang='ts'>
 import { defineComponent, nextTick, ref } from 'vue'
 import { self } from '@/common'
+import { partialCopying } from '@/common/utils'
 export default defineComponent ({
   name: 'FormDrawer',
   setup(props, { emit }) {
@@ -112,16 +113,6 @@ export default defineComponent ({
         ;(forms.value as any).resetFields()
         form.value = partialCopying(form.value, data)
       })
-    }
-
-    const partialCopying = (form: any, data: any) => {
-      if (!data) {
-        return form
-      }
-      Object.keys(form).forEach(key => {
-        form[key] = data[key] || form[key]
-      })
-      return form
     }
 
     const close = () => {
