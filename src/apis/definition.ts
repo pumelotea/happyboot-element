@@ -295,5 +295,9 @@ const apiDefinition = {
   modifyMenuNode(params: any) {
     return $post('/sys/permission/modifyNode', params)
   },
+  //文件列表
+  filePage(params: any) {
+    return $get('/sys/file/page', params)
+  },
 }
 export default apiDefinition

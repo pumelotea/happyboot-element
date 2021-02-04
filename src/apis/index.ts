@@ -87,6 +87,14 @@ export function $imgId2Url (id: string) {
   return `${window.api[process.env.VUE_APP_BUILT_MODE].server}/sys/file/view/${id}`
 }
 
+export function $fileId2Url (id: string) {
+  if (!id) {
+    return 'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'
+  }
+  // @ts-ignore
+  return `${window.api[process.env.VUE_APP_BUILT_MODE].server}/sys/file/thumbnail/${id}`
+}
+
 const http = {
   // eslint-disable-next-line no-unused-vars
   install(app: App, options: any) {
@@ -94,7 +102,8 @@ const http = {
     app.config.globalProperties.$api = this
   },
   ...apiDefinition,
-  $imgId2Url
+  $imgId2Url,
+  $fileId2Url
 }
 
 export default http
