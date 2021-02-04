@@ -193,6 +193,8 @@ export default defineComponent({
 .div-close{
   cursor: pointer;
   border-radius: 3px;
+  padding: 5px;
+  transition: 0.5s;
 }
 .div-close:hover{
   background-color: #eee;
