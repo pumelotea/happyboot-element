@@ -15,7 +15,7 @@
     "core-js": "^3.6.5",
     "cropperjs": "1.5.9",
     "element-plus": "^1.0.2-beta.29",
-    "happykit": "^1.3.2",
+    "happykit": "^1.3.3",
     "highlight.js": "^10.1.1",
     "js-md5": "0.7.3",
     "mitt": "^2.1.0",
