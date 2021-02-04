@@ -275,5 +275,25 @@ const apiDefinition = {
     return $delete('/sys/config/delete?ids=' + ids)
   },
   //系统配置-----------------end
+  //获取菜单节点数据
+  getMenuTreeNode(id: any) {
+    return $get('/sys/permission/get', { id })
+  },
+  //新增菜单
+  addMenuTree(params: any) {
+    return $post('/sys/permission/menu/add', params)
+  },
+  //编辑菜单
+  editMenuTree(params: any) {
+    return $post('/sys/permission/menu/update', params)
+  },
+  //删除菜单
+  deleteMenuTree(id: any) {
+    return $delete('/sys/permission/delete?ids=' + id)
+  },
+  //移动菜单节点
+  modifyMenuNode(params: any) {
+    return $post('/sys/permission/modifyNode', params)
+  },
 }
 export default apiDefinition
