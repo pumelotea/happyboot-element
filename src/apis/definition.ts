@@ -118,10 +118,6 @@ const apiDefinition = {
   getUseRegionPower(userId: any) {
     return $get('/sys/deptRegion/queryIdsByUserId', { userId })
   },
-  //一次性加载部门树
-  getDeptTree() {
-    return $get('/sys/deptObj/tree')
-  },
   //一次性加载区域树
   getRegionTree() {
     return $get('/sys/deptRegion/tree')
@@ -333,6 +329,34 @@ const apiDefinition = {
   //下载文件
   download(fileId: string){
     return $download(`/sys/file/download/${fileId}`)
-  }
+  },
+  //一次性加载部门树
+  getDeptTree() {
+    return $get('/sys/deptObj/tree')
+  },
+  //懒加载获取部门树节点
+  getDeptTreeByParentId(id: any) {
+    return $get('/sys/deptObj/queryTreeByParentId', { parentId: id })
+  },
+  // 获取部门树节点数据
+  getDeptTreeNodeData(id: any) {
+    return $get('/sys/deptObj/get', { id: id })
+  },
+  //变更部门节点
+  modifyDeptNode(params: any) {
+    return $post('/sys/deptObj/modifyNode', params)
+  },
+  //新增部门节点
+  addDeptNode(params: any) {
+    return $post('/sys/deptObj/add', params)
+  },
+  //编辑部门节点
+  editDeptNode(params: any) {
+    return $post('/sys/deptObj/update', params)
+  },
+  //删除部门节点
+  deleteDeptNode(id: any) {
+    return $delete('/sys/deptObj/delete?ids=' + id)
+  },
 }
 export default apiDefinition

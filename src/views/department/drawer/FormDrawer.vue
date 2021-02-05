@@ -4,11 +4,20 @@
       ref="forms"
       :model="form"
       :rules="rules"
-      label-width="80px"
+      label-width="120px"
       style="padding: 20px"
     >
-      <el-form-item label="名称" prop="regionName">
-        <el-input v-model="form.regionName"></el-input>
+      <el-form-item label="名称" prop="deptName">
+        <el-input v-model="form.deptName"></el-input>
+      </el-form-item>
+      <el-form-item label="是否综治中心" prop="isLeadDept">
+        <el-switch
+          v-model="form.isLeadDept"
+          active-text="是"
+          inactive-text="否"
+          :active-value="'1'"
+          :inactive-value="'0'"
+        />
       </el-form-item>
       <el-form-item label="是否禁用" prop="status">
         <el-switch
@@ -32,10 +41,9 @@
   </drawer-layout>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, nextTick } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { self } from '@/common'
 import { partialCopying } from '@/common/utils.ts'
-
 export default defineComponent ({
   name: 'FormDrawer',
   setup(props, { emit }) {
@@ -50,16 +58,19 @@ export default defineComponent ({
       id: '',
       parentId: '0',
       orderId: 0,
-      regionName: '',
-      status: 1
+      deptName: '',
+      status: 1,
+      isLeadDept: '0'
     })
     const rules = {
-      regionName: [{ required: true, message: '请输入部门名称', trigger: 'change' }]
+      deptName: [
+        { required: true, message: '请输入部门名称', trigger: 'change' }
+      ]
     }
 
     const getNodeData = async (id: any, success: any) => {
       drawerLoading.value = true
-      const res: any = await context.$api.getDeptRegionTreeNodeData(id)
+      const res: any = await context.$api.getDeptTreeNodeData(id)
       if (res.code === 0) {
         success(res.data)
       }
@@ -67,7 +78,7 @@ export default defineComponent ({
     }
 
     const editNode = async (params: any) => {
-      const res: any = await context.$api.editDeptRegionNode(params)
+      const res: any = await context.$api.editDeptNode(params)
       if (res.code === 0) {
         submitSuccess()
       } else {
@@ -81,7 +92,7 @@ export default defineComponent ({
     }
 
     const addNode = async (params: any) => {
-      const res: any = await context.$api.addDeptRegionNode(params)
+      const res: any = await context.$api.addDeptNode(params)
       if (res.code === 0) {
         context.$notify({
           title: '成功',
@@ -108,8 +119,8 @@ export default defineComponent ({
     const edit = (data: any) => {
       drawer.value = true
       title.value = '编辑'
-      getNodeData(data.id, (result: any) => {
-        initForm(result)
+      getNodeData(data.id, (res: any) => {
+        initForm(res)
       })
     }
 
@@ -117,8 +128,9 @@ export default defineComponent ({
       form.value.id = ''
       form.value.parentId = '0'
       form.value.orderId = 0
-      form.value.regionName = ''
+      form.value.deptName = ''
       form.value.status = 1
+      form.value.isLeadDept = '0'
 
       nextTick(() => {
         (forms.value as any).resetFields()
@@ -145,21 +157,22 @@ export default defineComponent ({
       })
     }
 
+    //新增或编辑成功
     const submitSuccess = () => {
       emit('handleSubmit', form.value.parentId)
       close()
     }
 
     return {
-      initForm,
-      handleSubmit,
-      submitSuccess,
-      close,
+      getNodeData,
       add,
       edit,
-      getNodeData,
       addNode,
       editNode,
+      initForm,
+      close,
+      handleSubmit,
+      submitSuccess,
       drawerLoading,
       drawer,
       title,
