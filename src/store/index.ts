@@ -78,11 +78,18 @@ const store = createStore({
         if (dom.getAttribute('data-mode')!=payload){
           setTimeout(()=>{
             dom.remove()
-          },10)
+          },10000)
         }
       })
     },
     initTheme(state) {
+      Object.keys(state.themeNameMap).forEach(key=>{
+        const prefetch = document.createElement('link')
+        prefetch.rel = 'prefetch'
+        prefetch.href = (state.themeNameMap as any)[key].link
+        document.head.append(prefetch)
+      })
+
       const theme = localStorage.getItem('activeTheme')
       state.activeTheme = theme || 'light'
       store.commit('setTheme', state.activeTheme)

@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar-uploader">
+  <div>
     <slot>
       <el-avatar
         :size="120"
@@ -13,6 +13,7 @@
       title="上传头像"
       :append-to-body="true"
       v-model="dialog"
+      custom-class="avatar-uploader"
       @close='close'
     >
       <div class="btns" v-show="canSave">
