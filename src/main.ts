@@ -5,12 +5,10 @@ import store from '@/store'
 import http from '@/apis'
 import {errorHandler,warnHandler} from '@/common/handlers.ts'
 import eventBus from '@/common/eventBus'
-
-import elementPlus from 'element-plus';
-import './assets/element-variables.scss'
+import elementPlus from 'element-plus'
+import '@/scss'
 import 'dayjs/locale/zh-cn'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
-
 import components from './components'
 import 'animate.css'
 import 'viewerjs/dist/viewer.css'
@@ -47,7 +45,6 @@ app.directive('highlight', function(el) {
   //   hljs.highlightBlock(block)
   // })
 })
-
 
 app.mount('#app')
 

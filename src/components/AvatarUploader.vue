@@ -1,5 +1,5 @@
 <template>
-  <div style="display: inline-block">
+  <div class="avatar-uploader">
     <slot>
       <el-avatar
         :size="120"
@@ -202,35 +202,35 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.cropper-image-container {
-  width: 100%;
-  height: 400px;
-}
+/*.cropper-image-container {*/
+/*  width: 100%;*/
+/*  height: 400px;*/
+/*}*/
 
-.select-icon-btn {
-  cursor: pointer;
-  margin: auto;
-}
+/*.select-icon-btn {*/
+/*  cursor: pointer;*/
+/*  margin: auto;*/
+/*}*/
 
-.select-icon-btn:hover {
-  opacity: 0.8;
-}
+/*.select-icon-btn:hover {*/
+/*  opacity: 0.8;*/
+/*}*/
 
-.avatar {
-  cursor: pointer;
-}
+/*.avatar {*/
+/*  cursor: pointer;*/
+/*}*/
 
-.avatar:hover {
-  opacity: 0.8;
-}
+/*.avatar:hover {*/
+/*  opacity: 0.8;*/
+/*}*/
 
-.dialog-footer {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
+/*.dialog-footer {*/
+/*  margin-top: 20px;*/
+/*  display: flex;*/
+/*  justify-content: flex-end;*/
+/*}*/
 
-.btns {
-  margin-bottom: 20px;
-}
+/*.btns {*/
+/*  margin-bottom: 20px;*/
+/*}*/
 </style>

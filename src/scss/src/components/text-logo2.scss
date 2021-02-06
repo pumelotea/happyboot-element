@@ -1,0 +1,21 @@
+@import "../common/var";
+
+.logo2{
+  display: flex;
+  align-items: center;
+  .happy {
+    background: $--color-primary;
+    color: white;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 26px;
+  }
+
+  .boot {
+    background: white;
+    color: $--color-primary;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+}

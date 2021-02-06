@@ -23,7 +23,6 @@ const beforeInterceptor = createDefaultRouterInterceptor({
       loading = $loading({
         lock: true,
         text: 'Loading',
-        background: 'rgba(255, 255, 255, 1)'
       })
       req = await apis.getAuthMenuTree()
       loading.close()

@@ -1,0 +1,47 @@
+@import "index";
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $--border-color-hover;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #82868e;
+}
+
+::-webkit-scrollbar-track {
+  width: 20px;
+  background-color: rgba(50, 50, 50, 0.05);
+}
+
+.el-button--text{
+  border: none;
+}
+
+@import "layouts/drawer-layout";
+@import "layouts/form-item-container";
+@import "layouts/main-layout";
+@import "layouts/page-iframe-layout";
+@import "layouts/page-layout";
+@import "layouts/page-layout-full";
+
+@import "components/avatar-uploader";
+@import "components/head-bar";
+@import "components/head-bar-logo";
+@import "components/menu-list";
+@import "components/nav-bar";
+@import "components/no-data";
+@import "components/text-logo";
+@import "components/text-logo2";
+
+@import "views/login";
+@import "views/switch-user";
+
+

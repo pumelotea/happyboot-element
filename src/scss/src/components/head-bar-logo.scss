@@ -1,0 +1,29 @@
+@import "../common/var";
+
+.head-bar-logo {
+  width: 220px;
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  font-size: 30px;
+  background: $--color-primary;
+
+  .logo-svg {
+    width: 40px;
+  }
+
+  .brand {
+    color: $--color-primary;
+    font-weight: bold;
+  }
+
+  .brand-collapse {
+    color: $--color-primary !important;
+    font-weight: bold;
+  }
+}
+
+

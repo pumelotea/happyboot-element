@@ -20,28 +20,28 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.no-data {
-  background: white;
-  display: flex;
-  justify-content: center;
-  padding: 50px;
-  border-radius: 2px;
-}
+/*.no-data {*/
+/*  background: rgb(15,17,22);*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  padding: 50px;*/
+/*  border-radius: 2px;*/
+/*}*/
 
-.content {
-}
+/*.content {*/
+/*}*/
 
-.empty-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/*.empty-icon {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
 
-.empty-text {
-  font-size: 15px;
-  font-weight: 400;
-  color: #b2bac2;
-  margin-top: 10px;
-  text-align: center;
-}
+/*.empty-text {*/
+/*  font-size: 15px;*/
+/*  font-weight: 400;*/
+/*  color: #b2bac2;*/
+/*  margin-top: 10px;*/
+/*  text-align: center;*/
+/*}*/
 </style>

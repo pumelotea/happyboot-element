@@ -1,0 +1,19 @@
+@import "../common/var";
+
+.menu-list-container {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: $--border-base;
+
+  .el-menu {
+    border-right: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none !important; /* Chrome Safari */
+  }
+}
+
+

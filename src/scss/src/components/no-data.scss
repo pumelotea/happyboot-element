@@ -1,0 +1,27 @@
+@import "../common/var";
+
+.no-data {
+  background: $--color-white;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  border-radius: 2px;
+
+  .content {
+  }
+
+  .empty-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .empty-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: $--color-text-regular;
+    margin-top: 10px;
+    text-align: center;
+  }
+}
+

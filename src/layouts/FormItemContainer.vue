@@ -19,19 +19,19 @@ export default {
 </script>
 
 <style scoped>
-.filter-item-container {
-  position: relative;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
+/*.filter-item-container {*/
+/*  position: relative;*/
+/*  margin-top: 5px;*/
+/*  margin-bottom: 5px;*/
+/*}*/
 
-.text-label {
-  position: absolute;
-  z-index: 1;
-  transform: scale(0.7);
-  top: -10px;
-  background: white;
-  left: 5px;
-  color: #5e5e5e;
-}
+/*.text-label {*/
+/*  position: absolute;*/
+/*  z-index: 1;*/
+/*  transform: scale(0.7);*/
+/*  top: -10px;*/
+/*  background: rgb(16 18 24);*/
+/*  left: 5px;*/
+/*  color: #5e5e5e;*/
+/*}*/
 </style>

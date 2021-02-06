@@ -1,6 +1,6 @@
 <template>
   <div
-    class="logo"
+    class="head-bar-logo"
     :class="{
         'collapse-width-menu': isCollapse,
         'uncollapse-width-menu': !isCollapse,
@@ -31,29 +31,29 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.logo {
-  width: 220px;
-  height: 100%;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  font-size: 30px;
-  background: #71d2aa;
-}
+/*.head-bar-logo {*/
+/*  width: 220px;*/
+/*  height: 100%;*/
+/*  display: flex;*/
+/*  align-content: center;*/
+/*  align-items: center;*/
+/*  text-align: center;*/
+/*  justify-content: center;*/
+/*  font-size: 30px;*/
+/*  background: #00673b;*/
+/*}*/
 
-.logo-svg {
-  width: 40px;
-}
+/*.logo-svg {*/
+/*  width: 40px;*/
+/*}*/
 
-.brand {
-  color: #71d2aa;
-  font-weight: bold;
-}
+/*.brand {*/
+/*  color: #00673b;*/
+/*  font-weight: bold;*/
+/*}*/
 
-.brand-collapse {
-  color: #71d2aa !important;
-  font-weight: bold;
-}
+/*.brand-collapse {*/
+/*  color: #00673b !important;*/
+/*  font-weight: bold;*/
+/*}*/
 </style>

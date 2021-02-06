@@ -1,0 +1,69 @@
+@import "../common/var";
+
+.main-layout {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: $--color-white;
+
+  .nav-bar-slot {
+    left: 220px;
+    top: 55px;
+    right: 0;
+    height: 50px;
+    position: absolute;
+    //background: $--color-white;
+    padding-top: 4px;
+  }
+
+  .head-bar-slot {
+    left: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 60px;
+    background: $--background-color-base;
+  }
+
+  .menu-list-slot {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 220px;
+    background: $--color-white;
+  }
+
+  .content-slot {
+    position: absolute;
+    left: 220px;
+    right: 0;
+    bottom: 0;
+    top: 104px;
+    margin: 5px;
+    box-sizing: border-box;
+  }
+
+  .collapse-left {
+    left: 64px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .collapse-width-menu {
+    width: 64px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .uncollapse-left {
+    left: 220px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .uncollapse-width-menu {
+    width: 220px;
+    transition: all 0.2s ease-in-out;
+  }
+}
+

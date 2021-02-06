@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-iframe-container">
     <div class="page-body">
       <div class="title" v-if="!noTitle">{{ currentRouteMenu?.title }}</div>
       <div class="breadcrumb" v-if="breadcrumb">
@@ -51,49 +51,50 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.page-container {
-  background: white;
-  overflow: hidden;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
+/*.page-iframe-container {*/
+/*  background: white;*/
+/*  overflow: hidden;*/
+/*  box-sizing: border-box;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  position: absolute;*/
+/*  left: 0;*/
+/*  top: 0;*/
+/*  right: 0;*/
+/*  bottom: 0;*/
+/*  border: 1px solid rgb(49,54,60);*/
+/*}*/
 
-.page-body {
-  overflow: auto;
-  height: 100%;
-  padding: 10px;
-}
+/*.page-body {*/
+/*  overflow: auto;*/
+/*  height: 100%;*/
+/*  padding: 10px;*/
+/*}*/
 
-.title {
-  font-size: 24px;
-}
+/*.title {*/
+/*  font-size: 24px;*/
+/*}*/
 
-.breadcrumb {
-  margin-top: 15px;
-}
+/*.breadcrumb {*/
+/*  margin-top: 15px;*/
+/*}*/
 
-.alerts {
-  margin-top: 15px;
-}
+/*.alerts {*/
+/*  margin-top: 15px;*/
+/*}*/
 
-.actions {
-  margin-top: 15px;
-}
+/*.actions {*/
+/*  margin-top: 15px;*/
+/*}*/
 
-.content {
-  /*margin-top: 15px;*/
-  flex: 1;
-  height: 100%;
-}
+/*.content {*/
+/*  !*margin-top: 15px;*!*/
+/*  flex: 1;*/
+/*  height: 100%;*/
+/*}*/
 
-.main-iframe {
-  width: 100%;
-  height: 100%;
-}
+/*.main-iframe {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
 </style>

@@ -1,0 +1,65 @@
+@import "../common/var";
+
+.nav-bar-container {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  height: 100%;
+  width: 100%;
+  /*overflow: auto;*/
+  box-sizing: border-box;
+
+
+  .tab-actions {
+    margin-left: 5px;
+    width: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+  }
+
+  .tab-actions-bg {
+    background: $--background-color-base;
+    border-radius: 3px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    cursor: pointer;
+    border: $--border-base;
+  }
+
+  .el-tabs__header {
+    margin: 0;
+  }
+
+  .el-tabs--card > .el-tabs__header {
+    /*border-bottom-color: transparent;*/
+    border: none;
+  }
+
+  .el-tabs--card > .el-tabs__header .el-tabs__item{
+    border-bottom: none;
+  }
+
+  .el-tabs__nav {
+    background: $--background-color-base;
+  }
+
+  .nav-wrap {
+    width: calc(100% - 50px);
+    padding-left: 5px;
+    display: inline-block;
+  }
+
+  .el-tabs__nav-next,
+  .el-tabs__nav-prev {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    height: 100% !important;
+    font-size: unset;
+    line-height: unset;
+  }
+}
+

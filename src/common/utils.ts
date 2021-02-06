@@ -127,3 +127,18 @@ export function partialCopying(form: any, data: any) {
   })
   return form
 }
+
+export function loadCssFile(path: string, options?: any) {
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = path
+  Object.keys(options || {}).forEach(key => {
+    link.dataset[key] = options[key]
+  })
+  document.head.appendChild(link)
+}
+
+export function removeCssFile(id: string) {
+  const dom = document.head.querySelector(`link[data-id=${id}]`)
+  dom?.remove()
+}

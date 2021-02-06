@@ -1,0 +1,78 @@
+@import "../common/var";
+
+.drawer-layout {
+  outline: none !important;
+
+  #el-drawer__title {
+    margin: 0;
+    padding: 20px;
+    border-bottom: $--border-base;
+    z-index: 1;
+  }
+
+  .x-drawer {
+    position: absolute !important;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .x-drawer-out {
+    position: fixed !important;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .title-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 18px;
+    flex: 1;
+  }
+
+  .drawer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    top: 65px;
+    padding: 20px;
+  }
+
+  .drawer-body {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .drawer-foot {
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-top: $--border-base;
+    text-align: right;
+  }
+
+  .div-close {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px;
+    transition: 0.5s;
+
+    &:hover {
+      background-color: $--color-primary-light-7;
+      color: $--color-text-regular;
+    }
+  }
+}
+
+
+
+
+
+

@@ -131,72 +131,73 @@ export default defineComponent({
 </script>
 
 <style>
-.drawer-layout {
-  outline: none !important;
-}
+/*.drawer-layout {*/
+/*  outline: none !important;*/
+/*}*/
 
-.drawer-layout #el-drawer__title {
-  margin: 0;
-  padding: 20px;
-  border-bottom: 1px solid rgba(94, 94, 94, 0.2);
-  z-index: 1;
-}
+/*.drawer-layout #el-drawer__title {*/
+/*  margin: 0;*/
+/*  padding: 20px;*/
+/*  border-bottom: 1px solid rgba(94, 94, 94, 0.2);*/
+/*  z-index: 1;*/
+/*}*/
 
-.x-drawer {
-  position: absolute !important;
-}
+/*.x-drawer {*/
+/*  position: absolute !important;*/
+/*}*/
 
-.x-drawer :focus {
-  outline: none;
-}
+/*.x-drawer :focus {*/
+/*  outline: none;*/
+/*}*/
 
-.x-drawer-out {
-  position: fixed !important;
-}
+/*.x-drawer-out {*/
+/*  position: fixed !important;*/
+/*}*/
 
-.x-drawer-out :focus {
-  outline: none;
-}
+/*.x-drawer-out :focus {*/
+/*  outline: none;*/
+/*}*/
 </style>
 
 <style scoped>
-.title-container {
-  display: flex;
-  align-items: center;
-}
+/*.title-container {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
 
-.title {
-  font-size: 18px;
-  flex: 1;
-}
-.drawer-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 0;
-  top: 65px;
-  padding: 20px;
-}
+/*.title {*/
+/*  font-size: 18px;*/
+/*  flex: 1;*/
+/*}*/
+/*.drawer-container {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  top: 65px;*/
+/*  padding: 20px;*/
+/*}*/
 
-.drawer-body {
-  flex: 1;
-  overflow: auto;
-}
+/*.drawer-body {*/
+/*  flex: 1;*/
+/*  overflow: auto;*/
+/*}*/
 
-.drawer-foot {
-  padding: 10px 20px;
-  box-sizing: border-box;
-  border-top: 1px solid rgba(94, 94, 94, 0.2);
-  text-align: right;
-}
-.div-close{
-  cursor: pointer;
-  border-radius: 3px;
-  padding: 5px;
-  transition: 0.5s;
-}
-.div-close:hover{
-  background-color: #eee;
-}
+/*.drawer-foot {*/
+/*  padding: 10px 20px;*/
+/*  box-sizing: border-box;*/
+/*  border-top: 1px solid rgba(94, 94, 94, 0.2);*/
+/*  text-align: right;*/
+/*}*/
+/*.div-close{*/
+/*  cursor: pointer;*/
+/*  border-radius: 3px;*/
+/*  padding: 5px;*/
+/*  transition: 0.5s;*/
+/*}*/
+/*.div-close:hover{*/
+/*  background-color: rgb(17,31,29);*/
+/*  color: rgb(138,147,154);*/
+/*}*/
 </style>

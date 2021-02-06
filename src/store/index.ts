@@ -1,17 +1,33 @@
 import { createStore } from 'vuex'
+import { loadCssFile, removeCssFile } from '@/common/utils'
 
 const store = createStore({
   state: {
-    isCollapse:false,
+    isCollapse: false,
     /**
      * @打开个人中心时激活tab
      * 默认是打开个人信息
      * 备注：个人信息userInfo；修改密码editPassword；
      */
     userCenterActiveName: 'userInfo',
+    activeTheme: 'light',
+    themeNameMap: {
+      light: {
+        name: '日间模式',
+        link: 'theme/light/default.css',
+        icon: 'el-icon-moon',
+        next: 'dark'
+      },
+      dark: {
+        name: '夜间模式',
+        link: 'theme/dark/default.css',
+        icon: 'el-icon-sunny',
+        next: 'light'
+      }
+    }
   },
-  getters:{
-    isCollapse(state){
+  getters: {
+    isCollapse(state) {
       return state.isCollapse
     },
     userCenterActiveName(state) {
@@ -23,9 +39,15 @@ const store = createStore({
      */
     userType() {
       return localStorage.getItem('userType') || '1'
+    },
+    activeTheme(state) {
+      return state.activeTheme
+    },
+    themeNameMap(state) {
+      return state.themeNameMap
     }
   },
-  mutations:{
+  mutations: {
     toggleIsCollapse(state) {
       state.isCollapse = !state.isCollapse
     },
@@ -42,7 +64,28 @@ const store = createStore({
      * 备注：主账号:0; 子账号:1; 主账号在头像处有切换账号按钮；
      * */
     setUserType(state, payload) {
-      localStorage.setItem('userType',payload.userType)
+      localStorage.setItem('userType', payload.userType)
+    },
+    setTheme(state, payload: string) {
+      localStorage.setItem('activeTheme', payload)
+      state.activeTheme = payload
+      loadCssFile((state.themeNameMap as any)[payload].link, {
+        id: 'happykit-theme',
+        mode: payload
+      })
+      const domList = document.head.querySelectorAll(`link[data-id=happykit-theme]`)
+      domList.forEach(dom => {
+        if (dom.getAttribute('data-mode')!=payload){
+          setTimeout(()=>{
+            dom.remove()
+          },10)
+        }
+      })
+    },
+    initTheme(state) {
+      const theme = localStorage.getItem('activeTheme')
+      state.activeTheme = theme || 'light'
+      store.commit('setTheme', state.activeTheme)
     }
   }
 })

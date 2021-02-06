@@ -1,0 +1,56 @@
+@import "../common/var";
+
+.head-bar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: $--border-base;
+  box-sizing: border-box;
+
+  .space {
+    flex: 1;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .action-item {
+    padding: 0 10px;
+    cursor: pointer;
+    font-size: 20px;
+    /*color: rgba(0, 0, 0, 0.5);*/
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .collapse-width-menu {
+    width: 64px;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .uncollapse-width-menu {
+    width: 220px;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .nickname {
+    font-size: 14px;
+    color: $--color-text-regular;
+    margin-right: 10px;
+  }
+
+  .view-port-name {
+    font-size: 14px;
+  }
+
+  #__user-avatar .el-avatar {
+    display: flex;
+  }
+}
