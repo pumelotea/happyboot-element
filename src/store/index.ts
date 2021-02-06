@@ -69,30 +69,30 @@ const store = createStore({
     setTheme(state, payload: string) {
       localStorage.setItem('activeTheme', payload)
       state.activeTheme = payload
-      loadCssFile((state.themeNameMap as any)[payload].link, {
-        id: 'happykit-theme',
-        mode: payload
-      })
       const domList = document.head.querySelectorAll(`link[data-id=happykit-theme]`)
       domList.forEach(dom => {
-        if (dom.getAttribute('data-mode')!=payload){
-          setTimeout(()=>{
-            dom.remove()
-          },10000)
+        const link = dom as HTMLLinkElement
+        if (link.getAttribute('data-mode')===payload){
+          link.rel = 'stylesheet'
+        }else{
+          link.rel = 'alternate stylesheet'
         }
       })
     },
     initTheme(state) {
-      Object.keys(state.themeNameMap).forEach(key=>{
-        const prefetch = document.createElement('link')
-        prefetch.rel = 'prefetch'
-        prefetch.href = (state.themeNameMap as any)[key].link
-        document.head.append(prefetch)
-      })
-
       const theme = localStorage.getItem('activeTheme')
       state.activeTheme = theme || 'light'
-      store.commit('setTheme', state.activeTheme)
+      Object.keys(state.themeNameMap).forEach(key=>{
+        const link = document.createElement('link')
+        link.href = (state.themeNameMap as any)[key].link
+        link.dataset.id = 'happykit-theme'
+        link.dataset.mode = key
+        link.rel = 'alternate stylesheet'
+        if (state.activeTheme === key){
+          link.rel = 'stylesheet'
+        }
+        document.head.append(link)
+      })
     }
   }
 })
