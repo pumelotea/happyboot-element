@@ -1,3 +1,31 @@
+const pluginName = 'ThemePlugin';
+class ThemePlugin {
+  apply(compiler) {
+    compiler.hooks.compilation.tap(
+      pluginName,
+      compilation => {
+        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tap(
+          pluginName,
+          (htmlPluginData) => {
+            htmlPluginData.html = htmlPluginData.html.replace(
+              `<!-- theme css files will be auto injected -->`,
+              `
+                <link rel="stylesheet" href="theme/light/default.css">     
+                <link rel="prefetch" href="theme/dark/default.css">     
+              `
+            )
+          }
+        )
+      }
+    )
+  }
+}
+const plugins = []
+
+if (process.env.VUE_APP_BUILT_MODE === 'prod'){
+  plugins.push(new ThemePlugin())
+}
+
 module.exports = {
   lintOnSave: false,
   productionSourceMap: process.env.NODE_ENV === 'development',
@@ -17,6 +45,6 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   configureWebpack: {
     //webpack的相关配置在这里
-    plugins: []
+    plugins: plugins
   }
 }
