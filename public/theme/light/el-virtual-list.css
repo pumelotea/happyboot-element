@@ -1,1 +1,0 @@
-.el-vl__viewport{overflow:auto}.el-vl__content{overflow:hidden;will-change:transform;position:relative}.el-vl__item-container{will-change:transform;display:flex}.el-vl__item-container[data-direction=v]{flex-direction:column}.el-vl__item-container[data-direction=h]{flex-direction:row}
