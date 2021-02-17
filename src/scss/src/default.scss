@@ -25,6 +25,10 @@
   border: none;
 }
 
+body{
+  background: $--background-color-base;
+}
+
 @import "layouts/drawer-layout";
 @import "layouts/form-item-container";
 @import "layouts/main-layout";
