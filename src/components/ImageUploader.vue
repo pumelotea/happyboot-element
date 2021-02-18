@@ -66,6 +66,7 @@
       v-model="show"
       modal-append-to-body
       append-to-body
+      custom-class="image-uploader-err"
       title="图片超限警告"
       @close="closeDialog"
     >
