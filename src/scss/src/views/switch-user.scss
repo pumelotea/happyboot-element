@@ -1,10 +1,11 @@
+@import "../common/var";
+
 .switch-user-container {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
-  background: url('~@/../public/images/body.svg');
   display: flex;
   background-repeat: no-repeat;
   background-position: 50%;
@@ -51,8 +52,9 @@
   .user-list {
     max-height: 325px;
     overflow: auto;
-    background: #f6f6f6;
-    border-radius: 5px;
+    background: $--background-color-base;
+    border: $--border-base;
+    border-radius: 2px;
   }
 
   .card-item {
@@ -62,15 +64,15 @@
   }
 
   .card-item + .card-item {
-    border-top: 1px solid #e0e0e0;
+    border-top: $--border-base;
   }
 
   .card-item:hover {
-    background: rgb(113 210 170 / 30%);
+    background: $--color-primary-light-5;
   }
 
   .card-item-active {
-    background: rgb(113 210 170 / 30%);
+    background: $--color-primary-light-5;
     transition: 0.3s;
   }
 
@@ -94,11 +96,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: $--color-warning;
   }
   .card-content-down {
     width: 240px;
     font-size: 12px;
-    color: #666;
+    color: $--color-text-regular;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
