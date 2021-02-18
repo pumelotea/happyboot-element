@@ -11,7 +11,7 @@
     float: left;
     margin-bottom: 10px;
     margin-right: 10px;
-    border-radius: 5px;
+    border-radius: $--border-radius-base;
     transition: 0.3s;
     position: relative;
     overflow: hidden;
@@ -39,7 +39,7 @@
   }
 
   .uper {
-    background: url('~@/assets/plus.svg') no-repeat;
+    background: url('~@/../public/images/plus.svg') no-repeat;
     background-position: center;
     background-size: 30% 30%;
     border: $--input-border;
@@ -98,7 +98,7 @@
   }
 
   .no-picture-disabled {
-    background: url('~@/assets/picture2.svg') no-repeat;
+    background: url('~@/../public/images/picture2.svg') no-repeat;
     background-position: center;
     background-size: 100% 100%;
     border: none;

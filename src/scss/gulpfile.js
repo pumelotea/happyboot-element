@@ -5,9 +5,9 @@ const sass = require('gulp-dart-sass')
 const autoprefixer = require('gulp-autoprefixer')
 const cssmin = require('gulp-cssmin')
 const rename = require('gulp-rename')
-const through = require('through2');
+const through = require('through2')
 const fs = require('fs')
-
+const replace = require('gulp-replace')
 const noElPrefixFile = /(index|base|display|default)/
 
 const themes = ['dark','light']
@@ -34,7 +34,7 @@ function compileTheme(){
             path.basename = `el-${path.basename}`
           }
         }))
-        .pipe(dest(`../../public/theme/${theme}`))
+        .pipe(dest(`../../node_modules/theme-out/${theme}`))
     }
 
     function copyfont() {
@@ -42,7 +42,16 @@ function compileTheme(){
         .pipe(cssmin())
         .pipe(dest(`../../public/theme/${theme}/fonts`))
     }
-    compiler.push(compile,copyfont)
+
+    // 修正相对路径
+    // 删除 `~@/../public/` 这部分路径
+    function fixRelativePath(){
+      return src(`../../node_modules/theme-out/${theme}/default.css`)
+        .pipe(replace('~@/../public/',''))
+        .pipe(dest(`../../public/theme/${theme}`));
+    }
+
+    compiler.push(compile,fixRelativePath,copyfont)
   })
   return compiler
 }
