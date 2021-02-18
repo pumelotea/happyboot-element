@@ -95,7 +95,7 @@
             </el-form-item>
             <el-form-item label="头像">
               <avatar-uploader
-                :src="imgId2Url(infoForm.headPic)"
+                :src="picUrl"
                 @cropped="onCropped"
               ></avatar-uploader>
             </el-form-item>
@@ -346,6 +346,8 @@ export default {
       }
     }
 
+    const picUrl = ref(imgId2Url(infoForm.value.headPic))
+
     onMounted(() => {
       activeTab.value = activeName.value
     })
@@ -370,7 +372,8 @@ export default {
       linkOptions,
       userLinkData,
       userInfo,
-      activeName
+      activeName,
+      picUrl
     }
   }
 }
