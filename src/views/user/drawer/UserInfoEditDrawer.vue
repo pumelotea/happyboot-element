@@ -91,7 +91,7 @@
       </el-form-item>
       <el-form-item label="头像">
         <avatar-uploader
-          :src="imgId2Url(form.headPic)"
+          :src="picUrl"
           @cropped="onCropped"
         ></avatar-uploader>
       </el-form-item>
@@ -211,7 +211,7 @@ export default defineComponent({
     const handleUnLink = (row: any) => {
       let index = 0
       for (let i = 0; i < userLinkData.value.length; i++) {
-        if (row.id === userLinkData[i].id) {
+        if (row.id === userLinkData.value[i].id) {
           index = i
         }
       }
@@ -240,6 +240,8 @@ export default defineComponent({
       return context.$api.$imgId2Url(data)
     }
 
+    const picUrl = ref(imgId2Url(form.value.headPic))
+
     return {
       open,
       handleSubmit,
@@ -255,7 +257,8 @@ export default defineComponent({
       userLinkData,
       linkUser,
       form,
-      rules
+      rules,
+      picUrl
     }
   }
 })

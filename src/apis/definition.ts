@@ -393,7 +393,51 @@ const apiDefinition = {
       facilityGroupId,
       facilityIds
     })
-  }
+  },
   //功能组-------------------end
+  //轮播图-----------------begin
+  //列表查询
+  getBanner(params: any) {
+    return $get('/op/banner/page', params)
+  },
+  //详情
+  detailBanner(id: any) {
+    return $get('/op/banner/get', { id: id })
+  },
+  //删除
+  deleteBanner(ids: any) {
+    return $delete('/op/banner/delete?ids=' + ids)
+  },
+  //新增
+  addBanner(params: any) {
+    return $post('/op/banner/add', params)
+  },
+  //修改
+  editBanner(params: any) {
+    return $put('/op/banner/update', params)
+  },
+  //轮播图-----------------end
+  //知识库-----------------begin
+  //列表查询
+  getKnowledge(params: any) {
+    return $get('/op/knowledge/page', params)
+  },
+  //详情
+  detailKnowledge(id: any) {
+    return $get('/op/knowledge/get', { id: id })
+  },
+  //删除
+  deleteKnowledge(ids: any) {
+    return $delete('/op/knowledge/delete?ids=' + ids)
+  },
+  //新增
+  addKnowledge(params: any) {
+    return $post('/op/knowledge/add', params)
+  },
+  //修改
+  editKnowledge(params: any) {
+    return $put('/op/knowledge/update', params)
+  },
+  //知识库-----------------end
 }
 export default apiDefinition
