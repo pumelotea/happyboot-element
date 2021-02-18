@@ -6,6 +6,7 @@ import FormItemContainer from '@/layouts/FormItemContainer.vue'
 import DrawerLayout from '@/layouts/DrawerLayout.vue'
 import NoData from '@/components/NoData.vue'
 import TextLogo from '@/components/TextLogo.vue'
+import ImageUploader from '@/components/ImageUploader.vue'
 
 
 
@@ -18,5 +19,6 @@ export default {
     app.component('no-data', NoData)
     app.component('form-item-container', FormItemContainer)
     app.component('drawer-layout', DrawerLayout)
+    app.component('image-uploader', ImageUploader)
   }
 }
