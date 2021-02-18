@@ -1,37 +1,39 @@
 <template>
-  <div class="filter-item-container">
-    <label class="text-label">{{ label }}</label>
+  <div class="form-item-container">
+    <label class="text-label" :class="activeClass">{{ label }}</label>
     <slot></slot>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'FilterItemContainer',
+import { defineComponent, onMounted, getCurrentInstance,ref } from 'vue'
+
+export default defineComponent({
+  name: 'FormItemContainer',
   props: {
     label: {
       type: String,
       require: false,
       default: ''
     }
+  },
+  setup() {
+    const instance = getCurrentInstance()
+    const activeClass = ref('')
+    onMounted(()=>{
+      const input = instance.proxy.$el.querySelector('input')
+      if (input){
+        input.addEventListener('focus',()=>{
+          activeClass.value = 'active'
+        })
+        input.addEventListener('blur',()=>{
+          activeClass.value = ''
+        })
+      }
+    })
+    return {
+      activeClass
+    }
   }
-}
+})
 </script>
-
-<style scoped>
-/*.filter-item-container {*/
-/*  position: relative;*/
-/*  margin-top: 5px;*/
-/*  margin-bottom: 5px;*/
-/*}*/
-
-/*.text-label {*/
-/*  position: absolute;*/
-/*  z-index: 1;*/
-/*  transform: scale(0.7);*/
-/*  top: -10px;*/
-/*  background: rgb(16 18 24);*/
-/*  left: 5px;*/
-/*  color: #5e5e5e;*/
-/*}*/
-</style>
