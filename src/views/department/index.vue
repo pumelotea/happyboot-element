@@ -1,19 +1,5 @@
 <template>
   <page-layout>
-    <template #actions>
-      <el-row :gutter="10" style="margin-top: 15px">
-        <el-col>
-          <el-button
-            type="primary"
-            size="medium"
-            permission-key="add"
-            @click="add(checkedNode)"
-          >
-            新增
-          </el-button>
-        </el-col>
-      </el-row>
-    </template>
     <el-row>
       <el-col :span="12">
         <el-tree

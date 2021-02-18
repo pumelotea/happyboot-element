@@ -73,35 +73,6 @@ const apiDefinition = {
   dictItemsMap(dictCodes: any) {
     return $get('/sys/dict/dictItemsMap/' + dictCodes)
   },
-  facilityGroupList() {
-    return $get('/sys/facilityGroup/list')
-  },
-  facilityParamDelete(id: any) {
-    return $delete('/sys/facility/deleteParam?facilityParamId=' + id)
-  },
-  facilityParamSet(params: any) {
-    return $post('/sys/facility/setParam', params)
-  },
-  facilityParamGet(id: any, setFrom: any, facilityGroupId: any, userId: any) {
-    return $get('/sys/facility/getParam', {
-      id,
-      setFrom,
-      facilityGroupId,
-      userId
-    })
-  },
-  saveUserFacilityGroupRel(userId: any, facilityGroupIds: any) {
-    return $post('/sys/user/saveUserFacilityGroupRel', {
-      userId,
-      facilityGroupIds
-    })
-  },
-  queryFacilityGroupByUser(userId: any) {
-    return $get('/sys/facilityGroup/queryFacilityGroupByUser', { userId })
-  },
-  queryFacilityByUser(userId: any) {
-    return $get('/sys/facility/queryFacilityByUser', { userId })
-  },
   //用户部门关联保存
   userDeptEmpower(params: any) {
     return $post('/sys/user/saveUserDeptObj', params)
@@ -358,5 +329,71 @@ const apiDefinition = {
   deleteDeptNode(id: any) {
     return $delete('/sys/deptObj/delete?ids=' + id)
   },
+  //功能点-------------------begin
+  facilityPage(params: any) {
+    return $get('/sys/facility/page', params)
+  },
+  facilityAdd(params: any) {
+    return $post('/sys/facility/add', params)
+  },
+  facilityEdit(params: any) {
+    return $put('/sys/facility/update', params)
+  },
+  facilityDelete(ids: any) {
+    return $delete('/sys/facility/delete?ids=' + ids)
+  },
+  facilityParamSet(params: any) {
+    return $post('/sys/facility/setParam', params)
+  },
+  facilityParamDelete(id: any) {
+    return $delete('/sys/facility/deleteParam?facilityParamId=' + id)
+  },
+  facilityParamGet(id: any, setFrom: any, facilityGroupId: any, userId: any) {
+    return $get('/sys/facility/getParam', {
+      id,
+      setFrom,
+      facilityGroupId,
+      userId
+    })
+  },
+  queryFacilityByUser(userId: any) {
+    return $get('/sys/facility/queryFacilityByUser', { userId })
+  },
+  //功能点-------------------end
+  //功能组-------------------begin
+  facilityGroupPage(params: any) {
+    return $get('/sys/facilityGroup/page', params)
+  },
+  facilityGroupAdd(params: any) {
+    return $post('/sys/facilityGroup/add', params)
+  },
+  facilityGroupEdit(params: any) {
+    return $put('/sys/facilityGroup/update', params)
+  },
+  facilityGroupDelete(ids: any) {
+    return $delete('/sys/facilityGroup/delete?ids=' + ids)
+  },
+  facilityGroupList() {
+    return $get('/sys/facilityGroup/list')
+  },
+  saveUserFacilityGroupRel(userId: any, facilityGroupIds: any) {
+    return $post('/sys/user/saveUserFacilityGroupRel', {
+      userId,
+      facilityGroupIds
+    })
+  },
+  queryFacilityGroupByUser(userId: any) {
+    return $get('/sys/facilityGroup/queryFacilityGroupByUser', { userId })
+  },
+  queryFacilityByGroup(facilityGroupId: any) {
+    return $get('/sys/facilityGroup/queryFacilityByGroup', { facilityGroupId })
+  },
+  saveFacilityGroupRel(facilityGroupId: any, facilityIds: any) {
+    return $post('/sys/facilityGroup/saveFacilityGroupRel', {
+      facilityGroupId,
+      facilityIds
+    })
+  }
+  //功能组-------------------end
 }
 export default apiDefinition
