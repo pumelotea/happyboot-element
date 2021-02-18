@@ -439,5 +439,13 @@ const apiDefinition = {
     return $put('/op/knowledge/update', params)
   },
   //知识库-----------------end
+  //图片批量上传
+  uploadImagesV2(imageFiles: string[]) {
+    const f = new FormData()
+    imageFiles.forEach(imageFile => {
+      f.append('file', imageFile)
+    })
+    return $post('/sys/file/uploadImgs', f)
+  },
 }
 export default apiDefinition

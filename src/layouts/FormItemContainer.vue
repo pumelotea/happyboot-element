@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, getCurrentInstance,ref } from 'vue'
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const activeClass = ref('')
     onMounted(()=>{
-      const input = instance.proxy.$el.querySelector('input')
+      const input = instance!.proxy!.$el.querySelector('input')
       if (input){
         input.addEventListener('focus',()=>{
           activeClass.value = 'active'

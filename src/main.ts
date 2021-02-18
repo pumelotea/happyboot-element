@@ -11,8 +11,6 @@ import 'dayjs/locale/zh-cn'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import components from './components'
 import 'animate.css'
-import 'viewerjs/dist/viewer.css'
-import Viewer from 'v-viewer'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css'
 
@@ -34,7 +32,6 @@ app.use(security)
 //全局组件
 app.use(components)
 
-app.use(Viewer as any)
 app.directive('highlight', function(el) {
   const blocks = el.querySelectorAll('pre')
   blocks.forEach((block:any) => {

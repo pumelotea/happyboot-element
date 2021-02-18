@@ -22,7 +22,7 @@
     "mitt": "^2.1.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
-    "v-viewer": "^1.5.1",
+    "viewerjs": "^1.9.0",
     "vue": "^3.0.5",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0-rc.1"
