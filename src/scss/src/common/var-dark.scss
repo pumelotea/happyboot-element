@@ -758,7 +758,7 @@ $--badge-size: 18px !default;
 --------------------------*/
 /// color||Color|0
 $--card-border-color: $--border-color-lighter !default;
-$--card-border-radius: 4px !default;
+$--card-border-radius: 2px !default;
 /// padding||Spacing|3
 $--card-padding: 20px !default;
 
@@ -861,13 +861,13 @@ $--collapse-border-color: $--border-color-lighter !default;
 /// height||Other|4
 $--collapse-header-height: 48px !default;
 /// color||Color|0
-$--collapse-header-background-color: $--color-white !default;
+$--collapse-header-background-color: $--background-color-base !default;
 /// color||Color|0
 $--collapse-header-font-color: $--color-text-primary !default;
 /// fontSize||Font|1
 $--collapse-header-font-size: 13px !default;
 /// color||Color|0
-$--collapse-content-background-color: $--color-white !default;
+$--collapse-content-background-color: $--background-color-base !default;
 /// fontSize||Font|1
 $--collapse-content-font-size: 13px !default;
 /// color||Color|0

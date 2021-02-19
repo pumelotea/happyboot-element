@@ -46,6 +46,7 @@
     box-sizing: border-box;
     cursor: pointer;
     transition: all 0.5s;
+    background-color: $--input-background-color;
     &:hover {
       border-color: $--input-hover-border;
     }
