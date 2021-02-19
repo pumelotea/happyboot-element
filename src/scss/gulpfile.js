@@ -47,7 +47,7 @@ function compileTheme(){
     // 删除 `~@/../public/` 这部分路径
     function fixRelativePath(){
       return src(`../../node_modules/theme-out/${theme}/default.css`)
-        .pipe(replace('~@/../public/',''))
+        .pipe(replace('~@/../public/','../../'))
         .pipe(dest(`../../public/theme/${theme}`));
     }
 
