@@ -7,6 +7,7 @@ import DrawerLayout from '@/layouts/DrawerLayout.vue'
 import NoData from '@/components/NoData.vue'
 import TextLogo from '@/components/TextLogo.vue'
 import ImageUploader from '@/components/ImageUploader.vue'
+import RichTextEditor from '@/components/RichTextEditor.vue'
 
 
 
@@ -20,5 +21,6 @@ export default {
     app.component('form-item-container', FormItemContainer)
     app.component('drawer-layout', DrawerLayout)
     app.component('image-uploader', ImageUploader)
+    app.component('rich-text-editor', RichTextEditor)
   }
 }

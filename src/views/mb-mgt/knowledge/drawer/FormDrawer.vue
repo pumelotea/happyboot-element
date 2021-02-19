@@ -29,7 +29,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="发送内容" prop="content">
-<!--        <rich-text-editor v-model="form.content" />-->
+        <rich-text-editor v-model="form.content" />
       </el-form-item>
       <el-form-item label="备注" prop="des">
         <el-input type="textarea" :rows="2" v-model="form.des" />

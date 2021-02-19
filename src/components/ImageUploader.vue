@@ -192,7 +192,7 @@ export default defineComponent({
 
     const deleteExist = (index: number) => {
       existList.value.splice(index, 1)
-      emit('onUpdate:modelValue', existList.value)
+      emit('update:modelValue', existList.value)
     }
 
     const deleteNeedUpload = (index: number) => {
@@ -212,7 +212,7 @@ export default defineComponent({
       }
       needUploadList.value = []
       existList.value.push(...res.data)
-      emit('onUpdate:modelValue', existList.value)
+      emit('update:modelValue', existList.value)
     }
 
     const preview = (index: number) => {

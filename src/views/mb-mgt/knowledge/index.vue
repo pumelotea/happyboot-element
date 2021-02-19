@@ -235,7 +235,7 @@ export default defineComponent ({
     }
 
     const handleDetail = (row: any) => {
-      context.$router.push({path:'/mb-mgt/knowledge-detail',query:{knowledgeId:row.id}}, row.esTitle)
+      context.$router.push({path:'/mb-mgt/knowledge-detail',query:{knowledgeId:row.id}}, row.title)
     }
 
     // 单删

@@ -50,7 +50,7 @@ export default defineComponent ({
     }
 
     const getKnowledgeDetail = async () => {
-      const res: any = await context.$api.detailKnowledge(knowledgeId)
+      const res: any = await context.$api.detailKnowledge(knowledgeId.value)
       if (res.code === 0) {
         detail.value = res.data
       }
@@ -58,7 +58,7 @@ export default defineComponent ({
     }
 
     const imgId2Url = (url: any) => {
-      return context.$imgId2Url(url)
+      return context.$api.$imgId2Url(url)
     }
 
     onMounted(async () => {
@@ -110,8 +110,8 @@ export default defineComponent ({
 .poster {
   height: 400px;
   display: flex;
-  background-size: cover;
-  background-position:center;
+  background-size: cover !important;
+  background-position:center !important;
 }
 .post-head-content {
   width: 100%;
