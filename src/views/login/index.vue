@@ -130,6 +130,7 @@ export default {
           message: res.msg,
           type: 'error'
         })
+        await getKaptcha()
       }
     }
 
