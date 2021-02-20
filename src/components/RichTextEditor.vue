@@ -97,17 +97,19 @@ export default defineComponent({
       emit('update:modelValue', newValue)
     })
 
-    const initEditor = (theme:string) => {
-      const map:any = {
-        light:{
-          content_css:'/tinymce/skins/content/default/content.css',
-          skin_url:'/tinymce/skins/ui/oxide',
-        },
-        dark:{
-          content_css:'/tinymce/skins/content/dark/content.css',
-          skin_url:'/tinymce/skins/ui/oxide-dark',
-        }
+    const map:any = {
+      light:{
+        content_css:'/tinymce/skins/content/default/content.css',
+        skin_url:'/tinymce/skins/ui/oxide',
+      },
+      dark:{
+        content_css:'/tinymce/skins/content/dark/content.css',
+        skin_url:'/tinymce/skins/ui/oxide-dark',
       }
+    }
+
+    const initEditor = (theme:string) => {
+
       id.value = 'richeditor-' + new Date().getTime()
       init.selector = '#' + id.value
       init.content_css = map[theme].content_css
@@ -120,6 +122,10 @@ export default defineComponent({
     const activeTheme = computed(()=>{
       return $store.state.activeTheme
     })
+
+    init.content_css = map[activeTheme.value].content_css
+    init.skin_url = map[activeTheme.value].skin_url
+
 
     watch(activeTheme,()=>{
       tinymce.remove()
