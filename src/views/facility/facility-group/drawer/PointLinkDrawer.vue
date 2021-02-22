@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="pointLinkDrawerDeploy.title"
     size="1000px"
@@ -56,7 +56,7 @@
       <el-button type="primary" @click="handleSubmit()">确认</el-button>
     </template>
     <configuration-drawer ref="CD" />
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

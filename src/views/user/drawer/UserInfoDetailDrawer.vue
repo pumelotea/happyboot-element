@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout v-model="isShow" :title="userInfoDrawerDeploy.title">
+  <hb-drawer-layout v-model="isShow" :title="userInfoDrawerDeploy.title">
     <el-form
       ref="userInfoForm"
       :model="form"
@@ -56,7 +56,7 @@
     <template #actions>
       <el-button @click="isShow = false">取消</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

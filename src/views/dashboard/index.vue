@@ -1,17 +1,17 @@
 <template>
-  <page-layout>
-    <rich-text-editor v-model="aaa"/>
+  <hb-page-layout>
+    <hb-rich-text-editor v-model="aaa"/>
     {{aaa}}
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import RichTextEditor from '@/components/RichTextEditor.vue'
+import HbRichTextEditor from '@/components/HbRichTextEditor.vue'
 
 export default defineComponent({
   name: 'index',
-  components: { RichTextEditor },
+  components: { HbRichTextEditor },
   setup() {
     const aaa = ref('0000')
 

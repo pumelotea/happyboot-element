@@ -1,16 +1,16 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'字典名称'">
+          <hb-form-item-container :label="'字典名称'">
             <el-input v-model="tableData.searchCondition.dictName" />
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'字典编码'">
+          <hb-form-item-container :label="'字典编码'">
             <el-input v-model="tableData.searchCondition.dictCode" />
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -88,7 +88,7 @@
     <dictionary-info-drawer ref="DID" @ok="handleSearch" />
     <dictionary-config-drawer ref="DCD" @openConfigItemDrawer="openConfigItemDrawer" />
     <dictionary-config-item-drawer ref="DCID" @ok="dictItemOk" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

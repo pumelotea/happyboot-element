@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="deptLinkDrawerDeploy.title"
     size="650px"
@@ -17,12 +17,12 @@
       :default-checked-keys="defaultChecked"
       @check="nodeCheck"
     />
-    <no-data v-else />
+    <hb-no-data v-else />
     <template #actions>
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

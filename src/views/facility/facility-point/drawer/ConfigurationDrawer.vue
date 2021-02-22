@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout v-model="isShow" :title="configurationDrawerDeploy.title">
+  <hb-drawer-layout v-model="isShow" :title="configurationDrawerDeploy.title">
     <el-form
       ref="pointForm"
       :model="form"
@@ -27,7 +27,7 @@
         >确认</el-button
       >
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

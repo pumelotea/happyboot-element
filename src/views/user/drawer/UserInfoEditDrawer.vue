@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :outType="userInfoDrawerDeploy.outType"
     :title="userInfoDrawerDeploy.title"
@@ -90,10 +90,10 @@
         />
       </el-form-item>
       <el-form-item label="头像">
-        <avatar-uploader
+        <hb-avatar-uploader
           :src="picUrl"
           @cropped="onCropped"
-        ></avatar-uploader>
+        ></hb-avatar-uploader>
       </el-form-item>
     </el-form>
     <template #actions v-if="userInfoDrawerDeploy.haveSubmit">
@@ -102,17 +102,17 @@
         确认
       </el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>
-import AvatarUploader from '@/components/AvatarUploader.vue'
+import HbAvatarUploader from '@/components/HbAvatarUploader.vue'
 import { defineComponent, ref, nextTick } from 'vue'
 import { self } from '@/common'
 export default defineComponent({
   name: 'UserInfoDrawer',
   components: {
-    AvatarUploader
+    HbAvatarUploader
   },
   setup(props, { emit }) {
     const context = self()

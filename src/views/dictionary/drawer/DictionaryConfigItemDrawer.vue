@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="dictionaryConfigItemDrawerDeploy.title"
   >
@@ -41,7 +41,7 @@
         >确认</el-button
       >
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

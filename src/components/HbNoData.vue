@@ -15,33 +15,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'NoData'
+  name: 'HbNoData'
 })
 </script>
-
-<style scoped>
-/*.no-data {*/
-/*  background: rgb(15,17,22);*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  padding: 50px;*/
-/*  border-radius: 2px;*/
-/*}*/
-
-/*.content {*/
-/*}*/
-
-/*.empty-icon {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*}*/
-
-/*.empty-text {*/
-/*  font-size: 15px;*/
-/*  font-weight: 400;*/
-/*  color: #b2bac2;*/
-/*  margin-top: 10px;*/
-/*  text-align: center;*/
-/*}*/
-</style>

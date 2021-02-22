@@ -64,6 +64,7 @@ import { NavCloseType } from 'happykit'
 import { self } from '@/common'
 
 export default defineComponent({
+  name: 'HbNavBar',
   setup() {
     const { $router, $happykit } = self()
     const hkf = $happykit
@@ -133,68 +134,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-/*.nav-bar-container {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  align-content: center;*/
-/*  height: 100%;*/
-/*  width: 100%;*/
-/*  !*overflow: auto;*!*/
-/*  box-sizing: border-box;*/
-/*}*/
-
-/*.tab-actions {*/
-/*  margin-left: 5px;*/
-/*  width: 40px;*/
-/*  text-align: center;*/
-/*  box-sizing: border-box;*/
-/*  display: flex;*/
-/*}*/
-
-/*.tab-actions-bg {*/
-/*  background: rgb(35,37,42);*/
-/*  border-radius: 3px;*/
-/*  width: 35px;*/
-/*  height: 35px;*/
-/*  display: flex;*/
-/*  cursor: pointer;*/
-/*}*/
-</style>
-
-<style>
-/*.nav-bar-container .el-tabs__header {*/
-/*  margin: 0;*/
-/*}*/
-
-/*.nav-bar-container .el-tabs--card > .el-tabs__header {*/
-/*  !*border-bottom-color: transparent;*!*/
-/*  border: none;*/
-/*}*/
-
-/*.el-tabs--card > .el-tabs__header .el-tabs__item{*/
-/*  border-bottom: none;*/
-/*}*/
-
-/*.nav-bar-container .el-tabs__nav {*/
-/*  background: rgb(34,37,43);*/
-/*}*/
-
-/*.nav-wrap {*/
-/*  width: calc(100% - 50px);*/
-/*  padding-left: 5px;*/
-/*  display: inline-block;*/
-/*}*/
-
-/*.el-tabs__nav-next,*/
-/*.el-tabs__nav-prev {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  align-self: center;*/
-/*  align-content: center;*/
-/*  height: 100% !important;*/
-/*  font-size: unset;*/
-/*  line-height: unset;*/
-/*}*/
-</style>

@@ -1,11 +1,11 @@
 <template>
-  <drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
+  <hb-drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
     <el-form ref="forms" :model="form" label-width="80px" style="padding: 20px">
       <el-form-item label="标题" prop="title">
         <el-input v-model="form.title" readonly />
       </el-form-item>
       <el-form-item label="封面" prop="imageArr">
-        <image-uploader :max="1" v-model="form.imageArr" disabled />
+        <hb-image-uploader :max="1" v-model="form.imageArr" disabled />
       </el-form-item>
       <el-form-item label="标签" prop="label">
         <el-select
@@ -24,13 +24,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="发送内容" prop="content">
-        <rich-text-editor v-model="form.content" disabled />
+        <hb-rich-text-editor v-model="form.content" disabled />
       </el-form-item>
       <el-form-item label="备注" prop="des">
         <el-input type="textarea" :rows="2" v-model="form.des" readonly />
       </el-form-item>
     </el-form>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

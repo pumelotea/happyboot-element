@@ -21,7 +21,7 @@
             <i :class="e.icon"></i>
             <span slot="title">{{ e.name }}</span>
           </template>
-          <MenuContent v-for="a in e.children" :data="a" :key="a.menuId" />
+          <hb-menu-content v-for="a in e.children" :data="a" :key="a.menuId" />
         </el-submenu>
       </template>
     </el-menu>
@@ -30,11 +30,12 @@
 
 <script lang="ts">
 import { mapGetters } from 'vuex'
-import MenuContent from './MenuContent.vue'
+import HbMenuContent from './HbMenuContent.vue'
 import { computed, defineComponent } from 'vue'
 import { self } from '@/common'
 
 export default defineComponent({
+  name: 'HbMenuList',
   props: {
     uniqueOpened: {
       type: Boolean,
@@ -46,7 +47,7 @@ export default defineComponent({
     }
   },
   components: {
-    MenuContent
+    HbMenuContent
   },
   computed: {
     ...mapGetters(['isCollapse'])
@@ -76,30 +77,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-/*.menu-list-container {*/
-/*  height: 100%;*/
-/*  overflow: auto;*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*}*/
-
-/*.menu-list-container::-webkit-scrollbar {*/
-/*  display: none !important; !* Chrome Safari *!*/
-/*}*/
-
-/*.copyright {*/
-/*  font-size: 12px;*/
-/*  color: rgba(94, 94, 94, 0.4);*/
-/*  text-align: center;*/
-/*  word-break: break-all;*/
-/*  padding: 10px;*/
-/*}*/
-</style>
-
-<style>
-/*.menu-list-container .el-menu {*/
-/*  border-right: none;*/
-/*}*/
-</style>

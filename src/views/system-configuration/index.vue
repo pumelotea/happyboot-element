@@ -1,14 +1,14 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'参数名'">
+          <hb-form-item-container :label="'参数名'">
             <el-input v-model="tableData.searchCondition.key"></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'类型'">
+          <hb-form-item-container :label="'类型'">
             <el-select
               v-model="tableData.searchCondition.type"
               clearable
@@ -22,7 +22,7 @@
                 :value="item.value"
               />
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -91,7 +91,7 @@
     </template>
 
     <configuration-drawer ref="CD" @ok="handleSearch" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

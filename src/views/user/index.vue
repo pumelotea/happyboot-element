@@ -1,14 +1,14 @@
 <template>
-  <page-layout id="page_user">
+  <hb-page-layout id="page_user">
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'账号'">
+          <hb-form-item-container :label="'账号'">
             <el-input v-model="tableData.searchCondition.account"></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'状态'">
+          <hb-form-item-container :label="'状态'">
             <el-select
               clearable
               v-model="tableData.searchCondition.status"
@@ -23,10 +23,10 @@
               >
               </el-option>
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'账号类型'">
+          <hb-form-item-container :label="'账号类型'">
             <el-select
               clearable
               v-model="tableData.searchCondition.userType"
@@ -41,7 +41,7 @@
               >
               </el-option>
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -210,7 +210,7 @@
     <facility-group-link-drawer ref="FGLD" />
     <user-password-edit-drawer ref="UPED" />
     <facility-configuration-drawer ref="FCD" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

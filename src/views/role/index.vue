@@ -1,11 +1,11 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'角色名称'">
+          <hb-form-item-container :label="'角色名称'">
             <el-input v-model="tableData.searchCondition.roleName"></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -99,7 +99,7 @@
 
     <role-info-drawer ref="RID" @ok="handleSearch()" />
     <permission-link-drawer ref="PLD" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

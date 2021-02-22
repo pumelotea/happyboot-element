@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout v-model="isShow" :title="groupDrawerDeploy.title">
+  <hb-drawer-layout v-model="isShow" :title="groupDrawerDeploy.title">
     <el-form
       ref="groupForm"
       :model="form"
@@ -20,7 +20,7 @@
         >确认</el-button
       >
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

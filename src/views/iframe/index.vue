@@ -1,5 +1,5 @@
 <template>
-  <page-iframe-layout :url="url"></page-iframe-layout>
+  <hb-page-iframe-layout :url="url"></hb-page-iframe-layout>
 </template>
 
 <script lang="ts">

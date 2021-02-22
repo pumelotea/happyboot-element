@@ -1,11 +1,11 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container label="用户名">
+          <hb-form-item-container label="用户名">
             <el-input v-model="tableData.account"></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -69,7 +69,7 @@
       >
       </el-pagination>
     </template>
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

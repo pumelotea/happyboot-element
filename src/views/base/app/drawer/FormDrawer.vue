@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     size="600px"
     :loading="drawerLoading"
     v-model="drawer"
@@ -37,7 +37,7 @@
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

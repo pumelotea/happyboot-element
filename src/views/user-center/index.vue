@@ -1,5 +1,5 @@
 <template>
-  <page-layout-full>
+  <hb-page-layout-full>
     <el-tabs v-model="activeTab">
       <el-tab-pane label="个人信息" name="userInfo">
         <div style="width: 700px">
@@ -94,10 +94,10 @@
               </el-table>
             </el-form-item>
             <el-form-item label="头像">
-              <avatar-uploader
+              <hb-avatar-uploader
                 :src="picUrl"
                 @cropped="onCropped"
-              ></avatar-uploader>
+              ></hb-avatar-uploader>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="handleInfoSubmit('userInfoForm')">
@@ -137,18 +137,18 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-  </page-layout-full>
+  </hb-page-layout-full>
 </template>
 
 <script lang='ts'>
-import AvatarUploader from '@/components/AvatarUploader.vue'
+import HbAvatarUploader from '@/components/HbAvatarUploader.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { self } from '@/common'
 
 export default {
   name: 'index',
   components: {
-    AvatarUploader
+    HbAvatarUploader
   },
   setup() {
     const context = self()

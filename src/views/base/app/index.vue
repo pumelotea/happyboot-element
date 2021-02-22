@@ -1,14 +1,14 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'文件版本号'">
+          <hb-form-item-container :label="'文件版本号'">
             <el-input
               v-model="tableData.searchQuery.blobVersion"
               placeholder="请输入文件版本号"
             />
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -98,7 +98,7 @@
       />
     </template>
     <form-drawer ref="FD" @handleSubmit="handleSearch" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 <script lang='ts'>
 import { self } from '@/common'

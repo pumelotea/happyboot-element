@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
+  <hb-drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
     <el-form
       ref="forms"
       :model="form"
@@ -38,7 +38,7 @@
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 <script lang='ts'>
 import { defineComponent, nextTick, ref } from 'vue'

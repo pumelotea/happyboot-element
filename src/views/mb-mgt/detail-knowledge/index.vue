@@ -1,5 +1,5 @@
 <template>
-  <page-layout-full v-loading="loading" style="padding: 0">
+  <hb-page-layout-full v-loading="loading" style="padding: 0">
     <div class="message" v-if="detail">
       <div
         class="poster"
@@ -20,7 +20,7 @@
       ></div>
     </div>
     <div class="no-data" v-if="!loading && !detail"></div>
-  </page-layout-full>
+  </hb-page-layout-full>
 </template>
 
 <script lang='ts'>

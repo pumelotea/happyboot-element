@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout v-model="isShow" :title="roleInfoDrawerDeploy.title">
+  <hb-drawer-layout v-model="isShow" :title="roleInfoDrawerDeploy.title">
     <el-form ref="roleInfoForm" :model="form" :rules="rules" label-width="80px" style="padding: 20px">
       <el-form-item label="角色编码" prop="authorityName">
         <el-input
@@ -32,7 +32,7 @@
         >确认</el-button
       >
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

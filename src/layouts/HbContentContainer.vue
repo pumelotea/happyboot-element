@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue'
 import { self } from '@/common'
 export default defineComponent({
-  name: 'ContentContainer',
+  name: 'HbContentContainer',
   setup() {
     const hkf = self().$happykit
     const navList = hkf.getNavList()

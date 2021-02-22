@@ -11,7 +11,7 @@
       <i :class="data.icon"></i>
       <span>{{ data.name }}</span>
     </template>
-    <menu-content v-for="e in data.children" :data="e" :key="e.menuId" />
+    <hb-menu-content v-for="e in data.children" :data="e" :key="e.menuId" />
   </el-submenu>
 </template>
 
@@ -24,6 +24,6 @@ export default defineComponent({
       type: Object
     }
   },
-  name: 'MenuContent'
+  name: 'HbMenuContent'
 })
 </script>

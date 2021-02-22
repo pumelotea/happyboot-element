@@ -31,6 +31,7 @@ import { ref, toRefs, watch, defineComponent, computed, nextTick } from 'vue'
 import { self } from '@/common'
 
 export default defineComponent({
+  name: 'HbRichTextEditor',
   components: {
     Editor
   },

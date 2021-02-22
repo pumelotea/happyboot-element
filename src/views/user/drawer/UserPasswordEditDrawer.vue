@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :outType="userInfoDrawerDeploy.outType"
     :title="userInfoDrawerDeploy.title"
@@ -32,7 +32,7 @@
         确认
       </el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

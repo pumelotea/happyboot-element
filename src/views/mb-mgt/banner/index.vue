@@ -1,9 +1,9 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'是否启用'">
+          <hb-form-item-container :label="'是否启用'">
             <el-select
               v-model="tableData.searchQuery.enable"
               clearable
@@ -17,7 +17,7 @@
                 :value="key"
               />
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -102,7 +102,7 @@
     </template>
     <form-drawer ref="FD" @handleSubmit="handleSearch" />
     <detail-drawer ref="DD" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 <script lang='ts'>
 import FormDrawer from './drawer/FormDrawer.vue'

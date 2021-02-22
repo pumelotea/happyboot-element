@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="permissionLinkDrawerDeploy.title"
   >
@@ -17,14 +17,14 @@
           :props="defaultProps"
           :default-checked-keys="defaultChecked"
         />
-        <no-data v-else />
+        <hb-no-data v-else />
       </el-tab-pane>
     </el-tabs>
     <template #actions>
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

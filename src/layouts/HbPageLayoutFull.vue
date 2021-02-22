@@ -13,7 +13,7 @@
 import { defineComponent } from 'vue'
 import { self } from '@/common'
 export default defineComponent({
-  name: 'PageLayoutFull',
+  name: 'HbPageLayoutFull',
   setup() {
     const hkf = self().$happykit
     const currentRouteMenu = hkf.getCurrentMenuRoute()
@@ -23,28 +23,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-/*.page-container-full {*/
-/*  background: rgb(14,17,22);*/
-/*  overflow: hidden;*/
-/*  box-sizing: border-box;*/
-/*  position: absolute;*/
-/*  left: 0;*/
-/*  top: 0;*/
-/*  right: 0;*/
-/*  bottom: 0;*/
-/*  border: 1px solid rgb(49,54,60);*/
-/*}*/
-
-/*.page-body {*/
-/*  overflow: auto;*/
-/*  height: 100%;*/
-/*  padding: 10px;*/
-/*}*/
-
-/*.content {*/
-/*  position: relative;*/
-/*  height: 100%;*/
-/*}*/
-</style>

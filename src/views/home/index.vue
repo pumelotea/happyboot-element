@@ -1,16 +1,16 @@
 <template>
-  <main-layout>
+  <hb-main-layout>
     <template v-slot:head-bar>
-      <HeadBar />
+      <hb-head-bar />
     </template>
     <template v-slot:nav-bar>
-      <NavBar />
+      <hb-nav-bar />
     </template>
     <template v-slot:menu-list>
-      <MenuList />
+      <hb-menu-list />
     </template>
     <template v-slot:content>
-      <content-container>
+      <hb-content-container>
         <router-view v-slot="{ Component }">
           <transition name="slide-fade">
             <keep-alive :include="include">
@@ -23,27 +23,27 @@
             </keep-alive>
           </transition>
         </router-view>
-      </content-container>
+      </hb-content-container>
     </template>
-  </main-layout>
+  </hb-main-layout>
 </template>
 
 <script lang="ts">
-import HeadBar from '@/components/HeadBar.vue'
-import NavBar from '@/components/NavBar.vue'
-import MainLayout from '@/layouts/MainLayout.vue'
-import MenuList from '@/components/MenuList.vue'
+import HbHeadBar from '@/components/HbHeadBar.vue'
+import HbNavBar from '@/components/HbNavBar.vue'
+import HbMainLayout from '@/layouts/HbMainLayout.vue'
+import HbMenuList from '@/components/HbMenuList.vue'
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import ContentContainer from '@/layouts/ContentContainer.vue'
+import HbContentContainer from '@/layouts/HbContentContainer.vue'
 import { self } from '@/common'
 
 export default defineComponent({
   components: {
-    ContentContainer,
-    HeadBar,
-    NavBar,
-    MainLayout,
-    MenuList
+    HbContentContainer,
+    HbHeadBar,
+    HbNavBar,
+    HbMainLayout,
+    HbMenuList
   },
   setup() {
     const { $happykit, $router } = self()

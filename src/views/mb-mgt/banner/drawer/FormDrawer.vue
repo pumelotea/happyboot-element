@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     :loading="drawerLoading"
     v-model="drawer"
     :title="title"
@@ -15,7 +15,7 @@
         <el-input v-model="form.linkUrl" />
       </el-form-item>
       <el-form-item label="图片" prop="imageArr">
-        <image-uploader :max="1" ref="imgUper" v-model="form.imageArr" />
+        <hb-image-uploader :max="1" ref="imgUper" v-model="form.imageArr" />
       </el-form-item>
       <el-form-item label="描述" prop="des">
         <el-input type="textarea" :rows="4" v-model="form.des" />
@@ -39,7 +39,7 @@
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout v-model="isShow" :title="dictionaryInfoDrawerDeploy.title">
+  <hb-drawer-layout v-model="isShow" :title="dictionaryInfoDrawerDeploy.title">
     <el-form
       ref="dictionaryInfoForm"
       :model="form"
@@ -43,7 +43,7 @@
         >确认</el-button
       >
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

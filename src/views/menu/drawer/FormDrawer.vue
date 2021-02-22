@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
+  <hb-drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
     <el-form
       ref="forms"
       :model="form"
@@ -170,7 +170,7 @@
     </template>
 
     <icons v-show="showIcons" @iconChoose="iconChoose" />
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 <script lang='ts'>
 import { defineComponent, nextTick, ref } from 'vue'

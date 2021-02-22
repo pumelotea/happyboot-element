@@ -93,6 +93,7 @@ import 'cropperjs/dist/cropper.css'
 import { ref, watch, nextTick, defineComponent, toRefs } from 'vue'
 
 export default defineComponent({
+  name: 'HbAvatarUploader',
   props: {
     src: {
       type: String,
@@ -201,37 +202,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-/*.cropper-image-container {*/
-/*  width: 100%;*/
-/*  height: 400px;*/
-/*}*/
-
-/*.select-icon-btn {*/
-/*  cursor: pointer;*/
-/*  margin: auto;*/
-/*}*/
-
-/*.select-icon-btn:hover {*/
-/*  opacity: 0.8;*/
-/*}*/
-
-/*.avatar {*/
-/*  cursor: pointer;*/
-/*}*/
-
-/*.avatar:hover {*/
-/*  opacity: 0.8;*/
-/*}*/
-
-/*.dialog-footer {*/
-/*  margin-top: 20px;*/
-/*  display: flex;*/
-/*  justify-content: flex-end;*/
-/*}*/
-
-/*.btns {*/
-/*  margin-bottom: 20px;*/
-/*}*/
-</style>

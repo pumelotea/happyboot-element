@@ -1,14 +1,14 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'文件名称'">
+          <hb-form-item-container :label="'文件名称'">
             <el-input
               v-model="tableData.searchQuery.fileName"
               placeholder="请输入文件名称"
             />
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -89,7 +89,7 @@
         @current-change="currentClick"
       />
     </template>
-  </page-layout>
+  </hb-page-layout>
 </template>
 <script lang='ts'>
 import { defineComponent, onMounted, ref } from 'vue'

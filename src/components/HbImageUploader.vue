@@ -93,7 +93,7 @@ import { self } from '@/common'
 import { $imgId2Url } from '@/apis'
 
 export default defineComponent({
-  name: 'ImageUploader',
+  name: 'HbImageUploader',
   props: {
     modelValue: {
       type: Array,

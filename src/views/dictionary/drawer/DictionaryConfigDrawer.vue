@@ -1,18 +1,18 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="dictionaryConfigDrawerDeploy.title"
   >
     <el-row :gutter="10" style="margin: 15px 0">
       <el-col :md="6">
-        <form-item-container :label="'名称'">
+        <hb-form-item-container :label="'名称'">
           <el-input v-model="tableData.searchCondition.itemText"></el-input>
-        </form-item-container>
+        </hb-form-item-container>
       </el-col>
       <el-col :md="6">
-        <form-item-container :label="'数据值'">
+        <hb-form-item-container :label="'数据值'">
           <el-input v-model="tableData.searchCondition.itemValue"></el-input>
-        </form-item-container>
+        </hb-form-item-container>
       </el-col>
     </el-row>
     <el-row :gutter="10" style="margin: 15px 0">
@@ -53,7 +53,7 @@
       @current-change="currentClick"
     >
     </el-pagination>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

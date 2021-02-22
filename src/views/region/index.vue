@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10" style="margin-top: 15px">
         <el-col>
@@ -73,7 +73,7 @@
       </el-col>
     </el-row>
     <form-drawer ref="FD" @handleSubmit="handleSubmit" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

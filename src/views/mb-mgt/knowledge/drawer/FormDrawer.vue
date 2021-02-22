@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
+  <hb-drawer-layout :loading="drawerLoading" v-model="drawer" :title="title">
     <el-form
       ref="forms"
       :model="form"
@@ -11,7 +11,7 @@
         <el-input v-model="form.title" placeholder="请输入标题"/>
       </el-form-item>
       <el-form-item label="封面" prop="pictureImages">
-        <image-uploader :max="1" ref="imgUper" v-model="form.imageArr" />
+        <hb-image-uploader :max="1" ref="imgUper" v-model="form.imageArr" />
       </el-form-item>
       <el-form-item label="标签" prop="label">
         <el-select
@@ -29,7 +29,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="发送内容" prop="content">
-        <rich-text-editor v-model="form.content" />
+        <hb-rich-text-editor v-model="form.content" />
       </el-form-item>
       <el-form-item label="备注" prop="des">
         <el-input type="textarea" :rows="2" v-model="form.des" />
@@ -39,7 +39,7 @@
       <el-button @click="close">取消</el-button>
       <el-button type="primary" @click="handleSubmit">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

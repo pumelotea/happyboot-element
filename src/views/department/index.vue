@@ -1,5 +1,5 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <el-row>
       <el-col :span="12">
         <el-tree
@@ -51,14 +51,14 @@
           </span>
           </template>
         </el-tree>
-        <no-data v-else/>
+        <hb-no-data v-else/>
       </el-col>
       <el-col :span="12">
         <detail ref="DD" />
       </el-col>
     </el-row>
     <form-drawer ref="FD" @handleSubmit="handleSubmit" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

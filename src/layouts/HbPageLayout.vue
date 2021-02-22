@@ -39,7 +39,7 @@ import { defineComponent } from 'vue'
 import { self } from '@/common'
 
 export default defineComponent({
-  name: 'PageLayout',
+  name: 'HbPageLayout',
   setup() {
     const hkf = self().$happykit
     const currentRouteMenu = hkf.getCurrentMenuRoute()
@@ -49,53 +49,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-/*.page-container {*/
-/*  background: rgb(14,17,22);*/
-/*  overflow: hidden;*/
-/*  box-sizing: border-box;*/
-/*  position: absolute;*/
-/*  left: 0;*/
-/*  top: 0;*/
-/*  right: 0;*/
-/*  bottom: 0;*/
-/*  border: 1px solid rgb(49,54,60);*/
-/*}*/
-
-/*.page-body {*/
-/*  overflow: auto;*/
-/*  height: 100%;*/
-/*  padding: 10px;*/
-/*}*/
-
-/*.title-container {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*}*/
-
-/*.title {*/
-/*  font-size: 24px;*/
-/*}*/
-
-/*.breadcrumb {*/
-/*  flex: 1;*/
-/*}*/
-
-/*.alerts {*/
-/*  margin-top: 15px;*/
-/*}*/
-
-/*.actions {*/
-/*  margin-top: 15px;*/
-/*}*/
-
-/*.content {*/
-/*  margin-top: 15px;*/
-/*}*/
-
-/*.pagination {*/
-/*  text-align: center;*/
-/*  padding: 15px;*/
-/*}*/
-</style>

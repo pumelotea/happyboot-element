@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="roleLinkDrawerDeploy.title"
     size="650px"
@@ -15,7 +15,7 @@
       <el-button @click="isShow = false">取消</el-button>
       <el-button type="primary" @click="handleLink">确认</el-button>
     </template>
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

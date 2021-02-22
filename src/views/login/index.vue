@@ -7,7 +7,7 @@
             <img class="login-logo" src="favicon.svg" draggable="false" />
           </div>
           <div class="login-subtitle">
-            <text-logo />
+            <hb-text-logo />
           </div>
           <div class="login-form-item">
             <el-input
@@ -74,12 +74,12 @@
 
 <script lang='ts'>
 import { ref, computed, onMounted, onBeforeUnmount} from 'vue'
-import TextLogo from '@/components/TextLogo.vue'
+import HbTextLogo from '@/components/HbTextLogo.vue'
 import { self } from '@/common'
 
 export default {
   name: 'index',
-  components: { TextLogo },
+  components: { HbTextLogo },
   setup() {
     const { $security, $api, $store, $router, $notify } = self()
 

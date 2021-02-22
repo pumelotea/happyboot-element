@@ -1,5 +1,5 @@
 <template>
-  <drawer-layout
+  <hb-drawer-layout
     v-model="isShow"
     :title="pointLinkDrawerDeploy.title"
     size="1000px"
@@ -53,7 +53,7 @@
       </el-collapse>
     </div>
     <configuration-drawer ref="ConfigurationDrawer" />
-  </drawer-layout>
+  </hb-drawer-layout>
 </template>
 
 <script lang='ts'>

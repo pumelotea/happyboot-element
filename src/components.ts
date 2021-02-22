@@ -1,26 +1,25 @@
-import {App} from 'vue'
-import PageLayout from '@/layouts/PageLayout.vue'
-import PageLayoutFull from '@/layouts/PageLayoutFull.vue'
-import PageIframeLayout from '@/layouts/PageIframeLayout.vue'
-import FormItemContainer from '@/layouts/FormItemContainer.vue'
-import DrawerLayout from '@/layouts/DrawerLayout.vue'
-import NoData from '@/components/NoData.vue'
-import TextLogo from '@/components/TextLogo.vue'
-import ImageUploader from '@/components/ImageUploader.vue'
-import RichTextEditor from '@/components/RichTextEditor.vue'
-
+import { App } from 'vue'
+import HbPageLayout from '@/layouts/HbPageLayout.vue'
+import HbPageLayoutFull from '@/layouts/HbPageLayoutFull.vue'
+import HbPageIframeLayout from '@/layouts/HbPageIframeLayout.vue'
+import HbFormItemContainer from '@/layouts/HbFormItemContainer.vue'
+import HbDrawerLayout from '@/layouts/HbDrawerLayout.vue'
+import HbNoData from '@/components/HbNoData.vue'
+import HbTextLogo from '@/components/HbTextLogo.vue'
+import HbImageUploader from '@/components/HbImageUploader.vue'
+import HbRichTextEditor from '@/components/HbRichTextEditor.vue'
 
 
 export default {
-  install(app: App){
-    app.component('text-logo', TextLogo)
-    app.component('page-layout', PageLayout)
-    app.component('page-layout-full', PageLayoutFull)
-    app.component('page-iframe-layout', PageIframeLayout)
-    app.component('no-data', NoData)
-    app.component('form-item-container', FormItemContainer)
-    app.component('drawer-layout', DrawerLayout)
-    app.component('image-uploader', ImageUploader)
-    app.component('rich-text-editor', RichTextEditor)
+  install(app: App) {
+    app.component('hb-text-logo', HbTextLogo)
+    app.component('hb-page-layout', HbPageLayout)
+    app.component('hb-page-layout-full', HbPageLayoutFull)
+    app.component('hb-page-iframe-layout', HbPageIframeLayout)
+    app.component('hb-no-data', HbNoData)
+    app.component('hb-form-item-container', HbFormItemContainer)
+    app.component('hb-drawer-layout', HbDrawerLayout)
+    app.component('hb-image-uploader', HbImageUploader)
+    app.component('hb-rich-text-editor', HbRichTextEditor)
   }
 }

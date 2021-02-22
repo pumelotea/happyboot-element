@@ -1,16 +1,16 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'功能名称'">
+          <hb-form-item-container :label="'功能名称'">
             <el-input
               v-model="tableData.searchCondition.facilityName"
             ></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'功能平台'">
+          <hb-form-item-container :label="'功能平台'">
             <el-select
               v-model="tableData.searchCondition.facilityPlatform"
               clearable
@@ -24,10 +24,10 @@
                 :value="item.value"
               />
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
         <el-col :md="6">
-          <form-item-container :label="'功能类型'">
+          <hb-form-item-container :label="'功能类型'">
             <el-select
               v-model="tableData.searchCondition.facilityType"
               clearable
@@ -41,7 +41,7 @@
                 :value="item.value"
               />
             </el-select>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -92,15 +92,17 @@
       </el-table-column>
       <el-table-column prop="facilityType" align="center" label="功能类型">
         <template #default="scope">{{
-          typeTrans[scope.row.facilityType]
-        }}</template>
+            typeTrans[scope.row.facilityType]
+          }}
+        </template>
       </el-table-column>
       <el-table-column prop="facilityIcon" align="center" label="图标路径">
       </el-table-column>
       <el-table-column prop="facilityPlatform" align="center" label="功能平台">
         <template #default="scope">{{
-          platformTrans[scope.row.facilityPlatform]
-        }}</template>
+            platformTrans[scope.row.facilityPlatform]
+          }}
+        </template>
       </el-table-column>
       <el-table-column fixed="right" align="center" label="操作" width="170">
         <template #default="scope">
@@ -108,20 +110,23 @@
             permission-key="configuration"
             @click="handleConfiguration(scope.row)"
             type="text"
-            >参数设定</el-button
+          >参数设定
+          </el-button
           >
           <el-button
             permission-key="edit"
             @click="handleEdit(scope.row)"
             type="text"
-            >编辑</el-button
+          >编辑
+          </el-button
           >
           <el-button
             permission-key="delete"
             @click="handleDelete(scope.row)"
             type="text"
             style="color: red"
-            >删除</el-button
+          >删除
+          </el-button
           >
         </template>
       </el-table-column>
@@ -139,7 +144,7 @@
     </template>
     <point-drawer ref="PD" @ok="handleSearch" />
     <configuration-drawer ref="CD" @ok="handleSearch" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>
@@ -147,7 +152,8 @@ import { self } from '@/common'
 import PointDrawer from '@/views/facility/facility-point/drawer/PointDrawer.vue'
 import ConfigurationDrawer from '@/views/facility/facility-point/drawer/ConfigurationDrawer.vue'
 import { defineComponent, onMounted, ref } from 'vue'
-export default defineComponent ({
+
+export default defineComponent({
   name: 'index',
   components: {
     PointDrawer,
@@ -159,7 +165,7 @@ export default defineComponent ({
     const PD: any = ref(null)
     const CD: any = ref(null)
 
-    const tableData =  ref({
+    const tableData = ref({
       searchCondition: {
         facilityName: '',
         facilityPlatform: '',

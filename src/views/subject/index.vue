@@ -1,11 +1,11 @@
 <template>
-  <page-layout>
+  <hb-page-layout>
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'主体名称'">
+          <hb-form-item-container :label="'主体名称'">
             <el-input v-model="tableData.searchCondition.subjectName" />
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -88,7 +88,7 @@
 
     <subject-drawer ref="SD" @ok="handleSearch" />
     <region-link-drawer ref="RLD" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>

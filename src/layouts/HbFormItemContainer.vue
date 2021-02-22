@@ -9,7 +9,7 @@
 import { defineComponent, onMounted, getCurrentInstance,ref } from 'vue'
 
 export default defineComponent({
-  name: 'FormItemContainer',
+  name: 'HbFormItemContainer',
   props: {
     label: {
       type: String,

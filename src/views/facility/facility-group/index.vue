@@ -1,13 +1,13 @@
 <template>
-  <page-layout id="page_facility_group">
+  <hb-page-layout id="page_facility_group">
     <template #actions>
       <el-row :gutter="10">
         <el-col :md="6">
-          <form-item-container :label="'功能组名称'">
+          <hb-form-item-container :label="'功能组名称'">
             <el-input
               v-model="tableData.searchCondition.facilityGroupName"
             ></el-input>
-          </form-item-container>
+          </hb-form-item-container>
         </el-col>
       </el-row>
       <el-row :gutter="10" style="margin-top: 15px">
@@ -91,7 +91,7 @@
     </template>
     <group-drawer ref="GD" @ok="handleSearch" />
     <point-link-drawer ref="PD" />
-  </page-layout>
+  </hb-page-layout>
 </template>
 
 <script lang='ts'>
