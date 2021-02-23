@@ -29,8 +29,7 @@
       <el-table-column prop="requestIp" label="IP地址" width="120"></el-table-column>
       <el-table-column prop="description" label="描述"></el-table-column>
       <el-table-column prop="requestArgs" label="请求参数" width="300"></el-table-column>
-      <el-table-column prop="requestUri" label="请求完整URL" width="300">
-      </el-table-column>
+      <el-table-column prop="requestUri" label="请求完整URL" width="300"></el-table-column>
       <!--      <el-table-column prop="responseArgs" label="响应内容" width="300">-->
       <!--      </el-table-column>-->
       <el-table-column prop="costTime" label="耗时/ms" width="100"></el-table-column>
