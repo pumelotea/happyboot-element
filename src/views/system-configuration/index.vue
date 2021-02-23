@@ -143,7 +143,6 @@ export default defineComponent({
 
     const { dataDict } = loadDict(['SYS_CONFIG_TYPE'])
 
-    const CD: any = ref(null)
     let configurationDrawerDeploy: any = {}
 
     const handleAdd = () => {
@@ -181,7 +180,6 @@ export default defineComponent({
       handleMultiDelete,
       handleReset,
       rowSelected,
-      CD,
       tableData,
       dataDict
     }
