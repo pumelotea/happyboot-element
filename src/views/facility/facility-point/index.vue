@@ -18,7 +18,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="item in platformOptions"
+                v-for="item in dataDict.FACILITY_PLATFORM?.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -35,7 +35,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="item in typeOptions"
+                v-for="item in dataDict.FACILITY_TYPE?.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -92,7 +92,7 @@
       </el-table-column>
       <el-table-column prop="facilityType" align="center" label="功能类型">
         <template #default="scope">{{
-            typeTrans[scope.row.facilityType]
+            dataDict.FACILITY_TYPE?.mappings[scope.row.facilityType]
           }}
         </template>
       </el-table-column>
@@ -100,7 +100,7 @@
       </el-table-column>
       <el-table-column prop="facilityPlatform" align="center" label="功能平台">
         <template #default="scope">{{
-            platformTrans[scope.row.facilityPlatform]
+            dataDict.FACILITY_PLATFORM?.mappings[scope.row.facilityPlatform]
           }}
         </template>
       </el-table-column>
@@ -151,8 +151,9 @@
 import { self } from '@/common'
 import PointDrawer from '@/views/facility/facility-point/drawer/PointDrawer.vue'
 import ConfigurationDrawer from '@/views/facility/facility-point/drawer/ConfigurationDrawer.vue'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { createPage } from '@/common/page'
+import { loadDict } from '@/common/dict'
 
 export default defineComponent({
   name: 'index',
@@ -174,59 +175,30 @@ export default defineComponent({
       rowSelected,
       pageConditionSearch,
       defaultPageReset: handleReset,
-      defaultDeleteHandle:handleDelete,
-      defaultMultiDeleteHandle:handleMultiDelete
+      defaultDeleteHandle: handleDelete,
+      defaultMultiDeleteHandle: handleMultiDelete
     } = createPage({
       conditions: {
         facilityName: {
-          default:'',
+          default: '',
           reset: ''
         },
         facilityPlatform: {
-          default:'',
+          default: '',
           reset: ''
         },
         facilityType: {
-          default:'',
+          default: '',
           reset: ''
-        },
+        }
       },
       dataAPI: context.$api.facilityPage,
       deleteAPI: context.$api.facilityDelete
     })
 
-    const pointDrawerDeploy: any = ref({})
-    const platformOptions: any = ref([])
-    const platformTrans: any = ref([])
-    const typeOptions: any = ref([])
-    const typeTrans: any = ref([])
+    const { dataDict } = loadDict(['FACILITY_PLATFORM', 'FACILITY_TYPE'])
 
-    //初始化字典
-    const initDict = async () => {
-      const res: any = await context.$api.dictItemsMap(
-        'FACILITY_PLATFORM,FACILITY_TYPE'
-      )
-      if (res.code === 0) {
-        typeOptions.value = []
-        typeOptions.value = res.data.FACILITY_TYPE
-        typeTrans.value = []
-        res.data.FACILITY_TYPE.map((e: any) => {
-          typeTrans[e.value] = e.label
-        })
-        platformOptions.value = []
-        platformOptions.value = res.data.FACILITY_PLATFORM
-        platformTrans.value = []
-        res.data.FACILITY_PLATFORM.map((e: any) => {
-          platformTrans.value[e.value] = e.label
-        })
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
-    }
+    const pointDrawerDeploy: any = ref({})
 
     const handleAdd = () => {
       pointDrawerDeploy.value.title = '新增'
@@ -252,12 +224,7 @@ export default defineComponent({
       ;(CD.value as any).open(configurationDrawerDeploy, row)
     }
 
-    onMounted(async () => {
-      await initDict()
-    })
-
     return {
-      initDict,
       pageSizeChange,
       handleSearch,
       handleAdd,
@@ -271,10 +238,7 @@ export default defineComponent({
       pageConditionSearch,
       tableData,
       pointDrawerDeploy,
-      platformOptions,
-      platformTrans,
-      typeOptions,
-      typeTrans,
+      dataDict,
       PD,
       CD
     }

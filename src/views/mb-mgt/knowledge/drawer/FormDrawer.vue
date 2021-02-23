@@ -21,7 +21,7 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in esLabelOptions"
+            v-for="item in dataDict.KNOWLEDGE_LABEL?.options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -44,8 +44,9 @@
 
 <script lang='ts'>
 import { partialCopying } from '@/common/utils'
-import { defineComponent, nextTick, onMounted, reactive, ref } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { self } from '@/common'
+import { loadDict } from '@/common/dict'
 
 export default defineComponent ({
   name: 'FormDrawer',
@@ -82,15 +83,7 @@ export default defineComponent ({
       ]
     }
 
-    //初始化字典
-    const getDict = async (success: any, error: any) => {
-      const res: any = await context.$api.dictItemsMap('KNOWLEDGE_LABEL')
-      if (res.code === 0) {
-        success(res.data)
-      } else {
-        error()
-      }
-    }
+    const { dataDict ,dictRefresh} = loadDict(['KNOWLEDGE_LABEL'],true)
 
     const detailRequest = async (id: any, success: any) => {
       drawerLoading.value = true
@@ -139,31 +132,17 @@ export default defineComponent ({
       drawerLoading.value = false
     }
 
-    const initDict = () => {
-      //初始化字典
-      getDict(
-          (success: any) => {
-            esLabelOptions.value = success.KNOWLEDGE_LABEL
-          },
-          (err:any) => {
-            context.$notify({
-              type: 'error',
-              title: '提示',
-              message: err.msg
-            })
-          }
-      )
-    }
-
     const add = (data: any = {}) => {
       drawer.value = true
       title.value = '新增'
+      dictRefresh()
       initForm(data)
     }
 
     const edit = (data: any) => {
       drawer.value = true
       title.value = '编辑'
+      dictRefresh()
       detailRequest(data.id, (result: any) => {
         initForm(result)
       })
@@ -209,22 +188,17 @@ export default defineComponent ({
       close()
     }
 
-    onMounted(() => {
-      initDict()
-    })
-
     return {
-      getDict,
       detailRequest,
       editRequest,
       addRequest,
-      initDict,
       add,
       edit,
       initForm,
       close,
       handleSubmit,
       submitSuccess,
+      dataDict,
       drawer,
       drawerLoading,
       title,

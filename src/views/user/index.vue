@@ -16,7 +16,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="item in statusOptions"
+                v-for="item in dataDict.STATUS?.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -34,7 +34,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="item in userTypeOptions"
+                v-for="item in dataDict.USER_TYPE?.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -103,7 +103,7 @@
       <el-table-column prop="status" align="center" label="账号类型" width="90">
         <template #default="scope">
           <span :style="`color:${userTypeColor[scope.row.userType]}`">
-            {{ userTypeMapping[scope.row.userType] }}
+            {{ dataDict.USER_TYPE?.mappings[scope.row.userType] }}
           </span>
         </template>
       </el-table-column>
@@ -116,7 +116,7 @@
       <el-table-column prop="status" align="center" label="状态" width="60">
         <template #default="scope">
           <span :style="`color:${statusColor[scope.row.status]}`">
-            {{ statusMapping[scope.row.status] }}
+            {{ dataDict.STATUS?.mappings[scope.row.status] }}
           </span>
         </template>
       </el-table-column>
@@ -214,9 +214,10 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { loadDict } from '@/common/dict'
 
 import UserInfoDrawer from './drawer/UserInfoDrawer.vue'
 import UserInfoEditDrawer from './drawer/UserInfoEditDrawer.vue'
@@ -246,10 +247,6 @@ export default defineComponent({
 
     const statusColor = ['#ea0143', '#02b654', '#0290ef']
     const userTypeColor = ['#0290ef', '#fc7070']
-    const statusOptions = ref([])
-    const statusMapping: any = ref({})
-    const userTypeOptions = ref([])
-    const userTypeMapping: any = ref({})
 
     const {
       pageData: tableData,
@@ -279,6 +276,8 @@ export default defineComponent({
       dataAPI: context.$api.userPage,
       deleteAPI:context.$api.userDelete
     })
+
+    const { dataDict } = loadDict(['STATUS','USER_TYPE'])
 
     const UID = ref(null)
     const UIED = ref(null)
@@ -340,37 +339,9 @@ export default defineComponent({
       (FCD.value as any).open(row.id)
     }
 
-    const initDict = async () => {
-      const res = await context.$api.dictItemsMap('STATUS,USER_TYPE')
-      if (res.code === 0) {
-        statusOptions.value = []
-        statusOptions.value = res.data.STATUS
-        statusMapping.value = {}
-        res.data.STATUS.map((e: any) => {
-          statusMapping.value[e.value] = e.label
-        })
-        userTypeOptions.value = []
-        userTypeOptions.value = res.data.USER_TYPE
-        userTypeMapping.value = {}
-        res.data.USER_TYPE.map((e: any) => {
-          userTypeMapping.value[e.value] = e.label
-        })
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
-    }
-
     const imgId2Url = (data: any) => {
       return context.$api.$imgId2Url(data)
     }
-
-    onMounted(async () => {
-      await initDict()
-    })
 
     return {
       imgId2Url,
@@ -389,16 +360,12 @@ export default defineComponent({
       handleRoleLink,
       handleDeptLink,
       handleSearch,
-      initDict,
       rowSelected,
       pageConditionSearch,
+      dataDict,
       statusColor,
       userTypeColor,
-      statusOptions,
-      statusMapping,
-      userTypeOptions,
       tableData,
-      userTypeMapping,
       UID,
       UIED,
       UIDD,

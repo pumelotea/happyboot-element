@@ -20,7 +20,7 @@
         <el-button type="primary" size="medium" @click="handleAdd"
           >新增</el-button
         >
-        <el-button type="primary" size="medium" @click="handleConditionSearch"
+        <el-button type="primary" size="medium" @click="pageConditionSearch"
           >查询</el-button
         >
         <el-button type="primary" size="medium" plain @click="handleReset"
@@ -50,7 +50,7 @@
       :total="tableData.total"
       style="margin: 15px 0"
       @size-change="pageSizeChange"
-      @current-change="currentClick"
+      @current-change="pageNoChange"
     >
     </el-pagination>
   </hb-drawer-layout>
@@ -59,6 +59,7 @@
 <script lang='ts'>
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
 
 export default defineComponent ({
   name: 'DictionaryConfigDrawer',
@@ -67,72 +68,49 @@ export default defineComponent ({
 
     const isShow = ref(false)
     const dictionaryConfigDrawerDeploy: any = ref({ title: '字典列表' })
-    const tableData: any = ref({
-      searchCondition: {
-        dictId: '',
-        itemText: '',
-        itemValue: '',
-        pageNo: 1,
-        pageSize: 20
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageSizeChange,
+      pageNoChange,
+      pageConditionSearch,
+      pageReset,
+      defaultDeleteHandle: handleDelete,
+    } = createPage({
+      conditions: {
+        dictId: {
+          default: '',
+          reset: ''
+        },
+        itemText: {
+          default: '',
+          reset: ''
+        },
+        itemValue: {
+          default: '',
+          reset: ''
+        },
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.dictItemPage,
+      deleteAPI: context.$api.dictItemDelete
     })
 
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchCondition.pageSize = val
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchCondition.pageNo = val
-      handleSearch()
-    }
 
     const open = (data: any) => {
-      tableData.value.searchCondition.itemText = ''
-      tableData.value.searchCondition.itemValue = ''
-      tableData.value.searchCondition.pageNo = 1
-      tableData.value.searchCondition.pageSize = 20
-      tableData.value.searchCondition.dictId = data
-
+      tableData.searchCondition.itemText = ''
+      tableData.searchCondition.itemValue = ''
+      tableData.searchCondition.pageNo = 1
+      tableData.searchCondition.pageSize = 20
+      tableData.searchCondition.dictId = data
       isShow.value = true
-
       handleSearch()
-    }
-
-    const handleConditionSearch = () => {
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const handleReset = () => {
-      tableData.value.searchCondition.itemText = ''
-      tableData.value.searchCondition.itemValue = ''
-      tableData.value.searchCondition.pageNo = 1
-      tableData.value.searchCondition.pageSize = 20
-      handleSearch()
-    }
-
-    const handleSearch = async () => {
-      tableData.value.loading = true
-
-      const res: any = await context.$api.dictItemPage(tableData.value.searchCondition)
-      if (res.code === 0) {
-        tableData.value.list = res.data.records
-        tableData.value.total = res.data.total
-      }
-
-      tableData.value.loading = false
     }
 
     const handleAdd = () => {
       emit(
         'openConfigItemDrawer',
         'add',
-        tableData.value.searchCondition.dictId
+        tableData.searchCondition.dictId
       )
     }
 
@@ -140,38 +118,18 @@ export default defineComponent ({
       emit('openConfigItemDrawer', 'edit', row.id)
     }
 
-    const handleDelete = (row: any) => {
-      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    const handleReset = ()=>{
+      pageReset({
+        itemText:'',
+        itemValue:''
       })
-        .then(() => {
-          context.$api.dictItemDelete(row.id).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
     }
 
     return {
       open,
-      currentClick,
       pageSizeChange,
-      handleConditionSearch,
+      pageNoChange,
+      pageConditionSearch,
       handleReset,
       handleAdd,
       handleEdit,

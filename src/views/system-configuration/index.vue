@@ -16,7 +16,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="item in typeOptions"
+                v-for="item in dataDict.SYS_CONFIG_TYPE?.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -66,7 +66,7 @@
       <el-table-column prop="value" align="center" label="参数值">
       </el-table-column>
       <el-table-column prop="type" align="center" label="类型">
-        <template #default="scope">{{ typeTrans[scope.row.type] }}</template>
+        <template #default="scope">{{ dataDict.SYS_CONFIG_TYPE?.mappings[scope.row.type] }}</template>
       </el-table-column>
       <el-table-column prop="remark" align="center" label="备注">
       </el-table-column>
@@ -96,10 +96,11 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import ConfigurationDrawer from './drawer/ConfigurationDrawer.vue'
 import { createPage } from '@/common/page'
+import { loadDict } from '@/common/dict'
 
 export default defineComponent({
   name: 'index',
@@ -138,28 +139,10 @@ export default defineComponent({
       deleteAPI:context.$api.configDelete
     })
 
-    const CD: any = ref(null)
-    const typeOptions: any = ref({})
-    const typeTrans: any = ref([])
-    let configurationDrawerDeploy: any = {}
+    const { dataDict } = loadDict(['SYS_CONFIG_TYPE'])
 
-    //初始化字典
-    const initDict = async () => {
-      const res: any = await context.$api.dictItemsMap('SYS_CONFIG_TYPE')
-      if (res.code === 0) {
-        typeOptions.value = []
-        typeOptions.value = res.data.SYS_CONFIG_TYPE
-        res.data.SYS_CONFIG_TYPE.map((e: any) => {
-          typeTrans.value[e.value] = e.label
-        })
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
-    }
+    const CD: any = ref(null)
+    let configurationDrawerDeploy: any = {}
 
     const handleAdd = () => {
       configurationDrawerDeploy.title = '新增'
@@ -184,12 +167,7 @@ export default defineComponent({
       ;(CD.value as any).open(configurationDrawerDeploy, row)
     }
 
-    onMounted(async () => {
-      await initDict()
-    })
-
     return {
-      initDict,
       pageSizeChange,
       pageNoChange,
       pageConditionSearch,
@@ -203,8 +181,7 @@ export default defineComponent({
       rowSelected,
       CD,
       tableData,
-      typeOptions,
-      typeTrans,
+      dataDict
     }
   }
 })

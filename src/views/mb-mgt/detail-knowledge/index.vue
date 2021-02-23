@@ -8,7 +8,7 @@
           <div style="margin: auto">
             <h1 class="title">{{ detail.title }}</h1>
             <div class="meta">
-              <div class="type">{{ labelMap[detail.label] }}</div>
+              <div class="type">{{ dataDict.KNOWLEDGE_LABEL?.mappings[detail.label] }}</div>
             </div>
           </div>
         </div>
@@ -26,6 +26,7 @@
 <script lang='ts'>
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { self } from '@/common'
+import { loadDict } from '@/common/dict'
 
 export default defineComponent ({
   name: 'index',
@@ -34,20 +35,13 @@ export default defineComponent ({
 
     const loading = ref(false)
     const detail: any = ref(null)
-    const labelMap: any = ref({})
 
     let knowledgeId = computed(() => {
       return context.$route.query.knowledgeId || ''
     })
 
-    const getDict = async () => {
-      const res: any = await context.$api.dictItemsMap('KNOWLEDGE_LABEL')
-      if (res.code === 0) {
-        res.data.KNOWLEDGE_LABEL.forEach((e: any) => {
-          labelMap.value[e.value] = e.label
-        })
-      }
-    }
+    const { dataDict } = loadDict(['KNOWLEDGE_LABEL'])
+
 
     const getKnowledgeDetail = async () => {
       const res: any = await context.$api.detailKnowledge(knowledgeId.value)
@@ -62,7 +56,6 @@ export default defineComponent ({
     }
 
     onMounted(async () => {
-      await getDict()
       await getKnowledgeDetail()
     })
 
@@ -71,7 +64,7 @@ export default defineComponent ({
       knowledgeId,
       loading,
       detail,
-      labelMap
+      dataDict
     }
   }
 })

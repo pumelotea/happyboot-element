@@ -19,10 +19,10 @@
               style="width: 100%"
             >
               <el-option
-                v-for="(item, key) in esLabelOptions"
-                :key="key"
-                :label="item"
-                :value="key"
+                v-for="item in dataDict.KNOWLEDGE_LABEL?.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               />
             </el-select>
           </hb-form-item-container>
@@ -57,7 +57,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -67,7 +67,7 @@
       <el-table-column prop="title" align="center" label="标题" />
       <el-table-column prop="label" align="center" label="标签">
         <template #default="scope">{{
-          esLabelOptions[scope.row.label]
+            dataDict.KNOWLEDGE_LABEL?.mappings[scope.row.label]
         }}</template>
       </el-table-column>
       <el-table-column prop="content" align="center" label="内容">
@@ -105,27 +105,24 @@
       />
     </template>
     <form-drawer ref="FD" @handleSubmit="handleSearch" />
-    <detail-drawer ref="DD" />
   </hb-page-layout>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import FormDrawer from './drawer/FormDrawer.vue'
-import DetailDrawer from './drawer/DetailDrawer.vue'
 import { timeFormat } from '@/common/utils'
 import { createPage } from '@/common/page'
+import { loadDict } from '@/common/dict'
 export default defineComponent ({
   name: 'index',
   components: {
     FormDrawer,
-    DetailDrawer
   },
   setup() {
     const context = self()
 
     const FD: any = ref(null)
-    const DD: any = ref(null)
 
     const {
       pageData: tableData,
@@ -152,38 +149,7 @@ export default defineComponent ({
       deleteAPI:context.$api.deleteKnowledge
     })
 
-    const esLabelOptions: any = ref({})
-
-    //初始化字典
-    const getDict = async (success: any, error: any) => {
-      const res: any = await context.$api.dictItemsMap('KNOWLEDGE_LABEL')
-      if (res.code === 0) {
-        success(res.data)
-      } else {
-        error()
-      }
-    }
-
-    const initDict = () => {
-      //初始化字典
-      getDict(
-          (success: any) => {
-            let temp: any = {}
-            for (let i = 0; i < success.KNOWLEDGE_LABEL.length; i++) {
-              temp[success.KNOWLEDGE_LABEL[i].value] =
-                  success.KNOWLEDGE_LABEL[i].label
-            }
-            esLabelOptions.value = temp
-          },
-          (err: any) => {
-            context.$notify({
-              type: 'error',
-              title: '提示',
-              message: err.msg
-            })
-          }
-      )
-    }
+    const { dataDict } = loadDict(['KNOWLEDGE_LABEL'])
 
     const handleAdd = () => {
       (FD.value as any).add()
@@ -214,13 +180,8 @@ export default defineComponent ({
       return val
     }
 
-    onMounted(() => {
-      initDict()
-    })
 
     return {
-      getDict,
-      initDict,
       pageSizeChange,
       pageNoChange,
       handleSearch,
@@ -235,9 +196,8 @@ export default defineComponent ({
       rowSelected,
       pageConditionSearch,
       tableData,
-      esLabelOptions,
-      FD,
-      DD
+      dataDict,
+      FD
     }
   }
 })

@@ -34,7 +34,7 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in typeOptions"
+            v-for="item in dataDict.FACILITY_TYPE?.options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -50,7 +50,7 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in platformOptions"
+            v-for="item in dataDict.FACILITY_PLATFORM?.options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -64,7 +64,8 @@
     <template #actions v-if="pointDrawerDeploy.haveSubmit">
       <el-button @click="isShow = false">取消</el-button>
       <el-button type="primary" @click="handleSubmit('pointForm')"
-        >确认</el-button
+      >确认
+      </el-button
       >
     </template>
   </hb-drawer-layout>
@@ -73,16 +74,15 @@
 <script lang='ts'>
 import { defineComponent, nextTick, ref } from 'vue'
 import { self } from '@/common'
+import { loadDict } from '@/common/dict'
 
-export default defineComponent ({
+export default defineComponent({
   name: 'PointDrawer',
   setup(props, { emit }) {
     const context = self()
 
     const isShow = ref(false)
     const pointDrawerDeploy: any = ref({})
-    const typeOptions: any = ref([])
-    const platformOptions: any = ref([])
     const form = ref({
       id: '',
       facilityName: '',
@@ -107,24 +107,7 @@ export default defineComponent ({
       ]
     }
 
-    //初始化字典
-    const initDict = async () => {
-      const res: any = await context.$api.dictItemsMap(
-        'FACILITY_PLATFORM,FACILITY_TYPE'
-      )
-      if (res.code === 0) {
-        typeOptions.value = []
-        typeOptions.value = res.data.FACILITY_TYPE
-        platformOptions.value = []
-        platformOptions.value = res.data.FACILITY_PLATFORM
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
-    }
+    const { dataDict, dictRefresh } = loadDict(['FACILITY_PLATFORM', 'FACILITY_TYPE'],true)
 
     const handleSubmit = async (formName: any) => {
       const valid: any = await new Promise((resolve: any) => {
@@ -162,7 +145,7 @@ export default defineComponent ({
     const open = (deploy: any, data: any) => {
       isShow.value = true
       pointDrawerDeploy.value = deploy
-      initDict()
+      dictRefresh()
       nextTick(() => {
         //初始化表单
         form.value.id = ''
@@ -180,15 +163,13 @@ export default defineComponent ({
     }
 
     return {
-      initDict,
       handleSubmit,
       open,
       isShow,
       pointDrawerDeploy,
-      typeOptions,
-      platformOptions,
       form,
-      rules
+      rules,
+      dataDict
     }
   }
 })

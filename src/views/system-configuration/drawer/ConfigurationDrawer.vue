@@ -22,7 +22,7 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in typeOptions"
+            v-for="item in dataDict.SYS_CONFIG_TYPE?.options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -39,16 +39,19 @@
     <template #actions v-if="configurationDrawerDeploy.haveSubmit">
       <el-button @click="isShow = false">取消</el-button>
       <el-button type="primary" @click="handleSubmit('configurationForm')"
-        >确认</el-button
+      >确认
+      </el-button
       >
     </template>
   </hb-drawer-layout>
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick } from 'vue'
 import { self } from '@/common'
-export default defineComponent ({
+import { loadDict } from '@/common/dict'
+
+export default defineComponent({
   name: 'ConfigurationDrawer',
   setup(props, { emit }) {
     const context = self()
@@ -75,20 +78,7 @@ export default defineComponent ({
       ]
     }
 
-    //初始化字典
-    const initDict = async () => {
-      const res: any = await context.$api.dictItemsMap('SYS_CONFIG_TYPE')
-      if (res.code === 0) {
-        typeOptions.value = []
-        typeOptions.value = res.data.SYS_CONFIG_TYPE
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
-    }
+    const { dataDict, dictRefresh } = loadDict(['SYS_CONFIG_TYPE'], true)
 
     const handleSubmit = async (formName: any) => {
       const valid = await new Promise((resolve: any) => {
@@ -126,6 +116,7 @@ export default defineComponent ({
     const open = (deploy: any, data: any) => {
       isShow.value = true
       configurationDrawerDeploy.value = deploy
+      dictRefresh()
       nextTick(() => {
         //初始化表单
         form.value.id = ''
@@ -140,19 +131,15 @@ export default defineComponent ({
       })
     }
 
-    onMounted(() => {
-      initDict()
-    })
-
     return {
       open,
-      initDict,
       handleSubmit,
       isShow,
       configurationDrawerDeploy,
       typeOptions,
       form,
-      rules
+      rules,
+      dataDict
     }
   }
 })
