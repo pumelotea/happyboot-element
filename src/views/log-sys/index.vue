@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :md="6">
           <hb-form-item-container label="用户名">
-            <el-input v-model="tableData.searchCondition.account"></el-input>
+            <el-input v-model="tableData.searchCondition.username"></el-input>
           </hb-form-item-container>
         </el-col>
       </el-row>
@@ -14,7 +14,7 @@
             type="primary"
             size="medium"
             @click="pageConditionSearch"
-            >查询
+          >查询
           </el-button>
           <el-button type="primary" size="medium" plain @click="handleReset">
             重置
@@ -23,23 +23,17 @@
       </el-row>
     </template>
     <el-table size="mini" :data="tableData.list" border v-loading="tableData.loading">
-      <el-table-column fixed type="index" width="50"> </el-table-column>
-      <el-table-column prop="createTime" label="操作时间" width="180">
+      <el-table-column fixed type="index" width="50"></el-table-column>
+      <el-table-column prop="requestMethod" label="请求方法" width="100"></el-table-column>
+      <el-table-column prop="requestTime" label="请求时间" width="180"></el-table-column>
+      <el-table-column prop="requestIp" label="IP地址" width="120"></el-table-column>
+      <el-table-column prop="description" label="描述"></el-table-column>
+      <el-table-column prop="requestArgs" label="请求参数" width="300"></el-table-column>
+      <el-table-column prop="requestUri" label="请求完整URL" width="300">
       </el-table-column>
-      <el-table-column prop="ip" label="IP地址" width="120"></el-table-column>
-      <el-table-column prop="requestType" label="请求方法" width="80">
-      </el-table-column>
-      <el-table-column
-        prop="requestParam"
-        label="请求参数"
-        width="300"
-      ></el-table-column>
-      <el-table-column prop="method" label="代码方法" width="300">
-      </el-table-column>
-      <el-table-column prop="requestUrl" label="请求完整URL" width="300">
-      </el-table-column>
-      <el-table-column prop="costTime" label="耗时/ms" width="100">
-      </el-table-column>
+      <!--      <el-table-column prop="responseArgs" label="响应内容" width="300">-->
+      <!--      </el-table-column>-->
+      <el-table-column prop="costTime" label="耗时/ms" width="100"></el-table-column>
     </el-table>
     <template #pagination>
       <el-pagination
@@ -60,7 +54,7 @@ import { defineComponent } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
 
-export default defineComponent ({
+export default defineComponent({
   name: 'index',
   setup() {
     const context = self()
@@ -70,24 +64,27 @@ export default defineComponent ({
       pageNoChange,
       pageSizeChange,
       pageConditionSearch,
-      defaultPageReset: handleReset,
+      defaultPageReset: handleReset
     } = createPage({
       conditions: {
-        account: {
-          default:'',
+        username: {
+          default: '',
           reset: ''
+        },
+        type: {
+          default: 'sys',
+          reset: 'sys'
         }
       },
       dataAPI: context.$api.logPage
     })
-
 
     return {
       pageNoChange,
       pageSizeChange,
       handleReset,
       pageConditionSearch,
-      tableData,
+      tableData
     }
   }
 })
