@@ -11,7 +11,7 @@
         <hb-text-logo2/>
       </span>
 
-    <img v-if="isCollapse" class="logo-svg" src="favicon.svg" />
+    <img v-if="isCollapse" class="logo-svg" src="favicon_white.svg" />
   </div>
 </template>
 
