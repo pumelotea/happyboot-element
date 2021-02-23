@@ -17,7 +17,7 @@
             permission-key="add"
             >新增</el-button
           >
-          <el-button type="primary" size="medium" @click="handleConditionSearch"
+          <el-button type="primary" size="medium" @click="pageConditionSearch"
             >查询</el-button
           >
           <el-button type="primary" size="medium" plain @click="handleReset"
@@ -28,7 +28,7 @@
             type="danger"
             size="medium"
             @click="handleMultiDelete"
-            v-show="tableSelectedData.length > 0"
+            v-show="tableData.selectedRow.length > 0"
             >批量删除
           </el-button>
         </el-col>
@@ -37,7 +37,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -92,7 +92,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       >
       </el-pagination>
     </template>
@@ -105,8 +105,9 @@
 <script lang='ts'>
 import RoleInfoDrawer from './drawer/RoleInfoDrawer.vue'
 import PermissionLinkDrawer from './drawer/PermissionLinkDrawer.vue'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -119,52 +120,33 @@ export default defineComponent ({
     const RID: any = ref(null)
     const PLD: any = ref(null)
 
-    const tableData: any = ref({
-      searchCondition: {
-        roleName: '',
-        authorityName: '',
-        pageNo: 1,
-        pageSize: 20
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle:handleDelete,
+      defaultMultiDeleteHandle:handleMultiDelete
+    } = createPage({
+      conditions: {
+        roleName: {
+          default:'',
+          reset: ''
+        },
+        authorityName: {
+          default:'',
+          reset: ''
+        },
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.rolePage,
+      deleteAPI: context.$api.roleDelete
     })
+
     const roleInfoDrawerDeploy: any = ref({})
     const permissionLinkDrawerDeploy: any = ref({})
-    const tableSelectedData: any = ref([])
-
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchCondition.pageSize = val
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchCondition.pageNo = val
-      handleSearch()
-    }
-
-    const handleConditionSearch = () => {
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const handleSearch = async () => {
-      tableData.value.loading = true
-
-      const res: any = await context.$api.rolePage(tableData.value.searchCondition)
-      if (res.code === 0) {
-        tableData.value.list = res.data.records
-        tableData.value.total = res.data.total
-      }
-
-      tableData.value.loading = false
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
 
     const handleAdd = () => {
       roleInfoDrawerDeploy.value.title = '新增'
@@ -193,86 +175,9 @@ export default defineComponent ({
       (PLD.value as any).open(row)
     }
 
-    const handleDelete = (row: any) => {
-      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          context.$api.roleDelete(row.id).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-    }
-
-    const handleMultiDelete = () => {
-      context.$confirm(
-        '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          let ids = ''
-          tableSelectedData.value.forEach((item: any) => {
-            ids = ids + ',' + item.id
-          })
-
-          context.$api.roleDelete(ids.substr(1)).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-    }
-
-    const handleReset = () => {
-      tableData.value.searchCondition.roleName = ''
-      tableData.value.searchCondition.authorityName = ''
-      tableData.value.searchCondition.pageNo = 1
-      tableData.value.searchCondition.pageSize = 20
-      handleSearch()
-    }
-
-    onMounted(() => {
-      handleSearch()
-    })
-
     return {
       pageSizeChange,
-      currentClick,
-      handleConditionSearch,
-      tableSelected,
+      pageNoChange,
       handleAdd,
       handleReset,
       handleMultiDelete,
@@ -281,9 +186,10 @@ export default defineComponent ({
       handleDetail,
       handleEdit,
       handleSearch,
+      rowSelected,
+      pageConditionSearch,
       RID,
       PLD,
-      tableSelectedData,
       permissionLinkDrawerDeploy,
       roleInfoDrawerDeploy,
       tableData

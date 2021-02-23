@@ -5,7 +5,7 @@
         <el-col :md="6">
           <hb-form-item-container :label="'文件名称'">
             <el-input
-              v-model="tableData.searchQuery.fileName"
+              v-model="tableData.searchCondition.fileName"
               placeholder="请输入文件名称"
             />
           </hb-form-item-container>
@@ -27,7 +27,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -82,91 +82,45 @@
     <template #pagination>
       <el-pagination
         :page-sizes="[20, 50, 100]"
-        :page-size="tableData.searchQuery.pageSize"
+        :page-size="tableData.searchCondition.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       />
     </template>
   </hb-page-layout>
 </template>
 <script lang='ts'>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { self } from '@/common'
 import { downloadFile } from '@/common/utils'
+import { createPage } from '@/common/page'
 
 export default defineComponent({
   name: 'index',
   setup() {
     const context = self()
 
-    const tableData = ref({
-      searchQuery: {
-        fileName: '',
-        pageNo: 1,
-        pageSize: 20
-      },
-      total: 0,
-      loading: false,
-      list: []
-    })
-    const tableSelectedData: any = ref([])
-
-    //查询
-    const search = async (success: any, error: any) => {
-      tableData.value.loading = true
-      const res: any = await context.$api.filePage(tableData.value.searchQuery)
-      if (res.code === 0) {
-        success(res)
-      } else {
-        error(res)
-      }
-      tableData.value.loading = false
-    }
-
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchQuery.pageSize = val
-      tableData.value.searchQuery.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchQuery.pageNo = val
-      handleSearch()
-    }
-
-    const handleSearch = () => {
-      search(
-        (res: any) => {
-          tableData.value.list = res.data.records
-          tableData.value.total = Number(res.data.total)
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageSizeChange,
+      pageNoChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset
+    } = createPage({
+      conditions: {
+        fileName: {
+          default:'',
+          reset: ''
         },
-        (err: any) => {
-          context.$notify({
-            type: 'error',
-            title: '提示',
-            message: err.msg
-          })
-        }
-      )
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
-
-    //重置
-    const handleReset = () => {
-      tableData.value.searchQuery.fileName = ''
-      tableData.value.searchQuery.pageSize = 20
-      tableData.value.searchQuery.pageNo = 1
-
-      handleSearch()
-    }
+      },
+      dataAPI: context.$api.filePage
+    })
 
     const download = async (item: any) => {
-
       try {
         const res = await context.$api.download(item.id)
         downloadFile(res.data,res.headers.file_name)
@@ -179,20 +133,15 @@ export default defineComponent({
       }
     }
 
-    onMounted(() => {
-      handleSearch()
-    })
-
     return {
-      search,
       pageSizeChange,
-      currentClick,
       handleSearch,
-      tableSelected,
       handleReset,
       download,
+      pageNoChange,
+      pageConditionSearch,
+      rowSelected,
       tableData,
-      tableSelectedData
     }
   }
 })

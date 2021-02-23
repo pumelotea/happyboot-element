@@ -5,7 +5,7 @@
         <el-col :md="6">
           <hb-form-item-container :label="'是否启用'">
             <el-select
-              v-model="tableData.searchQuery.enable"
+              v-model="tableData.searchCondition.enable"
               clearable
               placeholder="请选择"
               style="width: 100%"
@@ -29,7 +29,7 @@
             @click="handleAdd"
             >新增</el-button
           >
-          <el-button type="primary" size="medium" @click="handleSearch"
+          <el-button type="primary" size="medium" @click="pageConditionSearch"
             >查询</el-button
           >
           <el-button type="primary" size="medium" plain @click="handleReset"
@@ -40,7 +40,7 @@
             type="danger"
             size="medium"
             @click="handleMultiDelete"
-            v-show="tableSelectedData.length > 0"
+            v-show="tableData.selectedRow.length > 0"
             >批量删除</el-button
           >
         </el-col>
@@ -49,7 +49,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -93,11 +93,11 @@
     <template #pagination>
       <el-pagination
         :page-sizes="[20, 50, 100]"
-        :page-size="tableData.searchQuery.pageSize"
+        :page-size="tableData.searchCondition.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       />
     </template>
     <form-drawer ref="FD" @handleSubmit="handleSearch" />
@@ -107,8 +107,9 @@
 <script lang='ts'>
 import FormDrawer from './drawer/FormDrawer.vue'
 import DetailDrawer from './drawer/DetailDrawer.vue'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
 
 export default defineComponent ({
   name: 'index',
@@ -122,73 +123,28 @@ export default defineComponent ({
     const FD: any = ref(null)
     const DD: any = ref(null)
 
-    const tableData = ref({
-      searchQuery: {
-        enable: '',
-        pageNo: 1,
-        pageSize: 20
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle:handleDelete,
+      defaultMultiDeleteHandle:handleMultiDelete
+    } = createPage({
+      conditions: {
+        enable: {
+          default:'',
+          reset: ''
+        },
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.getBanner,
+      deleteAPI: context.$api.deleteBanner
     })
+
     const isEnableOptions = { 0: '否', 1: '是' }
-    const tableSelectedData: any = ref([])
-
-    //查询
-    const search = async (success: any, error: any) => {
-      tableData.value.loading = true
-      const res: any = await context.$api.getBanner(tableData.value.searchQuery)
-      if (res.code === 0) {
-        success(res)
-      } else {
-        error(res)
-      }
-      tableData.value.loading = false
-    }
-
-    // 删除 可批量删除，id用,隔开
-    const doDelete = async (id: any, success: any, error: any) => {
-      tableData.value.loading = true
-      const res: any = await context.$api.deleteBanner(id)
-      if (res.code === 0) {
-        success(res)
-      } else {
-        error(res)
-      }
-      tableData.value.loading = false
-    }
-
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchQuery.pageSize = val
-      tableData.value.searchQuery.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchQuery.pageNo = val
-      handleSearch()
-    }
-
-    const handleSearch = () => {
-      search(
-          (res: any) => {
-            tableData.value.list = res.data.records
-            tableData.value.total = Number(res.data.total)
-          },
-          (err: any) => {
-            context.$notify({
-              type: 'error',
-              title: '提示',
-              message: err.msg
-            })
-          }
-      )
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
 
     const handleAdd = () => {
       (FD.value as any).add()
@@ -202,83 +158,20 @@ export default defineComponent ({
       (DD.value as any).detail({ id: row.id })
     }
 
-    // 单删
-    const handleDelete = (row: any) => {
-      const msg = '即将删除该条数据, 是否确认?'
-      const ids = row.id
-      implementDelete(ids, msg)
-    }
-
-    // 多删
-    const handleMultiDelete = () => {
-      const msg =
-          '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?'
-      let ids = ''
-      tableSelectedData.value.forEach((item: any) => {
-        ids = ids + ',' + item.id
-      })
-      implementDelete(ids, msg)
-    }
-
-    // 执行删除
-    const implementDelete = (ids: any, msg: any) => {
-      context.$confirm(msg, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-          .then(() => {
-            doDelete(
-                ids,
-                () => {
-                  tableData.value.searchQuery.pageNo = 1
-                  handleSearch()
-                  context.$notify({
-                    type: 'success',
-                    title: '提示',
-                    message: '删除成功！'
-                  })
-                },
-                (err: any) => {
-                  context.$notify({
-                    type: 'error',
-                    title: '提示',
-                    message: err.msg
-                  })
-                }
-            )
-          })
-    }
-
-    //重置
-    const handleReset = () => {
-      tableData.value.searchQuery.enable = ''
-      tableData.value.searchQuery.pageNo = 1
-      tableData.value.searchQuery.pageSize = 20
-      handleSearch()
-    }
-
-    onMounted(() => {
-      handleSearch()
-    })
-
     return {
-      search,
-      doDelete,
       pageSizeChange,
-      currentClick,
       handleSearch,
-      tableSelected,
       handleAdd,
       handleEdit,
       handleDetail,
       handleDelete,
       handleMultiDelete,
-      implementDelete,
       handleReset,
+      pageNoChange,
+      rowSelected,
+      pageConditionSearch,
       tableData,
       isEnableOptions,
-      tableSelectedData,
       FD,
       DD
     }

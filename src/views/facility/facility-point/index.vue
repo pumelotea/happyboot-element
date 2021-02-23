@@ -57,7 +57,7 @@
           <el-button
             type="primary"
             size="medium"
-            @click="handleConditionSearch"
+            @click="pageConditionSearch"
           >
             查询
           </el-button>
@@ -69,7 +69,7 @@
             type="danger"
             size="medium"
             @click="handleMultiDelete"
-            v-show="tableSelectedData.length > 0"
+            v-show="tableData.selectedRow.length > 0"
           >
             批量删除
           </el-button>
@@ -79,7 +79,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -138,7 +138,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       >
       </el-pagination>
     </template>
@@ -152,6 +152,7 @@ import { self } from '@/common'
 import PointDrawer from '@/views/facility/facility-point/drawer/PointDrawer.vue'
 import ConfigurationDrawer from '@/views/facility/facility-point/drawer/ConfigurationDrawer.vue'
 import { defineComponent, onMounted, ref } from 'vue'
+import { createPage } from '@/common/page'
 
 export default defineComponent({
   name: 'index',
@@ -165,24 +166,40 @@ export default defineComponent({
     const PD: any = ref(null)
     const CD: any = ref(null)
 
-    const tableData = ref({
-      searchCondition: {
-        facilityName: '',
-        facilityPlatform: '',
-        facilityType: '',
-        pageNo: 1,
-        pageSize: 20
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageSizeChange,
+      pageNoChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle:handleDelete,
+      defaultMultiDeleteHandle:handleMultiDelete
+    } = createPage({
+      conditions: {
+        facilityName: {
+          default:'',
+          reset: ''
+        },
+        facilityPlatform: {
+          default:'',
+          reset: ''
+        },
+        facilityType: {
+          default:'',
+          reset: ''
+        },
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.facilityPage,
+      deleteAPI: context.$api.facilityDelete
     })
+
     const pointDrawerDeploy: any = ref({})
     const platformOptions: any = ref([])
     const platformTrans: any = ref([])
     const typeOptions: any = ref([])
     const typeTrans: any = ref([])
-    const tableSelectedData: any = ref([])
 
     //初始化字典
     const initDict = async () => {
@@ -211,38 +228,6 @@ export default defineComponent({
       }
     }
 
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchCondition.pageSize = val
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchCondition.pageNo = val
-      handleSearch()
-    }
-
-    const handleConditionSearch = () => {
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const handleSearch = async () => {
-      tableData.value.loading = true
-
-      const res: any = await context.$api.facilityPage(tableData.value.searchCondition)
-      if (res.code === 0) {
-        tableData.value.list = res.data.records
-        tableData.value.total = res.data.total
-      }
-
-      tableData.value.loading = false
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
-
     const handleAdd = () => {
       pointDrawerDeploy.value.title = '新增'
       pointDrawerDeploy.value.haveSubmit = true
@@ -267,104 +252,29 @@ export default defineComponent({
       ;(CD.value as any).open(configurationDrawerDeploy, row)
     }
 
-    const handleDelete = (row: any) => {
-      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          context.$api.facilityDelete(row.id).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-    }
-
-    const handleMultiDelete = () => {
-      context.$confirm(
-        '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          let ids = ''
-          tableSelectedData.value.forEach((item: any) => {
-            ids = ids + ',' + item.id
-          })
-
-          context.$api.facilityDelete(ids.substr(1)).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-    }
-
-    const handleReset = () => {
-      tableData.value.searchCondition.facilityName = ''
-      tableData.value.searchCondition.facilityPlatform = ''
-      tableData.value.searchCondition.facilityType = ''
-      tableData.value.searchCondition.pageNo = 1
-      tableData.value.searchCondition.pageSize = 20
-
-      handleSearch()
-    }
-
     onMounted(async () => {
       await initDict()
-      await handleSearch()
     })
 
     return {
       initDict,
       pageSizeChange,
-      currentClick,
-      handleConditionSearch,
       handleSearch,
-      tableSelected,
       handleAdd,
       handleEdit,
       handleConfiguration,
       handleDelete,
       handleMultiDelete,
       handleReset,
+      pageNoChange,
+      rowSelected,
+      pageConditionSearch,
       tableData,
       pointDrawerDeploy,
       platformOptions,
       platformTrans,
       typeOptions,
       typeTrans,
-      tableSelectedData,
       PD,
       CD
     }

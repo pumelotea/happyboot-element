@@ -6,14 +6,14 @@
           <hb-form-item-container :label="'标题'">
             <el-input
               placeholder="请输入标题"
-              v-model="tableData.searchQuery.title"
+              v-model="tableData.searchCondition.title"
             />
           </hb-form-item-container>
         </el-col>
         <el-col :md="6">
           <hb-form-item-container :label="'标签'">
             <el-select
-              v-model="tableData.searchQuery.label"
+              v-model="tableData.searchCondition.label"
               clearable
               placeholder="请选择"
               style="width: 100%"
@@ -37,7 +37,7 @@
             @click="handleAdd"
             >新增</el-button
           >
-          <el-button type="primary" size="medium" @click="handleSearch"
+          <el-button type="primary" size="medium" @click="pageConditionSearch"
             >查询</el-button
           >
           <el-button type="primary" size="medium" plain @click="handleReset"
@@ -48,7 +48,7 @@
             type="danger"
             size="medium"
             @click="handleMultiDelete"
-            v-show="tableSelectedData.length > 0"
+            v-show="tableData.selectedRow.length > 0"
             >批量删除</el-button
           >
         </el-col>
@@ -97,11 +97,11 @@
     <template #pagination>
       <el-pagination
         :page-sizes="[20, 50, 100]"
-        :page-size="tableData.searchQuery.pageSize"
+        :page-size="tableData.searchCondition.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       />
     </template>
     <form-drawer ref="FD" @handleSubmit="handleSearch" />
@@ -109,11 +109,12 @@
   </hb-page-layout>
 </template>
 <script lang='ts'>
-import { defineComponent, ref, reactive, onMounted } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { self } from '@/common'
 import FormDrawer from './drawer/FormDrawer.vue'
 import DetailDrawer from './drawer/DetailDrawer.vue'
 import { timeFormat } from '@/common/utils'
+import { createPage } from '@/common/page'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -126,19 +127,32 @@ export default defineComponent ({
     const FD: any = ref(null)
     const DD: any = ref(null)
 
-    const tableData = reactive({
-      searchQuery: {
-        label: '',
-        title: '',
-        pageNo: 1,
-        pageSize: 20
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle:handleDelete,
+      defaultMultiDeleteHandle:handleMultiDelete
+    } = createPage({
+      conditions: {
+        label: {
+          default:'',
+          reset: ''
+        },
+        title: {
+          default:'',
+          reset: ''
+        },
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.getKnowledge,
+      deleteAPI:context.$api.deleteKnowledge
     })
+
     const esLabelOptions: any = ref({})
-    const tableSelectedData: any = ref([])
 
     //初始化字典
     const getDict = async (success: any, error: any) => {
@@ -148,30 +162,6 @@ export default defineComponent ({
       } else {
         error()
       }
-    }
-
-    //查询
-    const search = async (success: any, error: any) => {
-      tableData.loading = true
-      const res: any = await context.$api.getKnowledge(tableData.searchQuery)
-      if (res.code === 0) {
-        success(res)
-      } else {
-        error(res)
-      }
-      tableData.loading = false
-    }
-
-    // 删除 可批量删除，id用,隔开
-    const doDelete = async (id: any, success: any, error: any) => {
-      tableData.loading = true
-      const res: any = await context.$api.deleteKnowledge(id)
-      if (res.code === 0) {
-        success(res)
-      } else {
-        error(res)
-      }
-      tableData.loading = false
     }
 
     const initDict = () => {
@@ -195,37 +185,6 @@ export default defineComponent ({
       )
     }
 
-    const pageSizeChange = (val: any) => {
-      tableData.searchQuery.pageSize = val
-      tableData.searchQuery.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.searchQuery.pageNo = val
-      handleSearch()
-    }
-
-    const handleSearch = () => {
-      search(
-          (res: any) => {
-            tableData.list = res.data.records
-            tableData.total = Number(res.data.total)
-          },
-          (err: any) => {
-            context.$notify({
-              type: 'error',
-              title: '提示',
-              message: err.msg
-            })
-          }
-      )
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
-
     const handleAdd = () => {
       (FD.value as any).add()
     }
@@ -236,63 +195,6 @@ export default defineComponent ({
 
     const handleDetail = (row: any) => {
       context.$router.push({path:'/mb-mgt/knowledge-detail',query:{knowledgeId:row.id}}, row.title)
-    }
-
-    // 单删
-    const handleDelete = (row: any) => {
-      const msg = '即将删除该条数据, 是否确认?'
-      const ids = row.id
-      implementDelete(ids, msg)
-    }
-
-    // 多删
-    const handleMultiDelete = () => {
-      const msg =
-          '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?'
-      let ids = ''
-      tableSelectedData.value.forEach((item: any) => {
-        ids = ids + ',' + item.id
-      })
-      implementDelete(ids, msg)
-    }
-
-    // 执行删除
-    const implementDelete = (ids: any, msg: any) => {
-      context.$confirm(msg, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        doDelete(
-          ids,
-          () => {
-            tableData.searchQuery.pageNo = 1
-            handleSearch()
-            context.$notify({
-              type: 'success',
-              title: '提示',
-              message: '删除成功！'
-            })
-          },
-          (err: any) => {
-            context.$notify({
-              type: 'error',
-              title: '提示',
-              message: err.msg
-            })
-          }
-        )
-      })
-    }
-
-    //重置
-    const handleReset = () => {
-      tableData.searchQuery.label = ''
-      tableData.searchQuery.title = ''
-      tableData.searchQuery.pageNo = 1
-      tableData.searchQuery.pageSize = 20
-
-      handleSearch()
     }
 
     const formatTime = (val: any) => {
@@ -314,30 +216,26 @@ export default defineComponent ({
 
     onMounted(() => {
       initDict()
-      handleSearch()
     })
 
     return {
       getDict,
       initDict,
-      search,
-      doDelete,
       pageSizeChange,
-      currentClick,
+      pageNoChange,
       handleSearch,
-      tableSelected,
       handleAdd,
       handleEdit,
       handleDetail,
       handleDelete,
       handleMultiDelete,
       handleReset,
-      implementDelete,
       formatTime,
       formatText,
+      rowSelected,
+      pageConditionSearch,
       tableData,
       esLabelOptions,
-      tableSelectedData,
       FD,
       DD
     }

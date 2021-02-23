@@ -16,7 +16,7 @@ httpClient.interceptors.response.use(responseInterceptor, responseErrorHandler)
 
 
 export function $post(url: string, params?: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     httpClient
       .post(url, params)
       .then(
@@ -34,7 +34,7 @@ export function $post(url: string, params?: any) {
 }
 
 export function $get(url: string, params?: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     httpClient
       .get(url, {
         params: params
@@ -49,7 +49,7 @@ export function $get(url: string, params?: any) {
 }
 
 export function $download(url: string, params?: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     httpClient
       .get(url, {
         params: params,
@@ -65,7 +65,7 @@ export function $download(url: string, params?: any) {
 }
 
 export function $delete(url: string, params?: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     httpClient
       .delete(url, { params: params })
       .then(
@@ -83,7 +83,7 @@ export function $delete(url: string, params?: any) {
 }
 
 export function $put(url: string, params?: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     httpClient
       .put(url, params)
       .then(res => {

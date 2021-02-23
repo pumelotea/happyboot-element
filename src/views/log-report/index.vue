@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :md="6">
           <hb-form-item-container label="用户名">
-            <el-input v-model="tableData.account"></el-input>
+            <el-input v-model="tableData.searchCondition.account"></el-input>
           </hb-form-item-container>
         </el-col>
       </el-row>
@@ -13,15 +13,10 @@
           <el-button
             type="primary"
             size="medium"
-            @click="
-              () => {
-                tableData.page = 1
-                getPage()
-              }
-            "
+            @click="pageConditionSearch"
             >查询
           </el-button>
-          <el-button type="primary" size="medium" plain @click="reset">
+          <el-button type="primary" size="medium" plain @click="handleReset">
             重置
           </el-button>
         </el-col>
@@ -48,24 +43,12 @@
     </el-table>
     <template #pagination>
       <el-pagination
-        :current-page="tableData.page"
+        :page-size="tableData.searchCondition.pageSize"
         :page-sizes="[20, 50, 100]"
-        :page-size="tableData.pageSize"
-        @size-change="
-          e => {
-            tableData.pageSize = e
-            tableData.page = 1
-            getPage()
-          }
-        "
-        @current-change="
-          e => {
-            tableData.page = e
-            getPage()
-          }
-        "
+        @size-change="pageSizeChange"
+        @current-change="pageNoChange"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.totalPage"
+        :total="tableData.total"
       >
       </el-pagination>
     </template>
@@ -73,55 +56,38 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
 
 export default defineComponent ({
   name: 'index',
   setup() {
     const context = self()
 
-    const tableData = ref({
-      account: '',
-      loading: false,
-      page: 1,
-      pageSize: 20,
-      totalPage: 0,
-      list: []
+    const {
+      pageData: tableData,
+      pageNoChange,
+      pageSizeChange,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+    } = createPage({
+      conditions: {
+        account: {
+          default:'',
+          reset: ''
+        }
+      },
+      dataAPI: context.$api.logPage
     })
 
-    const reset = () => {
-      tableData.value.account = ''
-      tableData.value.loading = false
-      tableData.value.page = 1
-      getPage()
-    }
-
-    const getPage = async () => {
-      tableData.value.loading = true
-
-      const res: any = await context.$api.logPage({
-        account: tableData.value.account,
-        pageNo: tableData.value.page,
-        pageSize: tableData.value.pageSize
-      })
-
-      if (res.code === 0) {
-        tableData.value.list = res.data.records
-        tableData.value.totalPage = res.data.total
-      }
-
-      tableData.value.loading = false
-    }
-
-    onMounted(() => {
-      getPage()
-    })
 
     return {
-      reset,
-      getPage,
-      tableData
+      pageNoChange,
+      pageSizeChange,
+      handleReset,
+      pageConditionSearch,
+      tableData,
     }
   }
 })

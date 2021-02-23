@@ -53,7 +53,7 @@
             @click="handleAdd"
           >新增
           </el-button>
-          <el-button type="primary" size="medium" @click="handleConditionSearch"
+          <el-button type="primary" size="medium" @click="pageConditionSearch"
           >查询
           </el-button>
           <el-button type="primary" size="medium" plain @click="handleReset"
@@ -64,7 +64,7 @@
             type="danger"
             size="medium"
             @click="handleMultiDelete"
-            v-show="tableSelectedData.length > 0"
+            v-show="tableData.selectedRow.length > 0"
           >批量删除
           </el-button>
         </el-col>
@@ -73,7 +73,7 @@
     <el-table
       size="mini"
       :data="tableData.list"
-      @selection-change="tableSelected"
+      @selection-change="rowSelected"
       border
       v-loading="tableData.loading"
       style="width: 100%"
@@ -137,53 +137,53 @@
             /></el-button>
             <template #dropdown>
               <el-dropdown-menu>
-              <el-dropdown-item>
-                <el-button
-                  @click="handleDelete(scope.row)"
-                  type="text"
-                  permission-key="delete"
-                  style="color: red"
-                >
-                  删除
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button @click="handlePasswordChange(scope.row)" type="text">
-                  密码修改
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button @click="handleRoleLink(scope.row)" type="text">
-                  角色关联
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button @click="handleDeptLink(scope.row)" type="text">
-                  部门关联
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button @click="handleRegionLink(scope.row)" type="text">
-                  区域关联
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button
-                  @click="handleFacilityGroupLink(scope.row)"
-                  type="text"
-                >
-                  配置功能
-                </el-button>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-button
-                  @click="handleFacilityConfigurationLink(scope.row)"
-                  type="text"
-                >
-                  参数配置
-                </el-button>
-              </el-dropdown-item>
-            </el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button
+                    @click="handleDelete(scope.row)"
+                    type="text"
+                    permission-key="delete"
+                    style="color: red"
+                  >
+                    删除
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button @click="handlePasswordChange(scope.row)" type="text">
+                    密码修改
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button @click="handleRoleLink(scope.row)" type="text">
+                    角色关联
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button @click="handleDeptLink(scope.row)" type="text">
+                    部门关联
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button @click="handleRegionLink(scope.row)" type="text">
+                    区域关联
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button
+                    @click="handleFacilityGroupLink(scope.row)"
+                    type="text"
+                  >
+                    配置功能
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button
+                    @click="handleFacilityConfigurationLink(scope.row)"
+                    type="text"
+                  >
+                    参数配置
+                  </el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
             </template>
           </el-dropdown>
         </template>
@@ -196,7 +196,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.total"
         @size-change="pageSizeChange"
-        @current-change="currentClick"
+        @current-change="pageNoChange"
       >
       </el-pagination>
     </template>
@@ -216,6 +216,7 @@
 <script lang='ts'>
 import { defineComponent, onMounted, ref } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
 
 import UserInfoDrawer from './drawer/UserInfoDrawer.vue'
 import UserInfoEditDrawer from './drawer/UserInfoEditDrawer.vue'
@@ -227,7 +228,7 @@ import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
 import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
 import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
 
-export default defineComponent ({
+export default defineComponent({
   name: 'index',
   components: {
     UserInfoDrawer,
@@ -249,18 +250,36 @@ export default defineComponent ({
     const statusMapping: any = ref({})
     const userTypeOptions = ref([])
     const userTypeMapping: any = ref({})
-    const tableData = ref({
-      searchCondition: {
-        account: '',
-        status: '',
-        userType: '',
-        pageNo: 1,
-        pageSize: 20
+
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle:handleDelete,
+      defaultMultiDeleteHandle:handleMultiDelete
+    } = createPage({
+      conditions: {
+        account: {
+          default:'',
+          reset: ''
+        },
+        status: {
+          default:'',
+          reset: ''
+        },
+        userType: {
+          default:'',
+          reset: ''
+        }
       },
-      total: 0,
-      loading: false,
-      list: []
+      dataAPI: context.$api.userPage,
+      deleteAPI:context.$api.userDelete
     })
+
     const UID = ref(null)
     const UIED = ref(null)
     const UIDD = ref(null)
@@ -272,37 +291,6 @@ export default defineComponent ({
     const FCD = ref(null)
     const userInfoDrawerDeploy: any = {}
     const roleLinkDrawerDeploy: any = {}
-    const tableSelectedData = ref([])
-
-    const pageSizeChange = (val: any) => {
-      tableData.value.searchCondition.pageSize = val
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const currentClick = (val: any) => {
-      tableData.value.searchCondition.pageNo = val
-      handleSearch()
-    }
-
-    const handleConditionSearch = () => {
-      tableData.value.searchCondition.pageNo = 1
-      handleSearch()
-    }
-
-    const handleSearch = async () => {
-      tableData.value.loading = true
-      const res: any = await context.$api.userPage(tableData.value.searchCondition)
-      if (res.code === 0) {
-        tableData.value.list = res.data.records
-        tableData.value.total = Number(res.data.total)
-      }
-      tableData.value.loading = false
-    }
-
-    const tableSelected = (rows: any) => {
-      tableSelectedData.value = rows
-    }
 
     const handleAdd = () => {
       userInfoDrawerDeploy.title = '新增'
@@ -352,80 +340,8 @@ export default defineComponent ({
       (FCD.value as any).open(row.id)
     }
 
-    const handleDelete = (row: any) => {
-      context.$confirm('即将删除该条数据, 是否确认?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          context.$api.userDelete(row.id).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-        .catch(() => {})
-    }
-
-    const handleMultiDelete = () => {
-      context.$confirm(
-        '即将删除这' + tableSelectedData.value.length + '条数据, 是否确认?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      )
-        .then(() => {
-          let ids = ''
-          tableSelectedData.value.forEach((item: any) => {
-            ids = ids + ',' + item.id
-          })
-
-          context.$api.userDelete(ids.substr(1)).then((res: any) => {
-            if (res.code === 0) {
-              tableData.value.searchCondition.pageNo = 1
-              handleSearch()
-              context.$notify({
-                type: 'success',
-                title: '提示',
-                message: '删除成功！'
-              })
-            } else {
-              context.$notify({
-                type: 'error',
-                title: '提示',
-                message: res.msg
-              })
-            }
-          })
-        })
-        .catch(() => {})
-    }
-
-    const handleReset = () => {
-      tableData.value.searchCondition.account = ''
-      tableData.value.searchCondition.status = ''
-      tableData.value.searchCondition.userType = ''
-      handleSearch()
-    }
-
     const initDict = async () => {
-      const res: any = await context.$api.dictItemsMap('STATUS,USER_TYPE')
+      const res = await context.$api.dictItemsMap('STATUS,USER_TYPE')
       if (res.code === 0) {
         statusOptions.value = []
         statusOptions.value = res.data.STATUS
@@ -452,9 +368,8 @@ export default defineComponent ({
       return context.$api.$imgId2Url(data)
     }
 
-     onMounted(async () => {
+    onMounted(async () => {
       await initDict()
-      await handleSearch()
     })
 
     return {
@@ -465,9 +380,7 @@ export default defineComponent ({
       handleFacilityConfigurationLink,
       handleFacilityGroupLink,
       pageSizeChange,
-      currentClick,
-      handleConditionSearch,
-      tableSelected,
+      pageNoChange,
       handleAdd,
       handleEdit,
       handlePasswordChange,
@@ -477,6 +390,8 @@ export default defineComponent ({
       handleDeptLink,
       handleSearch,
       initDict,
+      rowSelected,
+      pageConditionSearch,
       statusColor,
       userTypeColor,
       statusOptions,
@@ -495,7 +410,6 @@ export default defineComponent ({
       FCD,
       userInfoDrawerDeploy,
       roleLinkDrawerDeploy,
-      tableSelectedData
     }
   }
 })
