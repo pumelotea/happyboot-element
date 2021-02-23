@@ -105,6 +105,7 @@ export function createPage(options: PageOption) {
         pageData.searchCondition[dataKey] = conditions![dataKey].reset
       })
     }
+    dataLoader && dataLoader(pageData.searchCondition)
   }
 
   const pageConditionSearch = () => {
