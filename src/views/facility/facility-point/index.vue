@@ -154,6 +154,7 @@ import ConfigurationDrawer from '@/views/facility/facility-point/drawer/Configur
 import { defineComponent, ref } from 'vue'
 import { createPage } from '@/common/page'
 import { loadDict } from '@/common/dict'
+import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent({
   name: 'index',
@@ -163,9 +164,7 @@ export default defineComponent({
   },
   setup() {
     const context = self()
-
-    const PD: any = ref(null)
-    const CD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -205,7 +204,7 @@ export default defineComponent({
       pointDrawerDeploy.value.haveSubmit = true
       pointDrawerDeploy.value.disabled = false
       pointDrawerDeploy.value.mode = 'add'
-      ;(PD.value as any).open(pointDrawerDeploy.value, '')
+      drawer('PD').open(pointDrawerDeploy.value, '')
     }
 
     const handleEdit = (row: any) => {
@@ -213,7 +212,7 @@ export default defineComponent({
       pointDrawerDeploy.value.haveSubmit = true
       pointDrawerDeploy.value.disabled = false
       pointDrawerDeploy.value.mode = 'edit'
-      ;(PD.value as any).open(pointDrawerDeploy.value, row)
+      drawer('PD').open(pointDrawerDeploy.value, row)
     }
 
     const handleConfiguration = (row: any) => {
@@ -221,7 +220,7 @@ export default defineComponent({
       configurationDrawerDeploy.title = '配置'
       configurationDrawerDeploy.haveSubmit = true
       configurationDrawerDeploy.disabled = false
-      ;(CD.value as any).open(configurationDrawerDeploy, row)
+      drawer('CD').open(configurationDrawerDeploy, row)
     }
 
     return {
@@ -239,8 +238,6 @@ export default defineComponent({
       tableData,
       pointDrawerDeploy,
       dataDict,
-      PD,
-      CD
     }
   }
 })

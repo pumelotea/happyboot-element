@@ -106,6 +106,7 @@ import FormDrawer from './drawer/FormDrawer.vue'
 import { defineComponent, ref } from 'vue'
 import { downloadFile } from '@/common/utils'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -113,8 +114,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const FD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -141,7 +141,7 @@ export default defineComponent ({
     const dataScopeOptions: any = ref({})
 
     const handleAdd = () => {
-      (FD.value as any).add()
+      drawer('FD').add()
     }
 
     const download = async (item: any) => {
@@ -176,7 +176,6 @@ export default defineComponent ({
       tableData,
       inspectionTypeOptions,
       dataScopeOptions,
-      FD
     }
   }
 })

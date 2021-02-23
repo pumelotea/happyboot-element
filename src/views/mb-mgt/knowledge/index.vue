@@ -114,6 +114,7 @@ import FormDrawer from './drawer/FormDrawer.vue'
 import { timeFormat } from '@/common/utils'
 import { createPage } from '@/common/page'
 import { loadDict } from '@/common/dict'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -121,8 +122,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const FD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -152,11 +152,11 @@ export default defineComponent ({
     const { dataDict } = loadDict(['KNOWLEDGE_LABEL'])
 
     const handleAdd = () => {
-      (FD.value as any).add()
+      drawer('FD').add()
     }
 
     const handleEdit = (row: any) => {
-      (FD.value as any).edit({ id: row.id })
+      drawer('FD').edit({ id: row.id })
     }
 
     const handleDetail = (row: any) => {
@@ -197,7 +197,6 @@ export default defineComponent ({
       pageConditionSearch,
       tableData,
       dataDict,
-      FD
     }
   }
 })

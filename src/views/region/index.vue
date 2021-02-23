@@ -81,6 +81,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { self } from '@/common'
 import FormDrawer from './drawer/FormDrawer.vue'
 import Detail from './detail/index.vue'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -89,10 +90,8 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const RD: any = ref(null)
+    const drawer = drawerLoader()
     const tree: any = ref(null)
-    const FD: any = ref(null)
 
     const treeData = ref([])
     const defaultProps = {
@@ -196,11 +195,11 @@ export default defineComponent ({
       if (Object.prototype.hasOwnProperty.call(data, 'id')) {
         newNode = { parentId: data.id }
       }
-      (FD.value as any).add(newNode)
+      drawer('FD').add(newNode)
     }
 
     const edit = (data: any) => {
-      (FD.value as any).edit(data)
+      drawer('FD').edit(data)
     }
 
     const remove = (node: any, data: any) => {
@@ -262,7 +261,7 @@ export default defineComponent ({
     }
 
     const nodeClick = (data: any) => {
-      (RD.value as any).open(data)
+      drawer('RD').open(data)
     }
 
     onMounted(() => {
@@ -292,8 +291,6 @@ export default defineComponent ({
       treeLoading,
       rootNode,
       hasData,
-      RD,
-      FD,
       tree
     }
   }

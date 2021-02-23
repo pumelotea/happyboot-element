@@ -98,6 +98,7 @@ import DictionaryConfigItemDrawer from '@/views/dictionary/drawer/DictionaryConf
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -107,10 +108,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const DID: any = ref(null)
-    const DCD: any = ref(null)
-    const DCID: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -144,7 +142,7 @@ export default defineComponent ({
       dictionaryInfoDrawerDeploy.value.haveSubmit = true
       dictionaryInfoDrawerDeploy.value.disabled = false
       dictionaryInfoDrawerDeploy.value.mode = 'add'
-      ;(DID.value as any).open(dictionaryInfoDrawerDeploy.value, '')
+      drawer('DID').open(dictionaryInfoDrawerDeploy.value, '')
     }
 
     const handleEdit = (row: any) => {
@@ -152,25 +150,25 @@ export default defineComponent ({
       dictionaryInfoDrawerDeploy.value.haveSubmit = true
       dictionaryInfoDrawerDeploy.value.disabled = false
       dictionaryInfoDrawerDeploy.value.mode = 'edit'
-      ;(DID.value as any).open(dictionaryInfoDrawerDeploy.value, row)
+      drawer('DID').open(dictionaryInfoDrawerDeploy.value, row)
     }
 
     const handleDictionaryConfig = (row: any) => {
-      (DCD.value as any).open(row.id)
+      drawer('DCD').open(row.id)
     }
 
     const openConfigItemDrawer = (mode: any, data: any) => {
       if (mode === 'edit') {
         const dictionaryConfigItemDrawerDeploy = { title: '修改', mode: 'edit' }
-        ;(DCID.value as any).open(dictionaryConfigItemDrawerDeploy, data)
+        drawer('DCID').open(dictionaryConfigItemDrawerDeploy, data)
       } else if (mode === 'add') {
         const dictionaryConfigItemDrawerDeploy = { title: '新增', mode: 'add' }
-        ;(DCID.value as any).open(dictionaryConfigItemDrawerDeploy, data)
+        drawer('DCID').open(dictionaryConfigItemDrawerDeploy, data)
       }
     }
 
     const dictItemOk = () => {
-      (DCD.value as any).handleSearch()
+      drawer('DCD').handleSearch()
     }
 
     return {
@@ -189,9 +187,6 @@ export default defineComponent ({
       pageConditionSearch,
       tableData,
       dictionaryInfoDrawerDeploy,
-      DID,
-      DCD,
-      DCID
     }
   }
 })

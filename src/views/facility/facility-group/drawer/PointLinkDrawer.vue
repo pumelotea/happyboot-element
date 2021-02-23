@@ -63,6 +63,7 @@
 import { self } from '@/common'
 import ConfigurationDrawer from '@/views/facility/facility-group/drawer/ConfigurationDrawer.vue'
 import { defineComponent, ref } from 'vue'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'PointLinkDrawer',
   components: {
@@ -70,8 +71,7 @@ export default defineComponent ({
   },
   setup(props, { emit }) {
     const context = self()
-
-    const CD: any = ref(null)
+    const drawer = drawerLoader()
 
     const isShow = ref(false)
     const pointLinkDrawerDeploy: any = ref({ title: '功能点关联' })
@@ -80,7 +80,7 @@ export default defineComponent ({
     const facilityGroupId = ref('')
 
     const handleConfiguration = (facilityId: any) => {
-      (CD.value as any).open(facilityId, facilityGroupId.value)
+      drawer('CD').open(facilityId, facilityGroupId.value)
     }
 
     const handleSubmit = async () => {
@@ -141,7 +141,6 @@ export default defineComponent ({
       activeNames,
       facilityPointData,
       facilityGroupId,
-      CD
     }
   }
 })

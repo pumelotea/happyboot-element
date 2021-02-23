@@ -89,6 +89,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { self } from '@/common'
 import FormDrawer from './drawer/FormDrawer.vue'
 import Detail from './detail/index.vue'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -97,10 +98,8 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
+    const drawer = drawerLoader()
     const tree: any = ref(null)
-    const MD: any = ref(null)
-    const FD: any = ref(null)
 
     const treeData: any = ref([])
     const treeLoading = ref(false)
@@ -169,11 +168,11 @@ export default defineComponent ({
       if (Object.prototype.hasOwnProperty.call(data, 'id')) {
         newNode = { parentId: data.id }
       }
-      (FD.value as any).add(newNode)
+      drawer('FD').add(newNode)
     }
 
     const edit = (data: any) => {
-      (FD.value as any).edit(data)
+      drawer('FD').edit(data)
     }
 
     const remove = (node: any, data: any) => {
@@ -258,7 +257,7 @@ export default defineComponent ({
 
     //点击事件
     const nodeClick = (data: any) => {
-      (MD.value as any).open(data)
+      drawer('MD').open(data)
     }
 
     onMounted(() => {
@@ -288,8 +287,6 @@ export default defineComponent ({
       defaultProps,
       checkedNode,
       rootNode,
-      MD,
-      FD,
       tree
     }
   }

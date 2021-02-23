@@ -97,6 +97,7 @@ import RegionLinkDrawer from './drawer/RegionLinkDrawer.vue'
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -105,9 +106,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const SD: any = ref(null)
-    const RLD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -138,7 +137,7 @@ export default defineComponent ({
       subjectDrawerDeploy.value.haveSubmit = true
       subjectDrawerDeploy.value.disabled = false
       subjectDrawerDeploy.value.mode = 'add'
-      ;(SD.value as any).open(subjectDrawerDeploy.value, '')
+      drawer('SD').open(subjectDrawerDeploy.value, '')
     }
 
     const handleEdit = (row: any) => {
@@ -146,18 +145,18 @@ export default defineComponent ({
       subjectDrawerDeploy.value.haveSubmit = true
       subjectDrawerDeploy.value.disabled = false
       subjectDrawerDeploy.value.mode = 'edit'
-      ;(SD.value as any).open(subjectDrawerDeploy.value, row)
+      drawer('SD').open(subjectDrawerDeploy.value, row)
     }
 
     const handleDetail = (row: any) => {
       subjectDrawerDeploy.value.title = '详情'
       subjectDrawerDeploy.value.haveSubmit = false
       subjectDrawerDeploy.value.disabled = true
-      ;(SD.value as any).open(subjectDrawerDeploy.value, row)
+      drawer('SD').open(subjectDrawerDeploy.value, row)
     }
 
     const handleRegionLink = (row: any) => {
-      (RLD.value as any).open(row)
+      drawer('RLD').open(row)
     }
 
     return {
@@ -176,8 +175,6 @@ export default defineComponent ({
       tableData,
       subjectDrawerDeploy,
       regionLinkDrawerDeploy,
-      SD,
-      RLD
     }
   }
 })

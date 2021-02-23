@@ -100,6 +100,7 @@ import PointLinkDrawer from "@/views/facility/facility-group/drawer/PointLinkDra
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent ({
   name: 'index',
@@ -109,9 +110,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const PD: any = ref(null)
-    const GD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -141,7 +140,7 @@ export default defineComponent ({
       groupDrawerDeploy.value.haveSubmit = true
       groupDrawerDeploy.value.disabled = false
       groupDrawerDeploy.value.mode = 'add'
-      ;(GD.value as any).open(groupDrawerDeploy.value, '')
+      drawer('GD').open(groupDrawerDeploy.value, '')
     }
 
     const handleEdit = (row: any) => {
@@ -149,11 +148,11 @@ export default defineComponent ({
       groupDrawerDeploy.value.haveSubmit = true
       groupDrawerDeploy.value.disabled = false
       groupDrawerDeploy.value.mode = 'edit'
-      ;(GD.value as any).open(groupDrawerDeploy.value, row)
+      drawer('GD').open(groupDrawerDeploy.value, row)
     }
 
     const handleLink = (row: any) => {
-      (PD.value as any).open(row.id)
+      drawer('PD').open(row.id)
     }
 
     return {
@@ -170,8 +169,6 @@ export default defineComponent ({
       pageConditionSearch,
       tableData,
       groupDrawerDeploy,
-      GD,
-      PD
     }
   }
 })

@@ -60,6 +60,7 @@
 import ConfigurationDrawer from './ConfigurationDrawer.vue'
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent({
   name: 'FacilityConfigurationDrawer',
   components: {
@@ -67,8 +68,7 @@ export default defineComponent({
   },
   setup() {
     const context = self()
-
-    const ConfigurationDrawer = ref(null)
+    const drawer = drawerLoader()
 
     let isShow = ref(false)
     let activeNames: any = ref([])
@@ -77,7 +77,7 @@ export default defineComponent({
     let facilityPointData: any = ref([])
 
     const handleConfiguration = (facilityId:any) => {
-      (ConfigurationDrawer.value as any).open(facilityId, userId)
+      drawer('ConfigurationDrawer').open(facilityId, userId)
     }
 
     //开启抽屉的方法，可以传入一些需要的参数
@@ -99,7 +99,6 @@ export default defineComponent({
     return {
       open,
       handleConfiguration,
-      ConfigurationDrawer,
       isShow,
       activeNames,
       pointLinkDrawerDeploy,

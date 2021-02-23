@@ -214,7 +214,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
 import { loadDict } from '@/common/dict'
@@ -228,6 +228,7 @@ import RegionLinkDrawer from './drawer/RegionLinkDrawer.vue'
 import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
 import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
 import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
+import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent({
   name: 'index',
@@ -244,6 +245,7 @@ export default defineComponent({
   },
   setup() {
     const context = self()
+    const drawer = drawerLoader()
 
     const statusColor = ['#ea0143', '#02b654', '#0290ef']
     const userTypeColor = ['#0290ef', '#fc7070']
@@ -279,15 +281,6 @@ export default defineComponent({
 
     const { dataDict } = loadDict(['STATUS','USER_TYPE'])
 
-    const UID = ref(null)
-    const UIED = ref(null)
-    const UIDD = ref(null)
-    const UPED = ref(null)
-    const RLD = ref(null)
-    const DLD = ref(null)
-    const ReLD = ref(null)
-    const FGLD = ref(null)
-    const FCD = ref(null)
     const userInfoDrawerDeploy: any = {}
     const roleLinkDrawerDeploy: any = {}
 
@@ -295,48 +288,50 @@ export default defineComponent({
       userInfoDrawerDeploy.title = '新增'
       userInfoDrawerDeploy.haveSubmit = true
       userInfoDrawerDeploy.disabled = false
-      ;(UID.value as any).open(userInfoDrawerDeploy, '')
+      drawer('UID').open(userInfoDrawerDeploy, '')
     }
 
     const handleEdit = (row: any) => {
       userInfoDrawerDeploy.title = '编辑'
       userInfoDrawerDeploy.haveSubmit = true
       userInfoDrawerDeploy.disabled = false
-      ;(UIED.value as any).open(userInfoDrawerDeploy, row.id)
+      drawer('UIED').open(userInfoDrawerDeploy, row.id)
     }
 
     const handleDetail = (row: any) => {
       userInfoDrawerDeploy.title = '详情'
       userInfoDrawerDeploy.haveSubmit = false
       userInfoDrawerDeploy.disabled = true
-      ;(UIDD.value as any).open(userInfoDrawerDeploy, row.id)
+      drawer('UIDD').open(userInfoDrawerDeploy, row.id)
+
     }
 
     const handlePasswordChange = (row: any) => {
       userInfoDrawerDeploy.title = '密码修改'
       userInfoDrawerDeploy.haveSubmit = true
       userInfoDrawerDeploy.disabled = false
-      ;(UPED.value as any).open(userInfoDrawerDeploy, row.id)
+      drawer('UPED').open(userInfoDrawerDeploy, row.id)
+
     }
 
     const handleRoleLink = (row: any) => {
-      (RLD.value as any).open(row.id)
+      drawer('RLD').open(row.id)
     }
 
     const handleDeptLink = (row: any) => {
-      (DLD.value as any).open(row)
+      drawer('DLD').open(row)
     }
 
     const handleRegionLink = (row: any) => {
-      (ReLD.value as any).open(row)
+      drawer('ReLD').open(row)
     }
 
     const handleFacilityGroupLink = (row: any) => {
-      (FGLD.value as any).open(row.id)
+      drawer('FGLD').open(row.id)
     }
 
     const handleFacilityConfigurationLink = (row: any) => {
-      (FCD.value as any).open(row.id)
+      drawer('FCD').open(row.id)
     }
 
     const imgId2Url = (data: any) => {
@@ -366,15 +361,6 @@ export default defineComponent({
       statusColor,
       userTypeColor,
       tableData,
-      UID,
-      UIED,
-      UIDD,
-      UPED,
-      RLD,
-      DLD,
-      ReLD,
-      FGLD,
-      FCD,
       userInfoDrawerDeploy,
       roleLinkDrawerDeploy,
     }

@@ -101,6 +101,7 @@ import { self } from '@/common'
 import ConfigurationDrawer from './drawer/ConfigurationDrawer.vue'
 import { createPage } from '@/common/page'
 import { loadDict } from '@/common/dict'
+import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent({
   name: 'index',
@@ -109,6 +110,7 @@ export default defineComponent({
   },
   setup() {
     const context = self()
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -149,7 +151,7 @@ export default defineComponent({
       configurationDrawerDeploy.haveSubmit = true
       configurationDrawerDeploy.disabled = false
       configurationDrawerDeploy.mode = 'add'
-      ;(CD.value as any).open(configurationDrawerDeploy, '')
+      drawer('CD').open(configurationDrawerDeploy, '')
     }
 
     const handleEdit = (row: any) => {
@@ -157,14 +159,14 @@ export default defineComponent({
       configurationDrawerDeploy.haveSubmit = true
       configurationDrawerDeploy.disabled = false
       configurationDrawerDeploy.mode = 'edit'
-      ;(CD.value as any).open(configurationDrawerDeploy, row)
+      drawer('CD').open(configurationDrawerDeploy, row)
     }
 
     const handleDetail = (row: any) => {
       configurationDrawerDeploy.title = '详情'
       configurationDrawerDeploy.haveSubmit = false
       configurationDrawerDeploy.disabled = true
-      ;(CD.value as any).open(configurationDrawerDeploy, row)
+      drawer('CD').open(configurationDrawerDeploy, row)
     }
 
     return {

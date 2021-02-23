@@ -110,6 +110,7 @@ import DetailDrawer from './drawer/DetailDrawer.vue'
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent ({
   name: 'index',
@@ -119,9 +120,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const FD: any = ref(null)
-    const DD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -147,15 +146,15 @@ export default defineComponent ({
     const isEnableOptions = { 0: '否', 1: '是' }
 
     const handleAdd = () => {
-      (FD.value as any).add()
+      drawer('FD').add()
     }
 
     const handleEdit = (row: any) => {
-      (FD.value as any).edit({ id: row.id })
+      drawer('FD').edit({ id: row.id })
     }
 
     const handleDetail = (row: any) => {
-      (DD.value as any).detail({ id: row.id })
+      drawer('DD').detail({ id: row.id })
     }
 
     return {
@@ -172,8 +171,6 @@ export default defineComponent ({
       pageConditionSearch,
       tableData,
       isEnableOptions,
-      FD,
-      DD
     }
   }
 })

@@ -108,6 +108,7 @@ import PermissionLinkDrawer from './drawer/PermissionLinkDrawer.vue'
 import { defineComponent, ref } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
+import { drawerLoader } from '@/common/drawer'
 export default defineComponent ({
   name: 'index',
   components: {
@@ -116,9 +117,7 @@ export default defineComponent ({
   },
   setup() {
     const context = self()
-
-    const RID: any = ref(null)
-    const PLD: any = ref(null)
+    const drawer = drawerLoader()
 
     const {
       pageData: tableData,
@@ -153,7 +152,7 @@ export default defineComponent ({
       roleInfoDrawerDeploy.value.haveSubmit = true
       roleInfoDrawerDeploy.value.disabled = false
       roleInfoDrawerDeploy.value.mode = 'add'
-      ;(RID.value as any).open(roleInfoDrawerDeploy.value, '')
+      drawer('RID').open(roleInfoDrawerDeploy.value, '')
     }
 
     const handleEdit = (row: any) => {
@@ -161,18 +160,18 @@ export default defineComponent ({
       roleInfoDrawerDeploy.value.haveSubmit = true
       roleInfoDrawerDeploy.value.disabled = false
       roleInfoDrawerDeploy.value.mode = 'edit'
-      ;(RID.value as any).open(roleInfoDrawerDeploy.value, row)
+      drawer('RID').open(roleInfoDrawerDeploy.value, row)
     }
 
     const handleDetail = (row: any) => {
       roleInfoDrawerDeploy.value.title = '详情'
       roleInfoDrawerDeploy.value.haveSubmit = false
       roleInfoDrawerDeploy.value.disabled = true
-      ;(RID.value as any).open(roleInfoDrawerDeploy.value, row)
+      drawer('RID').open(roleInfoDrawerDeploy.value, row)
     }
 
     const handlePermissionLink = (row: any) => {
-      (PLD.value as any).open(row)
+      drawer('PLD').open(row)
     }
 
     return {
@@ -188,8 +187,6 @@ export default defineComponent ({
       handleSearch,
       rowSelected,
       pageConditionSearch,
-      RID,
-      PLD,
       permissionLinkDrawerDeploy,
       roleInfoDrawerDeploy,
       tableData
