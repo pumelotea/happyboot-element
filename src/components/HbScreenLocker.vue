@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import {self} from '@/common'
 import { $imgId2Url } from '@/apis'
 import { resetFramework } from 'happykit'
@@ -59,6 +59,7 @@ export default defineComponent({
     const show = computed(()=>{
       return $store.getters.lock
     })
+
     const password = ref('')
     const kaptchaImage = ref('')
     const kaptchaId = ref('')
@@ -71,6 +72,11 @@ export default defineComponent({
       }
     }
     onMounted(getKaptcha)
+    watch(show,()=>{
+      if (show.value){
+        getKaptcha()
+      }
+    })
 
     const login = async () => {
       //登录操作前先清空一遍数据保障正常执行
@@ -97,6 +103,8 @@ export default defineComponent({
         await getKaptcha()
       }
     }
+
+
 
     const logout = ()=>{
       $security.signOut()
