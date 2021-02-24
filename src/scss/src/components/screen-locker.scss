@@ -33,16 +33,16 @@
 
 }
 .hb-screen-locker-lock {
-  animation: lock-down 2s ease-in-out;
+  animation: lock-down 1s ease-in-out;
 }
 
 .hb-screen-locker-unlock {
-  animation: lock-up 2s ease-in-out;
+  animation: lock-up 1s ease-in-out;
 }
 
 @keyframes lock-down {
   0% {
-    transform: translate3d(0, -3000px, 0);
+    transform: translate3d(0, -100%, 0);
   }
   60% {
     /*  opacity: 1;*/
@@ -64,7 +64,7 @@
     transform: translate3d(0, 0px, 0);
   }
   90% {
-    transform: translate3d(0px, -3000px, 0);
+    transform: translate3d(0px, -100%, 0);
   }
   100% {
     transform: none;
