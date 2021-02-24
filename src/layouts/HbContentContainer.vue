@@ -2,12 +2,7 @@
   <div style="overflow: auto;height: 100%">
     <slot></slot>
     <div class="content-placeholder animate__animated animate__fadeIn" v-if="navList.length === 0">
-      <!--      这边可以定义未打开任何页面情况下的占位图或者文字      -->
-      <img
-        src="../../public/images/icon-403.svg"
-        class="empty"
-        draggable="false"
-      />
+      <el-empty description="暂无页面" image-size="260"></el-empty>
     </div>
   </div>
 </template>

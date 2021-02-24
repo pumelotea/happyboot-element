@@ -78,6 +78,11 @@ const afterInterceptor = createDefaultRouterInterceptor({
 
 const routes: Array<RouteRecordRaw> = [
   {
+    name: 'not-found',
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/views/not-found/index.vue')
+  },
+  {
     name: 'login',
     path: '/login',
     component: () => import('@/views/login/index.vue')
