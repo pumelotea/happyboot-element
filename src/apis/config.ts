@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 import security from '@/security'
 import happyFramework from '@/framework'
+import store from '@/store'
 
 const axiosConfig: AxiosRequestConfig = {
   // @ts-ignore
@@ -22,6 +23,11 @@ export const requestErrorHandler = (error: any) => {
 
 // eslint-disable-next-line no-unused-vars
 export const responseInterceptor = (response: any) => {
+  if (response.status === 200) {
+    if (response.data.code === 401) {
+      store.commit('lock', true)
+    }
+  }
   return response
 }
 

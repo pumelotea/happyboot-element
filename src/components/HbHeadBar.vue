@@ -23,6 +23,8 @@
         <el-link
           class="action-item"
           :underline="false"
+          href="javascript:void(0)"
+          @click="$store.commit('lock', true)"
         >
           <i class="el-icon-lock"></i>
         </el-link>

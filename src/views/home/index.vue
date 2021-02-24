@@ -25,6 +25,7 @@
         </router-view>
       </hb-content-container>
     </template>
+    <hb-screen-locker/>
   </hb-main-layout>
 </template>
 
@@ -36,9 +37,11 @@ import HbMenuList from '@/components/HbMenuList.vue'
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import HbContentContainer from '@/layouts/HbContentContainer.vue'
 import { self } from '@/common'
+import HbScreenLocker from '@/components/HbScreenLocker.vue'
 
 export default defineComponent({
   components: {
+    HbScreenLocker,
     HbContentContainer,
     HbHeadBar,
     HbNavBar,

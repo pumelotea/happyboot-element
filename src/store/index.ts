@@ -24,7 +24,8 @@ const store = createStore({
         icon: 'el-icon-sunny',
         next: 'light'
       }
-    }
+    },
+    lock:false
   },
   getters: {
     isCollapse(state) {
@@ -45,6 +46,9 @@ const store = createStore({
     },
     themeNameMap(state) {
       return state.themeNameMap
+    },
+    lock(state){
+      return state.lock
     }
   },
   mutations: {
@@ -72,9 +76,9 @@ const store = createStore({
       const domList = document.head.querySelectorAll(`link[data-id=happykit-theme]`)
       domList.forEach(dom => {
         const link = dom as HTMLLinkElement
-        if (link.getAttribute('data-mode')===payload){
+        if (link.getAttribute('data-mode') === payload) {
           link.rel = 'stylesheet'
-        }else{
+        } else {
           link.rel = 'alternate stylesheet'
         }
       })
@@ -82,17 +86,20 @@ const store = createStore({
     initTheme(state) {
       const theme = localStorage.getItem('activeTheme')
       state.activeTheme = theme || 'light'
-      Object.keys(state.themeNameMap).forEach(key=>{
+      Object.keys(state.themeNameMap).forEach(key => {
         const link = document.createElement('link')
         link.href = (state.themeNameMap as any)[key].link
         link.dataset.id = 'happykit-theme'
         link.dataset.mode = key
         link.rel = 'alternate stylesheet'
-        if (state.activeTheme === key){
+        if (state.activeTheme === key) {
           link.rel = 'stylesheet'
         }
         document.head.append(link)
       })
+    },
+    lock(state, lock){
+      state.lock = lock
     }
   }
 })
