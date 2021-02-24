@@ -18,6 +18,8 @@ import 'highlight.js/styles/atom-one-light.css'
 import happyFramework from '@/framework'
 import security from '@/security'
 
+store.commit('initLayout')
+
 const app = createApp(App)
 // app.config.errorHandler = errorHandler
 app.config.warnHandler = warnHandler
@@ -42,6 +44,8 @@ app.directive('highlight', function(el) {
   //   hljs.highlightBlock(block)
   // })
 })
+
+
 
 app.mount('#app')
 

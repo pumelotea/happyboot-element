@@ -1,5 +1,4 @@
 import { createStore } from 'vuex'
-import { loadCssFile, removeCssFile } from '@/common/utils'
 
 const store = createStore({
   state: {
@@ -25,7 +24,14 @@ const store = createStore({
         next: 'light'
       }
     },
-    lock:false
+    lock:false,
+    settingDialog:false,
+    layoutSetting:{
+      topSlot: 'nav',
+      leftSlot: 'menu',
+      navSlot: 'disable',
+      pageBreadSlot: 'enable'
+    }
   },
   getters: {
     isCollapse(state) {
@@ -49,6 +55,12 @@ const store = createStore({
     },
     lock(state){
       return state.lock
+    },
+    settingDialog(state){
+      return state.settingDialog
+    },
+    layoutSetting(state){
+      return state.layoutSetting
     }
   },
   mutations: {
@@ -100,6 +112,21 @@ const store = createStore({
     },
     lock(state, lock){
       state.lock = lock
+    },
+    settingDialog(state,show){
+      state.settingDialog = show
+    },
+    setLayoutSetting(state,payload){
+      state.layoutSetting = payload
+      console.log(payload)
+      localStorage.setItem('layoutSetting',JSON.stringify(state.layoutSetting))
+    },
+    initLayout(state){
+      const data = localStorage.getItem('layoutSetting')
+      if (!data){
+        return
+      }
+      state.layoutSetting = JSON.parse(data)
     }
   }
 })

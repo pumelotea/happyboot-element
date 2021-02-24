@@ -1,7 +1,9 @@
 <template>
   <hb-main-layout>
     <template v-slot:head-bar>
-      <hb-head-bar />
+      <hb-head-bar>
+        <component :is="subCom" mode="horizontal"></component>
+      </hb-head-bar>
     </template>
     <template v-slot:nav-bar>
       <hb-nav-bar />
@@ -25,7 +27,8 @@
         </router-view>
       </hb-content-container>
     </template>
-    <hb-screen-locker/>
+    <hb-screen-locker />
+    <hb-layout-setting />
   </hb-main-layout>
 </template>
 
@@ -38,9 +41,13 @@ import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import HbContentContainer from '@/layouts/HbContentContainer.vue'
 import { self } from '@/common'
 import HbScreenLocker from '@/components/HbScreenLocker.vue'
+import HbLayoutSetting from '@/components/HbLayoutSetting.vue'
+import HbBreadcrumb from '@/components/HbBreadcrumb.vue'
 
 export default defineComponent({
   components: {
+    HbBreadcrumb,
+    HbLayoutSetting,
     HbScreenLocker,
     HbContentContainer,
     HbHeadBar,
@@ -49,7 +56,7 @@ export default defineComponent({
     HbMenuList
   },
   setup() {
-    const { $happykit, $router } = self()
+    const { $happykit, $router,$store } = self()
     const hkf = $happykit
     const isKeepalive = ref(false)
     const pageId = ref('')
@@ -67,6 +74,27 @@ export default defineComponent({
       return hkf.getNavList().value.map(e => e.pageId)
     })
 
+    const getComponent = (type: string) => {
+      switch (type) {
+        case 'nav':
+          return 'hb-nav-bar'
+        case 'menu':
+          return 'hb-menu-list'
+        case 'bread':
+          return 'hb-breadcrumb'
+        case 'disable':
+          return null
+      }
+    }
+
+    const setting = computed(() => {
+      return $store.getters.layoutSetting
+    })
+
+    const subCom = computed(()=>{
+      return getComponent(setting.value.topSlot)
+    })
+
 
     onMounted(() => {
       update()
@@ -75,7 +103,9 @@ export default defineComponent({
     return {
       pageId,
       isKeepalive,
-      include
+      include,
+      getComponent,
+      subCom
     }
   }
 })

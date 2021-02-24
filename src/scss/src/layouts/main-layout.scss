@@ -18,6 +18,10 @@
     padding-top: 4px;
   }
 
+  .nav-bar-slot-disable {
+    top: 60px !important;
+  }
+
   .head-bar-slot {
     left: 0;
     position: absolute;
@@ -35,6 +39,11 @@
     width: 220px;
     background: $--color-white;
   }
+
+  .menu-list-slot-disable {
+    left: 0 !important;
+  }
+
 
   .content-slot {
     position: absolute;

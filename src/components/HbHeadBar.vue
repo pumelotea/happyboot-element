@@ -3,6 +3,7 @@
     <hb-head-bar-logo />
     <div class="actions">
       <el-link
+        v-if="setting.leftSlot === 'menu'"
         class="action-item"
         :underline="false"
         href="javascript:void(0)"
@@ -12,7 +13,9 @@
         <i class="el-icon-s-fold" v-else></i>
       </el-link>
     </div>
-    <div class="space"></div>
+    <div class="space">
+      <slot></slot>
+    </div>
     <div class="actions">
       <el-tooltip
         class="item"
@@ -49,7 +52,14 @@
           content="外观配置"
           placement="bottom"
         >
-          <i class="el-icon-brush"></i>
+          <el-link
+            class="action-item"
+            :underline="false"
+            href="javascript:void(0)"
+            @click="$store.commit('settingDialog', true)"
+          >
+            <i class="el-icon-brush"></i>
+          </el-link>
         </el-tooltip>
       </el-link>
       <el-link
@@ -163,6 +173,10 @@ export default defineComponent({
       $security.signOut()
       $router.push('/login')
     }
+
+    const setting = computed(() => {
+      return $store.getters.layoutSetting
+    })
     return {
       userType,
       nickname,
@@ -172,7 +186,8 @@ export default defineComponent({
       logout,
       editUserInfo,
       editPassword,
-      setTheme
+      setTheme,
+      setting
     }
   }
 })
