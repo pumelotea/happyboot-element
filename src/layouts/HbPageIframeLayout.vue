@@ -3,16 +3,7 @@
     <div class="page-body">
       <div class="title" v-if="!noTitle">{{ currentRouteMenu?.title }}</div>
       <div class="breadcrumb" v-if="breadcrumb && setting.pageBreadSlot === 'enable'">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <template v-for="e in currentRouteMenu?.menuItem.breadcrumb">
-            <el-breadcrumb-item
-              v-if="e.isRouter"
-              :to="{ path: e.routerPath }"
-            >{{ e.title }}
-            </el-breadcrumb-item>
-            <el-breadcrumb-item v-else>{{ e.title }}</el-breadcrumb-item>
-          </template>
-        </el-breadcrumb>
+        <hb-breadcrumb/>
       </div>
       <div class="content">
         <iframe class="main-iframe" frameborder="0" :src="url"></iframe>
@@ -24,8 +15,10 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { self } from '@/common'
+import HbBreadcrumb from '@/components/HbBreadcrumb.vue'
 export default defineComponent({
   name: 'HbPageIframeLayout',
+  components: { HbBreadcrumb },
   props: {
     url: {
       type: String

@@ -32,36 +32,21 @@
           <i class="el-icon-lock"></i>
         </el-link>
       </el-tooltip>
-      <el-link class="action-item" :underline="false">
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="数据大屏"
-          placement="bottom"
-        >
-          <i class="el-icon-data-analysis"></i>
-        </el-tooltip>
-      </el-link>
-      <el-link
-        class="action-item"
-        :underline="false"
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="外观配置"
+        placement="bottom"
       >
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="外观配置"
-          placement="bottom"
+        <el-link
+          class="action-item"
+          :underline="false"
+          href="javascript:void(0)"
+          @click="$store.commit('settingDialog', true)"
         >
-          <el-link
-            class="action-item"
-            :underline="false"
-            href="javascript:void(0)"
-            @click="$store.commit('settingDialog', true)"
-          >
-            <i class="el-icon-brush"></i>
-          </el-link>
-        </el-tooltip>
-      </el-link>
+          <i class="el-icon-brush"></i>
+        </el-link>
+      </el-tooltip>
       <el-link
         class="action-item"
         :underline="false"

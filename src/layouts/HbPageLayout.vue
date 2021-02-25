@@ -3,16 +3,7 @@
     <div class="page-body">
       <div class="title-container" v-if="setting.pageBreadSlot === 'enable'">
         <div class="breadcrumb">
-          <el-breadcrumb separator-class="el-icon-arrow-right">
-            <template v-for="e in currentRouteMenu?.menuItem.breadcrumb">
-              <el-breadcrumb-item
-                v-if="e.isRouter"
-                :to="{ path: e.routerPath }"
-              >{{ e.name }}
-              </el-breadcrumb-item>
-              <el-breadcrumb-item v-else>{{ e.name }}</el-breadcrumb-item>
-            </template>
-          </el-breadcrumb>
+          <hb-breadcrumb/>
         </div>
       </div>
       <div class="alerts">
@@ -36,17 +27,17 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { self } from '@/common'
+import HbBreadcrumb from '@/components/HbBreadcrumb.vue'
 
 export default defineComponent({
   name: 'HbPageLayout',
+  components: { HbBreadcrumb },
   setup() {
-    const { $happykit,$store } = self()
-    const currentRouteMenu = $happykit.getCurrentMenuRoute()
+    const { $store } = self()
     const setting = computed(()=>{
       return $store.getters.layoutSetting
     })
     return {
-      currentRouteMenu,
       setting
     }
   }
