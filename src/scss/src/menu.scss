@@ -46,7 +46,7 @@
   background-color: $--menu-background-color;
   @include utils-clearfix;
   &.#{$namespace}-menu--horizontal {
-    border-bottom: solid 1px #e6e6e6;
+    border-bottom: $--border-base;
   }
 
   @include m(horizontal) {
@@ -66,7 +66,7 @@
 
       &:not(.is-disabled):hover,
       &:not(.is-disabled):focus {
-        background-color: #fff;
+        background-color: $--color-primary-light-7;
       }
     }
     & > .#{$namespace}-submenu {
@@ -94,7 +94,7 @@
         color: $--color-text-secondary;
 
         &:hover {
-          background-color: #fff;
+          background-color: $--color-primary-light-7;
         }
       }
       & .#{$namespace}-submenu__icon-arrow {
