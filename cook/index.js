@@ -84,12 +84,14 @@ function menu(food) {
 function main() {
   const food = process.argv[2]
   const act = process.argv[3]
-  const menuJsonFile = process.argv[4] || 'out/page.json'
+
 
   switch (act) {
-    default:
+    default:{
+      const menuJsonFile = process.argv[3] || 'out/page.json'
       cook(food, menuJsonFile)
       break
+    }
     case 'config':
       menu(food)
       break
