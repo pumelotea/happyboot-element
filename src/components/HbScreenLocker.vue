@@ -71,7 +71,7 @@ export default defineComponent({
         kaptchaImage.value = 'data:image/png;base64,' + kaptcha.data.base64ImgStr
       }
     }
-    onMounted(getKaptcha)
+
     watch(show,()=>{
       if (show.value){
         getKaptcha()
