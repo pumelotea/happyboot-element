@@ -117,7 +117,7 @@
 
 <script lang='ts'>
 import HbAvatarUploader from '@/components/HbAvatarUploader.vue'
-import { defineComponent, ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick, reactive } from 'vue'
 import { self } from '@/common'
 export default defineComponent ({
   name: 'UserInfoDrawer',
@@ -136,13 +136,13 @@ export default defineComponent ({
     const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== form.value.password) {
+      } else if (value !== form.password) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
     }
-    const form: any = ref({
+    const form: any = reactive({
       id: '',
       username: '',
       nickname: '',
@@ -174,7 +174,7 @@ export default defineComponent ({
       userInfoDrawerDeploy.value = deploy
       nextTick(() => {
         //初始化表单
-        form.value = {
+        Object.assign(form,{
           id: '',
           username: '',
           nickname: '',
@@ -184,7 +184,7 @@ export default defineComponent ({
           headPic: '',
           userType: '0',
           userIdList: []
-        }
+        })
         linkUser.value = ''
         linkOptions.value = []
         userLinkData.value = []
@@ -241,8 +241,8 @@ export default defineComponent ({
       userLinkData.value.map((e: any) => {
         userIdList.push(e.id)
       })
-      form.value.userIdList = userIdList
-      const res: any = await context.$api.userAdd(form.value)
+      form.userIdList = userIdList
+      const res: any = await context.$api.userAdd(form)
       if (res.code === 0) {
         isShow.value = false
         context.$notify({
@@ -268,7 +268,7 @@ export default defineComponent ({
       })
       const res: any = await context.$api.uploadImage(data)
       if (res.code === 0) {
-        form.value.headPic = res.data
+        form.headPic = res.data
       }
     }
 

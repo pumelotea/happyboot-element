@@ -91,7 +91,7 @@
       </el-form-item>
       <el-form-item label="头像">
         <hb-avatar-uploader
-          :src="picUrl"
+          :src="imgId2Url(form.headPic)"
           @cropped="onCropped"
         ></hb-avatar-uploader>
       </el-form-item>
@@ -107,7 +107,7 @@
 
 <script lang='ts'>
 import HbAvatarUploader from '@/components/HbAvatarUploader.vue'
-import { defineComponent, ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick, reactive, onMounted } from 'vue'
 import { self } from '@/common'
 export default defineComponent({
   name: 'UserInfoDrawer',
@@ -123,7 +123,7 @@ export default defineComponent({
     let linkUser: any = ref([])
     let linkOptions: any = ref([])
     let userLinkData: any = ref([])
-    const form: any = ref({
+    const form = reactive<any>({
       id: 0,
       nickname: '',
       status: 1,
@@ -145,8 +145,8 @@ export default defineComponent({
       userLinkData.value.map((e: any) => {
         userIdList.push(e.id)
       })
-      form.value.userIdList = userIdList
-      const res: any = await context.$api.userEdit(form.value)
+      form.userIdList = userIdList
+      const res: any = await context.$api.userEdit(form)
       if (res.code === 0) {
         isShow.value = false
         context.$notify({
@@ -172,7 +172,7 @@ export default defineComponent({
         if (data != null && data !== '') {
           context.$api.userGet(data).then((res: any) => {
             if (res.code === 0) {
-              form.value = res.data
+              Object.assign(form,res.data)
               userLinkData.value = res.data.userlist
             }
           })
@@ -226,7 +226,7 @@ export default defineComponent({
       })
       const res: any = await context.$api.uploadImage(data)
       if (res.code === 0) {
-        form.value.headPic = res.data
+        form.headPic = res.data
       } else {
         context.$notify({
           type: 'error',
@@ -236,12 +236,6 @@ export default defineComponent({
       }
     }
 
-    const imgId2Url = (data:any) => {
-      return context.$api.$imgId2Url(data)
-    }
-
-    const picUrl = ref(imgId2Url(form.value.headPic))
-
     return {
       open,
       handleSubmit,
@@ -249,7 +243,7 @@ export default defineComponent({
       handleLink,
       handleUnLink,
       onCropped,
-      imgId2Url,
+      imgId2Url:context.$api.$imgId2Url,
       isShow,
       selectLoading,
       userInfoDrawerDeploy,
@@ -258,7 +252,6 @@ export default defineComponent({
       linkUser,
       form,
       rules,
-      picUrl
     }
   }
 })

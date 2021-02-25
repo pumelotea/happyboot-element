@@ -14,10 +14,12 @@
       </el-form-item>
       <el-form-item label="账号类型">
         <el-radio v-model="form.userType" label="0" border :disabled="true"
-          >主账号</el-radio
+        >主账号
+        </el-radio
         >
         <el-radio v-model="form.userType" label="1" border :disabled="true"
-          >子账号</el-radio
+        >子账号
+        </el-radio
         >
       </el-form-item>
       <el-form-item :label="form.userType === '1' ? '主账号' : '子账号'">
@@ -60,16 +62,16 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { self } from '@/common'
 
-export default defineComponent ({
+export default defineComponent({
   name: 'UserInfoDrawer',
   setup() {
     const context = self()
 
     let isShow = ref(false)
-    let form: any = ref({
+    let form: any = reactive({
       id: '',
       username: '',
       nickname: '',
@@ -85,7 +87,7 @@ export default defineComponent ({
         if (data !== null && data !== '') {
           context.$api.userGet(data).then((res: any) => {
             if (res.code === 0) {
-              form.value = res.data
+              Object.assign(form, res.data)
             }
           })
         }

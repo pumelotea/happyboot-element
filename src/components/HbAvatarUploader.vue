@@ -109,8 +109,8 @@ export default defineComponent({
     const avatar = ref('')
 
     const { src } = toRefs(props)
-    watch(src, () => {
-      avatar.value = props.src
+    watch(src, val => {
+      avatar.value = val
     })
 
     const open = () => {
