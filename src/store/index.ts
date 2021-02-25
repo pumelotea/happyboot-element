@@ -118,7 +118,6 @@ const store = createStore({
     },
     setLayoutSetting(state,payload){
       state.layoutSetting = payload
-      console.log(payload)
       localStorage.setItem('layoutSetting',JSON.stringify(state.layoutSetting))
     },
     initLayout(state){
