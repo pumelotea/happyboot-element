@@ -1,0 +1,155 @@
+<template>
+  <hb-page-layout>
+    <template #actions>
+      <el-row :gutter="10">
+        {{#query}}
+        {{#ifInput type}}
+        <el-col :md="6">
+          <hb-form-item-container :label="'{{text}}'">
+            <el-input type="{{inputType}}" v-model="tableData.searchCondition.{{modelName}}"></el-input>
+          </hb-form-item-container>
+        </el-col>
+        {{/ifInput}}
+        {{#ifSelect type}}
+        <el-col :md="6">
+          <hb-form-item-container :label="'{{text}}'">
+            <el-select
+              clearable
+              v-model="tableData.searchCondition.{{modelName}}"
+              placeholder="{{placeholder}}"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="item in dataDict.{{optionsDict}}?.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </hb-form-item-container>
+        </el-col>
+        {{/ifSelect}}
+        {{/query}}
+      </el-row>
+      <el-row :gutter="10" style="margin-top: 15px">
+        <el-col>
+          {{#actions}}
+          <el-button type="{{btnType}}" size="{{size}}"{{#if click}} @click="{{click}}"{{/if}}{{#if vShow}} v-show="{{vShow}}"{{/if}} >
+            {{name}}
+          </el-button>
+          {{/actions}}
+        </el-col>
+      </el-row>
+    </template>
+    <el-table
+      size="mini"
+      :data="tableData.list"
+      @selection-change="rowSelected"
+      border
+      v-loading="tableData.loading"
+      style="width: 100%"
+    >
+      {{#page.propertyList}}
+      {{#ifSelection type}}
+      <el-table-column type="{{type}}"{{#if align}} align="{{align}}"{{/if}} width="{{width}}"></el-table-column>
+      {{/ifSelection}}
+      {{#ifData type}}
+      <el-table-column prop="{{property}}"{{#if align}} align="{{align}}"{{/if}} label="{{text}}"{{#if width}} width="{{width}}"{{/if}}></el-table-column>
+      {{/ifData}}
+      {{#ifActions type}}
+      <el-table-column{{#if fixed}} fixed="{{fixed}}"{{/if}}{{#if align}} align="{{align}}"{{/if}} label="{{text}}"{{#if width}} width="{{width}}"{{/if}}>
+        <template #default="scope">
+          {{#actions}}
+          {{#ifFalse hide}}
+          <el-button{{#if click}} @click="{{click}}"{{/if}} type="{{btnType}}">{{name}}</el-button>
+          {{/ifFalse}}
+          {{/actions}}
+          <el-dropdown>
+            <el-button class="el-dropdown-link" type="text">更多<em class="el-icon-arrow-down el-icon--right" /></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                {{#actions}}
+                {{#ifTrue hide}}
+                <el-dropdown-item>
+                  <el-button{{#if click}} @click="{{click}}"{{/if}} type="{{btnType}}">{{name}}</el-button>
+                </el-dropdown-item>
+                {{/ifTrue}}
+                {{/actions}}
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+      </el-table-column>
+      {{/ifActions}}
+      {{/page.propertyList}}
+    </el-table>
+    <template #pagination>
+      <el-pagination
+        :page-sizes="[20, 50, 100]"
+        :page-size="tableData.searchCondition.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="tableData.total"
+        @size-change="pageSizeChange"
+        @current-change="pageNoChange"
+      >
+      </el-pagination>
+    </template>
+  </hb-page-layout>
+</template>
+
+<script lang='ts'>
+import { defineComponent } from 'vue'
+import { self } from '@/common'
+import { createPage } from '@/common/page'
+import { loadDict } from '@/common/dict'
+
+export default defineComponent({
+  name: 'index',
+  setup() {
+    const context = self()
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      rowSelected,
+      pageConditionSearch,
+      defaultPageReset: handleReset,
+      defaultDeleteHandle: handleDelete,
+      defaultMultiDeleteHandle: handleMultiDelete
+    } = createPage({
+      conditions: {
+      {{#query}}
+        {{modelName}}: {
+          default: '{{defaultValue}}',
+          reset: '{{resetValue}}',
+        },
+      {{/query}}
+      },
+      dataAPI: context.$api.{{page.dataAPI}},
+      deleteAPI: context.$api.{{page.deleteAPI}}
+    })
+    {{#if dict}}
+    const { dataDict } = loadDict([
+      {{#dict}}
+      '{{.}}',
+      {{/dict}}
+    ])
+    {{/if}}
+
+    return {
+      pageSizeChange,
+      pageNoChange,
+      handleReset,
+      handleMultiDelete,
+      handleDelete,
+      handleSearch,
+      rowSelected,
+      pageConditionSearch,
+      tableData,
+      {{#if dict}}dataDict{{/if}}
+    }
+  }
+})
+</script>

@@ -1,0 +1,129 @@
+{
+  "dict": [
+    "STATUS",
+    "OK"
+  ],
+  "query": [
+    {
+      "modelName": "roleName",
+      "type": "input",
+      "defaultValue": "",
+      "resetValue": "",
+      "text": "角色名称",
+      "inputType": "text"
+    },
+    {
+      "modelName": "status",
+      "type": "select",
+      "defaultValue": "",
+      "resetValue": "",
+      "placeholder": "请选择",
+      "text": "状态",
+      "optionsDict": "STATUS"
+    }
+  ],
+  "actions": [
+    {
+      "name": "新增",
+      "btnType": "primary",
+      "size": "medium",
+      "click": "",
+      "pointKey": ""
+    },
+    {
+      "name": "查询",
+      "btnType": "primary",
+      "size": "medium",
+      "click": "pageConditionSearch",
+      "pointKey": ""
+    },
+    {
+      "name": "重置",
+      "btnType": "primary",
+      "size": "medium",
+      "click": "handleReset",
+      "pointKey": ""
+    },
+    {
+      "name": "批量删除",
+      "btnType": "danger",
+      "size": "medium",
+      "click": "handleMultiDelete",
+      "vShow": "tableData.selectedRow.length > 0",
+      "pointKey": ""
+    }
+  ],
+  "page": {
+    "dataAPI": "rolePage",
+    "deleteAPI": "roleDelete",
+    "propertyList": [
+      {
+        "property": "",
+        "text": "",
+        "type": "selection",
+        "align": "center",
+        "width": "50",
+        "label": "",
+        "fixed": ""
+      },
+      {
+        "property": "roleName",
+        "text": "角色名称",
+        "type": "data",
+        "align": "",
+        "width": "",
+        "fixed": ""
+      },
+      {
+        "property": "test",
+        "text": "角色属性1",
+        "type": "data",
+        "align": "center",
+        "width": "",
+        "fixed": ""
+      },
+      {
+        "property": "",
+        "text": "操作",
+        "type": "actions",
+        "align": "center",
+        "width": "150",
+        "fixed": "right",
+        "actions": [
+          {
+            "name": "权限",
+            "btnType": "text",
+            "size": "",
+            "click": "",
+            "pointKey": "",
+            "hide": false
+          },
+          {
+            "name": "编辑",
+            "btnType": "text",
+            "size": "",
+            "click": "",
+            "pointKey": "",
+            "hide": false
+          },
+          {
+            "name": "删除",
+            "btnType": "text",
+            "size": "",
+            "click": "handleDelete(scope.row)",
+            "pointKey": "",
+            "hide": true
+          },
+          {
+            "name": "查看",
+            "btnType": "text",
+            "size": "",
+            "click": "",
+            "pointKey": "",
+            "hide": true
+          }
+        ]
+      }
+    ]
+  }
+}
