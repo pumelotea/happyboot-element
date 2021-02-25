@@ -2,7 +2,7 @@
   <hb-main-layout>
     <template v-slot:head-bar>
       <hb-head-bar>
-        <component :is="subCom" mode="horizontal"></component>
+        <component :is="subCom" mode="horizontal" :style="subCom==='hb-breadcrumb'?'margin-left: 10px':''"></component>
       </hb-head-bar>
     </template>
     <template v-slot:nav-bar>
