@@ -85,24 +85,31 @@ export default {
           message: '请选择登录账号',
           type: 'error'
         })
-      } else {
-        const res: any = await context.$api.selectLogin(selectedUser.value)
-        if (res.code === 0) {
-          //登录操作前先清空一遍数据保障正常执行
-          resetFramework(context.$happykit)
-
-          user.value.data = res.data
-          context.$security.refreshUser(user.value)
-
-          context.$router.push('/')
-        } else {
-          context.$notify({
-            title: '登录失败',
-            message: res.msg,
-            type: 'error'
-          })
-        }
+        return
       }
+
+      if (user.value.data.id === selectedUser.value){
+        context.$router.push('/')
+        return
+      }
+
+      const res: any = await context.$api.selectLogin(selectedUser.value)
+      if (res.code === 0) {
+        //登录操作前先清空一遍数据保障正常执行
+        resetFramework(context.$happykit)
+
+        user.value.data = res.data
+        context.$security.refreshUser(user.value)
+
+        context.$router.push('/')
+      } else {
+        context.$notify({
+          title: '登录失败',
+          message: res.msg,
+          type: 'error'
+        })
+      }
+
     }
 
     const out = async () => {
