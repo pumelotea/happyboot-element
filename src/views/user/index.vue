@@ -183,6 +183,14 @@
                     参数配置
                   </el-button>
                 </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button
+                    @click="handleLoginOperate(scope.row)"
+                    type="text"
+                  >
+                    登录管理
+                  </el-button>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -210,6 +218,7 @@
     <facility-group-link-drawer ref="FGLD" />
     <user-password-edit-drawer ref="UPED" />
     <facility-configuration-drawer ref="FCD" />
+    <login-operate-drawer ref='LOD' />
   </hb-page-layout>
 </template>
 
@@ -228,6 +237,7 @@ import RegionLinkDrawer from './drawer/RegionLinkDrawer.vue'
 import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
 import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
 import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
+import LoginOperateDrawer from '@/views/user/drawer/LoginOperateDrawer.vue'
 import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent({
@@ -241,7 +251,8 @@ export default defineComponent({
     RegionLinkDrawer,
     UserPasswordEditDrawer,
     FacilityGroupLinkDrawer,
-    FacilityConfigurationDrawer
+    FacilityConfigurationDrawer,
+    LoginOperateDrawer
   },
   setup() {
     const context = self()
@@ -334,6 +345,10 @@ export default defineComponent({
       drawer('FCD').open(row.id)
     }
 
+    const handleLoginOperate = (row: any) => {
+      drawer('LOD').open(row.id)
+    }
+
     const imgId2Url = (data: any) => {
       return context.$api.$imgId2Url(data)
     }
@@ -357,6 +372,7 @@ export default defineComponent({
       handleSearch,
       rowSelected,
       pageConditionSearch,
+      handleLoginOperate,
       dataDict,
       statusColor,
       userTypeColor,
