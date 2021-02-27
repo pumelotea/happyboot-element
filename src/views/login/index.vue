@@ -118,7 +118,7 @@ export default {
         user.data = data.userinfo
         $security.signIn(data.token, user)
         $store.commit('setUserType', { userType: data.userinfo.userType })
-
+        $store.commit('lock',false)
         if (data.userlist_count === 0) {
           $router.push('/')
         } else {
@@ -152,6 +152,7 @@ export default {
     const token = $security.getToken()
 
     onMounted(() => {
+      $security.signOut()
       document.addEventListener('keypress', onKeyEnter)
       getKaptcha()
       //如果记住登录，并且存在token就跳转进入首页
