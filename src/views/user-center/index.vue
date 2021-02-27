@@ -95,7 +95,7 @@
             </el-form-item>
             <el-form-item label="头像">
               <hb-avatar-uploader
-                :src="picUrl"
+                :src="imgId2Url(infoForm.headPic)"
                 @cropped="onCropped"
               ></hb-avatar-uploader>
             </el-form-item>
@@ -136,6 +136,40 @@
           </el-form>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="安全日志" name="securityLog">
+        <div style='width: 100%;'>
+          <el-table
+            size="mini"
+            :data="tableData.list"
+            border
+            v-loading="tableData.loading"
+            style="width: 100%"
+          >
+            <el-table-column prop="loginTime" align="center" label="登录时间" width='210'></el-table-column>
+            <el-table-column prop="clientId" align="center" label="客户端id" width='250'></el-table-column>
+            <el-table-column prop="platform" align="center" label="登录平台" width='80'></el-table-column>
+            <el-table-column prop="ipAddress" align="center" label="地区" width='230'></el-table-column>
+            <el-table-column prop="ip" align="center" label="登录ip" width='200'></el-table-column>
+            <el-table-column prop="ua" align="center" label="UA信息" min-width='200'>
+              <template #default="scope">
+                <el-tooltip :content="scope.row.ua" placement="top">
+                  <span>{{ parseUA(scope.row.ua) }}</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            :page-sizes="[20, 50, 100]"
+            :page-size="tableData.searchCondition.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.total"
+            style="margin: 15px 0"
+            @size-change="pageSizeChange"
+            @current-change="pageNoChange"
+          >
+          </el-pagination>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </hb-page-layout-full>
 </template>
@@ -144,6 +178,8 @@
 import HbAvatarUploader from '@/components/HbAvatarUploader.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { self } from '@/common'
+import { createPage } from '@/common/page'
+import UAParser from 'ua-parser-js'
 
 export default {
   name: 'index',
@@ -152,6 +188,31 @@ export default {
   },
   setup() {
     const context = self()
+
+    const userInfo = computed(() => {
+      return context.$security.getUser().value.data
+    })
+
+    const activeName = computed(() => {
+      return context.$store.getters['userCenterActiveName']
+    })
+
+    const {
+      pageData: tableData,
+      defaultDataLoader: handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      pageConditionSearch,
+      defaultPageReset: handleReset
+    } = createPage({
+      conditions: {
+        userId: {
+          default: userInfo.value.id,
+          reset: userInfo.value.id
+        },
+      },
+      dataAPI: context.$api.queryLoginHistory
+    })
 
     const validatePass = (rule: any, value: any, callback: any) => {
       if (value === '') {
@@ -195,14 +256,6 @@ export default {
       return context.$api.$imgId2Url(id)
     }
 
-    const userInfo = computed(() => {
-      return context.$security.getUser().value.data
-    })
-
-    const activeName = computed(() => {
-      return context.$store.getters['userCenterActiveName']
-    })
-
     watch(activeTab, () => {
       if (activeTab.value === 'userInfo') {
         open()
@@ -212,6 +265,15 @@ export default {
     watch(activeName,() => {
       activeTab.value = activeName.value
     })
+
+    const parseUA = (ua: string) => {
+      const parser = new UAParser()
+      parser.setUA(ua)
+      const res = parser.getResult()
+      let osName = res.os.name ? res.os.name : '-'
+      let browserName = res.browser.name ? res.browser.name : '-'
+      return '操作系统：'+osName + ' | 浏览器名称：' + browserName
+    }
 
     const updateUserInfo = async () => {
       const res: any = await context.$api.userGet(userInfo.value.id)
@@ -346,8 +408,6 @@ export default {
       }
     }
 
-    const picUrl = ref(imgId2Url(infoForm.value.headPic))
-
     onMounted(() => {
       activeTab.value = activeName.value
     })
@@ -362,6 +422,7 @@ export default {
       handleUnLink,
       onCropped,
       handlePasswordSubmit,
+      parseUA,
       activeTab,
       infoForm,
       infoRules,
@@ -373,7 +434,12 @@ export default {
       userLinkData,
       userInfo,
       activeName,
-      picUrl
+      tableData,
+      handleSearch,
+      pageNoChange,
+      pageSizeChange,
+      pageConditionSearch,
+      handleReset
     }
   }
 }

@@ -76,6 +76,9 @@
               <el-dropdown-item @click='editPassword'>
                 <span><i class="el-icon-lock"></i>修改密码</span>
               </el-dropdown-item>
+              <el-dropdown-item @click='securityLog'>
+                <span><i class="el-icon-lock"></i>安全日志</span>
+              </el-dropdown-item>
               <el-dropdown-item disabled
               ><i class="el-icon-mobile-phone"></i>改绑手机
               </el-dropdown-item
@@ -150,6 +153,12 @@ export default defineComponent({
       $router.push('/user-center', '个人中心')
     }
 
+    const securityLog = () => {
+      //把要打开的tab名字存到localstorage里
+      $store.commit('setUserCenterActiveName', { activeName: 'securityLog' })
+      $router.push('/user-center', '个人中心')
+    }
+
     const switchUser = () => {
       $router.push('/switch-user')
     }
@@ -171,6 +180,7 @@ export default defineComponent({
       logout,
       editUserInfo,
       editPassword,
+      securityLog,
       setTheme,
       setting
     }
