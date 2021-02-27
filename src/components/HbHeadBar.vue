@@ -77,7 +77,7 @@
                 <span><i class="el-icon-lock"></i>修改密码</span>
               </el-dropdown-item>
               <el-dropdown-item @click='securityLog'>
-                <span><i class="el-icon-lock"></i>安全日志</span>
+                <span><i class="el-icon-notebook-2"></i>安全日志</span>
               </el-dropdown-item>
               <el-dropdown-item disabled
               ><i class="el-icon-mobile-phone"></i>改绑手机

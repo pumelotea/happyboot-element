@@ -146,7 +146,7 @@
             style="width: 100%"
           >
             <el-table-column prop="loginTime" align="center" label="登录时间" width='210'></el-table-column>
-            <el-table-column prop="clientId" align="center" label="客户端id" width='250'></el-table-column>
+            <el-table-column prop="clientId" align="center" label="客户端id" width='260'></el-table-column>
             <el-table-column prop="platform" align="center" label="登录平台" width='80'></el-table-column>
             <el-table-column prop="ipAddress" align="center" label="地区" width='230'></el-table-column>
             <el-table-column prop="ip" align="center" label="登录ip" width='200'></el-table-column>
@@ -158,16 +158,18 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-pagination
-            :page-sizes="[20, 50, 100]"
-            :page-size="tableData.searchCondition.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableData.total"
-            style="margin: 15px 0"
-            @size-change="pageSizeChange"
-            @current-change="pageNoChange"
-          >
-          </el-pagination>
+          <div style='text-align: center;padding-bottom: 20px;'>
+            <el-pagination
+              :page-sizes="[20, 50, 100]"
+              :page-size="tableData.searchCondition.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="tableData.total"
+              style="margin: 15px 0"
+              @size-change="pageSizeChange"
+              @current-change="pageNoChange"
+            >
+            </el-pagination>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
