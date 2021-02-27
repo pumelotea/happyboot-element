@@ -98,7 +98,8 @@ export default {
         //登录操作前先清空一遍数据保障正常执行
         resetFramework(context.$happykit)
 
-        user.value.data = res.data
+        user.value.data = res.data.userinfo
+        context.$security.refreshToken(res.data.token)
         context.$security.refreshUser(user.value)
 
         context.$router.push('/')
