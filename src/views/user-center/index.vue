@@ -209,7 +209,7 @@ export default {
         userId: {
           default: userInfo.value.id,
           reset: userInfo.value.id
-        },
+        }
       },
       dataAPI: context.$api.queryLoginHistory
     })
