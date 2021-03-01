@@ -6,7 +6,7 @@
   >
     <el-table size="mini" :data="tableList" border style="width: 100%">
       <el-table-column prop="operationTime" align="center" label="登录时间" width='210'></el-table-column>
-      <el-table-column prop="clientId" align="center" label="客户端id" width='250'></el-table-column>
+      <el-table-column prop="clientId" align="center" label="客户端id" width='300'></el-table-column>
       <el-table-column prop="operationPlatform" align="center" label="登录平台" width='80'>
         <template #default="scope">
                 <span>
@@ -23,7 +23,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" width="130">
+      <el-table-column fixed="right" align="center" label="操作" width="80">
         <template #default="scope">
           <el-button @click="handleOffline(scope.row)" type="text" style="color: red">下线</el-button>
         </template>
@@ -79,21 +79,30 @@ export default defineComponent ({
     }
 
     const handleOffline = async (row: any) => {
-      const res: any = await context.$api.userOffline(row.token)
-      if (res.code === 0) {
-        context.$notify({
-          type: 'success',
-          title: '提示',
-          message: '操作成功！'
+
+      context.$confirm('即将下线该用户, 是否确认?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          context.$api.userOffline(row.token).then((res: any) => {
+            if (res.code === 0) {
+              context.$notify({
+                type: 'success',
+                title: '提示',
+                message: '操作成功！'
+              })
+              handleSearch()
+            } else {
+              context.$notify({
+                type: 'error',
+                title: '提示',
+                message: res.msg
+              })
+            }
+          })
         })
-        handleSearch()
-      } else {
-        context.$notify({
-          type: 'error',
-          title: '提示',
-          message: res.msg
-        })
-      }
     }
 
     return {
