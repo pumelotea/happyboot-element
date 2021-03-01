@@ -76,12 +76,13 @@
 import { ref, computed, onMounted, onBeforeUnmount} from 'vue'
 import HbTextLogo from '@/components/HbTextLogo.vue'
 import { self } from '@/common'
+import { resetFramework } from 'happykit'
 
 export default {
   name: 'index',
   components: { HbTextLogo },
   setup() {
-    const { $security, $api, $store, $router, $notify } = self()
+    const { $security, $api, $store, $router, $notify, $happykit } = self()
 
     const kaptchaImage = ref('')
     const kaptchaId = ref('')
@@ -105,6 +106,8 @@ export default {
     const login = async () => {
       //登录操作前先清空一遍数据保障正常执行
       $security.signOut()
+
+      resetFramework($happykit)
 
       const res: any = await $api.login(
         username.value,

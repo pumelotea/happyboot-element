@@ -89,6 +89,7 @@ export default {
       }
 
       if (user.value.data.id === selectedUser.value){
+        resetFramework(context.$happykit)
         context.$router.push('/')
         return
       }
