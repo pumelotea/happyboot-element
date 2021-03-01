@@ -14,8 +14,8 @@ const apiDefinition = {
   userlist() {
     return $get('/sys/user/userlist')
   },
-  queryLoginHistory(params: any) {
-    return $get('/sys/user/queryLoginHistory', params)
+  querySecurityLog(params: any) {
+    return $get('/sys/user/querySecurityLog', params)
   },
   getMenuTree() {
     return $get('/sys/permission/tree', { module: 'admin' })
