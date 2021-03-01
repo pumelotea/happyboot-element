@@ -30,7 +30,9 @@ const store = createStore({
       topSlot: 'nav',
       leftSlot: 'menu',
       navSlot: 'disable',
-      pageBreadSlot: 'enable'
+      pageBreadSlot: 'enable',
+      breadIcon: 'enable',
+      navIcon: 'enable',
     }
   },
   getters: {

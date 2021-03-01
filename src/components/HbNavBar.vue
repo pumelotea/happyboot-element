@@ -17,12 +17,16 @@
             <template v-if="item.title.length >= 10" #label>
               <el-tooltip :content="item.title">
                 <span>
+                  <i :class="item.menuItem.icon" v-if="setting.navIcon ==='enable'"></i>
                   {{ textOverflow(item.title) }}
                 </span>
               </el-tooltip>
             </template>
             <template v-else #label>
-              <span>{{ item.title }}</span>
+              <span>
+                <i :class="item.menuItem.icon" v-if="setting.navIcon ==='enable'"></i>
+                {{ item.title }}
+              </span>
             </template>
           </el-tab-pane>
         </template>
@@ -59,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { NavCloseType } from 'happykit'
 import { self } from '@/common'
 
@@ -123,9 +127,15 @@ export default defineComponent({
       })
     }
 
+    const { $store } = self()
+    const setting = computed(() => {
+      return $store.getters.layoutSetting
+    })
+
     return {
       navList,
       activeTab,
+      setting,
       textOverflow,
       goto,
       handleTabsEdit,

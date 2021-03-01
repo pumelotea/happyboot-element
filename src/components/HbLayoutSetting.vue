@@ -31,6 +31,18 @@
           <el-radio-button label="disable">禁用</el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="面包屑图标" label-width="120px">
+        <el-radio-group v-model="form.breadIcon" size="medium">
+          <el-radio-button label="enable">启用</el-radio-button>
+          <el-radio-button label="disable">禁用</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="导航栏图标" label-width="120px">
+        <el-radio-group v-model="form.navIcon" size="medium">
+          <el-radio-button label="enable">启用</el-radio-button>
+          <el-radio-button label="disable">禁用</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="$store.commit('settingDialog',false)">取消</el-button>

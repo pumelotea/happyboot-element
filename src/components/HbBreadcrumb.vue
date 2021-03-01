@@ -4,24 +4,33 @@
       <el-breadcrumb-item
         v-if="e.isRouter"
         :to="{ path: e.routerPath }"
-      >{{ e.name }}
+      >
+        <i :class="e.icon" v-if="setting.breadIcon === 'enable'"></i>
+        {{ e.name }}
       </el-breadcrumb-item>
-      <el-breadcrumb-item v-else>{{ e.name }}</el-breadcrumb-item>
+      <el-breadcrumb-item v-else>
+        <i :class="e.icon" v-if="setting.breadIcon === 'enable'"></i>
+        {{ e.name }}
+      </el-breadcrumb-item>
     </template>
   </el-breadcrumb>
 </template>
 
 <script lang="ts">
 import { self } from '@/common'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'HbBreadcrumb',
   setup() {
-    const { $happykit } = self()
+    const { $happykit, $store } = self()
     const currentRouteMenu = $happykit.getCurrentMenuRoute()
+    const setting = computed(() => {
+      return $store.getters.layoutSetting
+    })
     return {
-      currentRouteMenu
+      currentRouteMenu,
+      setting
     }
   }
 })
