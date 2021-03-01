@@ -17,6 +17,12 @@ const apiDefinition = {
   querySecurityLog(params: any) {
     return $get('/sys/user/querySecurityLog', params)
   },
+  queryOnlineList(userId: string) {
+    return $get('/sys/user/queryOnlineList', { userId })
+  },
+  userOffline(token: string) {
+    return $post('/sys/user/offline', { token })
+  },
   getMenuTree() {
     return $get('/sys/permission/tree', { module: 'admin' })
   },
