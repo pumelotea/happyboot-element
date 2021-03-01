@@ -145,12 +145,25 @@
             v-loading="tableData.loading"
             style="width: 100%"
           >
-            <el-table-column prop="loginTime" align="center" label="登录时间" width='210'></el-table-column>
+            <el-table-column prop="operationTime" align="center" label="操作时间" width='200'></el-table-column>
+            <el-table-column prop="operationType" align="center" label="操作类型" width='180'>
+              <template #default="scope">
+                <span>
+                  {{ dataDict.SECURITY_OPERATION?.mappings[scope.row.operationType] }}
+                </span>
+              </template>
+            </el-table-column>
             <el-table-column prop="clientId" align="center" label="客户端id" width='260'></el-table-column>
-            <el-table-column prop="platform" align="center" label="登录平台" width='80'></el-table-column>
-            <el-table-column prop="ipAddress" align="center" label="地区" width='230'></el-table-column>
-            <el-table-column prop="ip" align="center" label="登录ip" width='200'></el-table-column>
-            <el-table-column prop="ua" align="center" label="UA信息" min-width='200'>
+            <el-table-column prop="operationPlatform" align="center" label="操作平台" width='110'>
+              <template #default="scope">
+                <span>
+                  {{ dataDict.APP_PLATFORM?.mappings[scope.row.operationPlatform] }}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ipAddress" align="center" label="ip位置" width='230'></el-table-column>
+            <el-table-column prop="ip" align="center" label="操作ip" width='200'></el-table-column>
+            <el-table-column prop="ua" align="center" label="UA信息" min-width='300'>
               <template #default="scope">
                 <el-tooltip :content="scope.row.ua" placement="top">
                   <span>{{ parseUA(scope.row.ua) }}</span>
@@ -182,6 +195,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { self } from '@/common'
 import { createPage } from '@/common/page'
 import UAParser from 'ua-parser-js'
+import { loadDict } from '@/common/dict'
 
 export default {
   name: 'index',
@@ -199,6 +213,8 @@ export default {
       return context.$store.getters['userCenterActiveName']
     })
 
+    const { dataDict } = loadDict(['SECURITY_OPERATION','APP_PLATFORM'])
+
     const {
       pageData: tableData,
       defaultDataLoader: handleSearch,
@@ -213,7 +229,7 @@ export default {
           reset: userInfo.value.id
         }
       },
-      dataAPI: context.$api.queryLoginHistory
+      dataAPI: context.$api.querySecurityLog
     })
 
     const validatePass = (rule: any, value: any, callback: any) => {
@@ -425,6 +441,7 @@ export default {
       onCropped,
       handlePasswordSubmit,
       parseUA,
+      dataDict,
       activeTab,
       infoForm,
       infoRules,
