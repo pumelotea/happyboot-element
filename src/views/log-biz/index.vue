@@ -25,6 +25,7 @@
     <el-table size="mini" :data="tableData.list" border v-loading="tableData.loading">
       <el-table-column fixed type="index" width="50"></el-table-column>
       <el-table-column prop="requestUser" label="请求用户" width="100"></el-table-column>
+      <el-table-column prop="requestClientId" label="请求设备id"></el-table-column>
       <el-table-column prop="description" label="描述"></el-table-column>
       <el-table-column prop="requestTime" label="请求时间" width="180"></el-table-column>
       <el-table-column prop="requestMethod" label="请求方法" width="100"></el-table-column>
