@@ -153,7 +153,7 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="clientId" align="center" label="客户端id" width='260'></el-table-column>
+            <el-table-column prop="clientId" align="center" label="客户端id" width='300'></el-table-column>
             <el-table-column prop="operationPlatform" align="center" label="操作平台" width='110'>
               <template #default="scope">
                 <span>

@@ -6,7 +6,7 @@
   >
     <el-table size="mini" :data="tableList" border style="width: 100%">
       <el-table-column prop="operationTime" align="center" label="登录时间" width='210'></el-table-column>
-      <el-table-column prop="clientId" align="center" label="客户端id" width='250'></el-table-column>
+      <el-table-column prop="clientId" align="center" label="客户端id" width='300'></el-table-column>
       <el-table-column prop="operationPlatform" align="center" label="登录平台" width='80'>
         <template #default="scope">
                 <span>
