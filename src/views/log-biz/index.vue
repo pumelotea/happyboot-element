@@ -38,6 +38,7 @@
     </el-table>
     <template #pagination>
       <el-pagination
+        background
         :page-size="tableData.searchCondition.pageSize"
         :page-sizes="[20, 50, 100]"
         @size-change="pageSizeChange"

@@ -173,6 +173,7 @@
           </el-table>
           <div style='text-align: center;padding-bottom: 20px;'>
             <el-pagination
+              background
               :page-sizes="[20, 50, 100]"
               :page-size="tableData.searchCondition.pageSize"
               layout="total, sizes, prev, pager, next, jumper"

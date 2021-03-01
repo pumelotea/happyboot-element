@@ -133,6 +133,7 @@
     </el-table>
     <template #pagination>
       <el-pagination
+        background
         :page-sizes="[20, 50, 100]"
         :page-size="tableData.searchCondition.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
