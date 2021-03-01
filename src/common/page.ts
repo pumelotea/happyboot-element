@@ -6,8 +6,8 @@ declare interface QueryCondition {
 }
 
 declare interface QueryConditionConfig {
-  default:any,
-  reset:any,
+  default: any,
+  reset: any,
 }
 
 declare interface PageQueryCondition extends QueryCondition {
@@ -39,9 +39,9 @@ declare interface PageOption {
 }
 
 export function createPage(options: PageOption) {
-  let { conditions, dataLoader, dataAPI,deleteAPI } = options
+  let { conditions, dataLoader, dataAPI, deleteAPI } = options
 
-  const rawData:PageData = {
+  const rawData: PageData = {
     searchCondition: {
       pageNo: 1,
       pageSize: 20
@@ -52,15 +52,15 @@ export function createPage(options: PageOption) {
     list: []
   }
 
-  if (conditions){
-    Object.keys(conditions).forEach(dataKey=>{
+  if (conditions) {
+    Object.keys(conditions).forEach(dataKey => {
       rawData.searchCondition[dataKey] = conditions![dataKey].default
     })
   }
 
   const pageData = reactive<PageData>(rawData)
 
-  const defaultDataLoader = async () => {
+  const innerDataLoader = async (pageData: PageData) => {
     if (!dataAPI) {
       return
     }
@@ -74,18 +74,22 @@ export function createPage(options: PageOption) {
   }
 
   if (!dataLoader) {
-    dataLoader = defaultDataLoader
+    dataLoader = innerDataLoader
+  }
+
+  const defaultDataLoader = async () => {
+    await innerDataLoader(pageData)
   }
 
   const pageSizeChange = (pageSize: number) => {
     pageData.searchCondition.pageSize = pageSize
     pageData.searchCondition.pageNo = 1
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   }
 
   const pageNoChange = (pageNo: number) => {
     pageData.searchCondition.pageNo = pageNo
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   }
 
   const pageReset = (queryCondition: QueryCondition) => {
@@ -96,21 +100,21 @@ export function createPage(options: PageOption) {
       pageData.searchCondition[dataKey] = queryCondition[dataKey]
     })
 
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   }
 
-  const defaultPageReset= () => {
-    if (conditions){
-      Object.keys(conditions).forEach(dataKey=>{
+  const defaultPageReset = () => {
+    if (conditions) {
+      Object.keys(conditions).forEach(dataKey => {
         pageData.searchCondition[dataKey] = conditions![dataKey].reset
       })
     }
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   }
 
   const pageConditionSearch = () => {
     pageData.searchCondition.pageNo = 1
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   }
 
   const rowSelected = (rows: any[]) => {
@@ -118,7 +122,7 @@ export function createPage(options: PageOption) {
   }
 
   onMounted(() => {
-    dataLoader && dataLoader(pageData.searchCondition)
+    dataLoader && dataLoader(pageData)
   })
 
   const getSelectIds = (dataKey = 'id', split = ',') => {
@@ -136,7 +140,7 @@ export function createPage(options: PageOption) {
         deleteAPI && deleteAPI(row.id).then((res: any) => {
           if (res.code === 0) {
             pageData.searchCondition.pageNo = 1
-            dataLoader && dataLoader(pageData.searchCondition)
+            dataLoader && dataLoader(pageData)
             context.$notify({
               type: 'success',
               title: '提示',
@@ -169,7 +173,7 @@ export function createPage(options: PageOption) {
         deleteAPI && deleteAPI(getSelectIds()).then((res: any) => {
           if (res.code === 0) {
             pageData.searchCondition.pageNo = 1
-            dataLoader && dataLoader(pageData.searchCondition)
+            dataLoader && dataLoader(pageData)
             context.$notify({
               type: 'success',
               title: '提示',
