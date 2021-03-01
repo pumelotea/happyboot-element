@@ -339,12 +339,21 @@ export default defineComponent ({
   flex-wrap: wrap;
 }
 .icon-item {
-  /* width: 32px;
-  height: 32px; */
-  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  font-size: 25px;
   cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+  display: flex;
+  transition: all 0.3s;
 }
+
+.icon-item i {
+  margin: auto;
+}
+
 .icon-item:hover {
-  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 40%);
 }
 </style>
