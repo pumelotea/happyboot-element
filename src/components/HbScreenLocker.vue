@@ -3,7 +3,7 @@
     <div class="hb-screen-locker" v-if="show">
       <div class="form">
         <div class="form-item">
-          <el-avatar :size="80" :src="imgId2Url(user.data.headPic)"></el-avatar>
+          <el-avatar :size="80" :src="imgId2Url(user.data.headPic)" icon="el-icon-user-solid"></el-avatar>
         </div>
         <div class="form-item">
           <span class="nickname">{{user.data.nickname}}</span>

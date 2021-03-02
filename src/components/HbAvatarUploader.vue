@@ -6,7 +6,7 @@
         :src="avatar"
         class="avatar"
         @click="open"
-        shape="square"
+        icon="el-icon-user-solid"
       ></el-avatar>
     </slot>
     <el-dialog

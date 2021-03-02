@@ -49,9 +49,9 @@
       </el-form-item>
       <el-form-item label="头像">
         <el-avatar
-          shape="square"
           :src="imgId2Url(form.headPic)"
           :size="100"
+          icon="el-icon-user-solid"
         ></el-avatar>
       </el-form-item>
     </el-form>

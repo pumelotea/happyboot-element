@@ -98,9 +98,9 @@
       <el-table-column prop="headPic" align="center" label="头像" width="100">
         <template #default="scope">
           <el-avatar
-            shape="square"
             :src="imgId2Url(scope.row.headPic)"
             size="large"
+            icon="el-icon-user-solid"
           />
         </template>
       </el-table-column>

@@ -66,7 +66,7 @@
         <span class="nickname">{{ nickname }}</span>
         <el-dropdown trigger="click">
           <div class="el-dropdown-links">
-            <el-avatar :src="headImage"></el-avatar>
+            <el-avatar :src="headImage" icon="el-icon-user-solid"></el-avatar>
           </div>
           <template #dropdown>
             <el-dropdown-menu>

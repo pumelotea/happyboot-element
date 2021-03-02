@@ -23,6 +23,7 @@
                     <el-avatar
                       :size="48"
                       :src="imgId2Url(u.avatar)"
+                      icon="el-icon-user-solid"
                     ></el-avatar>
                   </div>
                   <div class="card-content-body">
