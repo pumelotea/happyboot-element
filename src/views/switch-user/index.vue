@@ -94,7 +94,7 @@ export default {
         return
       }
 
-      const res: any = await context.$api.selectLogin(selectedUser.value)
+      const res: any = await context.$api.switchLogin(selectedUser.value)
       if (res.code === 0) {
         //登录操作前先清空一遍数据保障正常执行
         resetFramework(context.$happykit)

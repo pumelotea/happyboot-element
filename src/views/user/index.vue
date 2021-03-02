@@ -80,10 +80,14 @@
     >
       <el-table-column type="selection" align="center" width="50" />
       <el-table-column
+        prop="id"
+        align="center"
+        label="id"
+      />
+      <el-table-column
         prop="username"
         align="center"
         label="账号"
-        width="150"
       />
       <el-table-column
         prop="nickname"
@@ -107,12 +111,6 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="lastIp"
-        align="center"
-        label="最后登录ip"
-        width="120"
-      />
       <el-table-column prop="status" align="center" label="状态" width="60">
         <template #default="scope">
           <span :style="`color:${statusColor[scope.row.status]}`">
@@ -120,11 +118,6 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="lastLoginTime"
-        align="center"
-        label="最后登录时间"
-      />
       <el-table-column fixed="right" align="center" label="操作" width="200">
         <template #default="scope">
           <el-button @click="handleDetail(scope.row)" type="text"

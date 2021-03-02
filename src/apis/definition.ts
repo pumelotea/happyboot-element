@@ -7,8 +7,8 @@ const apiDefinition = {
   getKaptcha() {
     return $get('/kaptcha')
   },
-  selectLogin(userId: string) {
-    return $post('/sys/user/selectLogin', { userId })
+  switchLogin(userId: string) {
+    return $post('/sys/user/switchLogin', { userId })
   },
   //查询关联账号列表
   userlist() {
