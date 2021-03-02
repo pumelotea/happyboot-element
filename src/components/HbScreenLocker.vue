@@ -79,8 +79,8 @@ export default defineComponent({
     })
 
     const login = async () => {
-      //登录操作前先清空一遍数据保障正常执行
-
+      //调用退出接口，，使token失效
+      await $api.logout()
       const res: any = await $api.login(
         user.value.data.username,
         password.value,
