@@ -20,7 +20,7 @@
         <slot name="pagination"></slot>
       </div>
     </div>
-    <el-backtop target=".page-body"></el-backtop>
+    <el-backtop :target="target" bottom="80"></el-backtop>
   </div>
 </template>
 
@@ -33,12 +33,16 @@ export default defineComponent({
   name: 'HbPageLayout',
   components: { HbBreadcrumb },
   setup() {
-    const { $store } = self()
+    const { $store,$happykit } = self()
     const setting = computed(()=>{
       return $store.getters.layoutSetting
     })
+    const target = computed(()=>{
+      return `[pageid="${$happykit.getCurrentMenuRoute().value?.pageId}"] .page-body`
+    })
     return {
-      setting
+      setting,
+      target
     }
   }
 })

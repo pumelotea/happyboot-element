@@ -5,20 +5,24 @@
         <slot></slot>
       </div>
     </div>
-    <el-backtop target=".page-container-full"></el-backtop>
+    <el-backtop :target="target"></el-backtop>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { self } from '@/common'
 export default defineComponent({
   name: 'HbPageLayoutFull',
   setup() {
     const hkf = self().$happykit
     const currentRouteMenu = hkf.getCurrentMenuRoute()
+    const target = computed(()=>{
+      return `[pageid="${self().$happykit.getCurrentMenuRoute().value?.pageId}"] .page-body`
+    })
     return {
-      currentRouteMenu
+      currentRouteMenu,
+      target
     }
   }
 })
