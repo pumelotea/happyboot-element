@@ -65,7 +65,6 @@ export default defineComponent ({
       let res: any = await context.$api.queryOnlineList(userId.value)
       if(res.code === 0){
         tableList.value = res.data
-        console.log(tableList.value)
       }
     }
 

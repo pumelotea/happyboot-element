@@ -184,6 +184,14 @@
                     登录管理
                   </el-button>
                 </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button
+                    @click="handleSecurityLog(scope.row)"
+                    type="text"
+                  >
+                    安全日志
+                  </el-button>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -213,6 +221,7 @@
     <user-password-edit-drawer ref="UPED" />
     <facility-configuration-drawer ref="FCD" />
     <login-operate-drawer ref='LOD' />
+    <security-log-drawer ref='SLD' />
   </hb-page-layout>
 </template>
 
@@ -232,6 +241,7 @@ import UserPasswordEditDrawer from './drawer/UserPasswordEditDrawer.vue'
 import FacilityGroupLinkDrawer from './drawer/FacilityGroupLinkDrawer.vue'
 import FacilityConfigurationDrawer from './drawer/FacilityConfigurationDrawer.vue'
 import LoginOperateDrawer from '@/views/user/drawer/LoginOperateDrawer.vue'
+import securityLogDrawer from '@/views/user/drawer/securityLogDrawer.vue'
 import { drawerLoader } from '@/common/drawer'
 
 export default defineComponent({
@@ -246,7 +256,8 @@ export default defineComponent({
     UserPasswordEditDrawer,
     FacilityGroupLinkDrawer,
     FacilityConfigurationDrawer,
-    LoginOperateDrawer
+    LoginOperateDrawer,
+    securityLogDrawer
   },
   setup() {
     const context = self()
@@ -343,6 +354,10 @@ export default defineComponent({
       drawer('LOD').open(row.id)
     }
 
+    const handleSecurityLog = (row: any) => {
+      drawer('SLD').open(row.id)
+    }
+
     const imgId2Url = (data: any) => {
       return context.$api.$imgId2Url(data)
     }
@@ -367,6 +382,7 @@ export default defineComponent({
       rowSelected,
       pageConditionSearch,
       handleLoginOperate,
+      handleSecurityLog,
       dataDict,
       statusColor,
       userTypeColor,
