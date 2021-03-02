@@ -31,7 +31,7 @@
 
   .nav-wrap {
     width: calc(100% - 50px);
-    padding-left: 5px;
+    //padding-left: 5px;
     display: inline-block;
 
     .el-tabs--card > .el-tabs__header {
@@ -48,13 +48,12 @@
 
     .el-tabs--card > .el-tabs__header .el-tabs__item {
       border: none;
-      margin-top: 5px;
-      margin-bottom: 5px;
+      margin: 5px;
       box-shadow: 0 0 4px 1px rgb(0 0 0 / 10%);
     }
 
     .el-tabs__nav-scroll {
-      padding: 0 5px;
+      //padding: 0 5px;
     }
 
     .el-tabs--card > .el-tabs__header .el-tabs__item .el-icon-close {
