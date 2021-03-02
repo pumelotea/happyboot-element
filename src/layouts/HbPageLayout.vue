@@ -20,7 +20,7 @@
         <slot name="pagination"></slot>
       </div>
     </div>
-    <el-backtop target=".page-container"></el-backtop>
+    <el-backtop target=".page-body"></el-backtop>
   </div>
 </template>
 
