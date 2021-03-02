@@ -121,7 +121,6 @@ export default {
         user.data = data.userinfo
         $security.signIn(data.token, user)
         $store.commit('setUserType', { userType: data.userinfo.userType })
-        $store.commit('lock',false)
         if (data.userlist_count === 0) {
           $router.push('/')
         } else {
@@ -155,6 +154,7 @@ export default {
     const token = $security.getToken()
 
     onMounted(() => {
+      $store.commit('lock',false)
       $security.signOut()
       document.addEventListener('keypress', onKeyEnter)
       getKaptcha()

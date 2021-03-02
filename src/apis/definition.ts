@@ -456,5 +456,8 @@ const apiDefinition = {
     })
     return $post('/sys/file/uploadImgs', f)
   },
+  logout(){
+    return $post('/logout')
+  }
 }
 export default apiDefinition

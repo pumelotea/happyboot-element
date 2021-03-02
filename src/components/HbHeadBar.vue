@@ -163,7 +163,8 @@ export default defineComponent({
       $router.push('/switch-user')
     }
 
-    const logout = () => {
+    const logout = async () => {
+      await $api.logout()
       $security.signOut()
       $router.push('/login')
     }
