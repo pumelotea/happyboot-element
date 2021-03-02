@@ -123,7 +123,10 @@ export function partialCopying(form: any, data: any) {
     return form
   }
   Object.keys(form).forEach(key => {
-    form[key] = data[key] || form[key]
+    console.log(key,data[key], form[key],data[key] || form[key])
+    if (data[key] != undefined && data[key] != null){
+      form[key] = data[key]
+    }
   })
   return form
 }
