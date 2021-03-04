@@ -17,7 +17,7 @@ https://github.com/pumelotea/vue-next/releases/download/v3.0.5/runtime-core-3.0.
 sha512-1Vi8xd+5CBAKO2flZIQtd2o4vuXVjR9eVtpj2SaX3WVugLLNrugvChJlBgNkVt8mAmxXlD8rHQuI+8EF68h3tA==
 ```
 
-修改版的vue-runtime-core@3.0.7
+修改版的runtime-core@3.0.7
 ```
 https://github.com/pumelotea/vue-next/releases/download/v3.0.7/vue-runtime-core-3.0.7.tgz#3c18efa1c42330adb3d7dd9ab858e3854942f121
 sha512-QnC6GyEq5X7Z3i2vRE/2PzJV8gk4Zs5TP5PmmOcV38UqwVI07zOKW+IhKjZQ5YqxxsRqu1qDxVxthInSkyoi3w==
