@@ -5,7 +5,7 @@
 ## 演示地址
 > 请勿乱修改数据  
 > 默认账号密码：admin/123456   
-> [https://element.happykit.org](https://elememt.happykit.org)
+> [https://element.happykit.org](https://element.happykit.org)
 
 ## 注意
 由于vue官方迟迟不支持`keep-alive`通过组件key来实现缓存的控制，我们的项目又急切需要该能力，因此我们手动维护了一个修改版的`runtime-core`。
