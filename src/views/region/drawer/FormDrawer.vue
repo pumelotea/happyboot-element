@@ -34,7 +34,7 @@
 <script lang='ts'>
 import { defineComponent, ref, nextTick } from 'vue'
 import { self } from '@/common'
-import { partialCopying } from '@/common/utils.ts'
+import { partialCopying } from '@/common/utils'
 
 export default defineComponent ({
   name: 'FormDrawer',
