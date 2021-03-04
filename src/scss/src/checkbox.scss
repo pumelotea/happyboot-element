@@ -199,8 +199,8 @@
     height: $--checkbox-input-height;
     background-color: $--checkbox-background-color;
     z-index: $--index-normal;
-    //transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),
-    //background-color .25s cubic-bezier(.71,-.46,.29,1.46);
+    transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),
+    background-color .25s cubic-bezier(.71,-.46,.29,1.46);
 
     &:hover {
       border-color: $--checkbox-input-border-color-hover;
