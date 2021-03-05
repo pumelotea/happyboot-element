@@ -1,0 +1,94 @@
+.layout-setting-container{
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translate3d(0,-50%,0);
+  pointer-events: none;
+  opacity: 0.8;
+
+  font-size: 12px;
+  .layout{
+    width: 300px;
+    height: 180px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgb(228 235 243);
+    position: relative;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.3);
+
+
+    .head-bar{
+      height: 30px;
+      display: flex;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      border: none;
+
+      .logo{
+        width: 60px;
+        height: 100%;
+        background: rgb(113 211 170);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .slot{
+        flex: 1;
+        background: rgb(181 113 181);
+        height: 100%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slot-disable{
+        background: transparent !important;
+      }
+
+      .actions{
+        width: 80px;
+        height: 100%;
+        background: rgb(181 181 181);
+      }
+    }
+
+    .menu{
+      position: absolute;
+      left: 0;
+      top: 30px;
+      bottom: 0;
+      width: 60px;
+      background: rgb(249 186 88);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-disable{
+      left: 0 !important;
+    }
+
+    .nav-bar{
+      position: absolute;
+      left: 60px;
+      top: 30px;
+      right: 0;
+      height: 20px;
+      background: rgb(114 176 245);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

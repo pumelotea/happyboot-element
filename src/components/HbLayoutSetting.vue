@@ -2,6 +2,7 @@
   <el-dialog
     title="自定义布局"
     v-model="dialogFormVisible"
+    width="700px"
     @close="()=>{$store.commit('settingDialog',false)}"
   >
     <el-form v-model="form">
@@ -44,6 +45,21 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
+    <div class="layout-setting-container">
+      <div class="layout">
+        <div class="head-bar">
+          <div class="logo">LOGO</div>
+          <div class="slot" :class="{'slot-disable':form.topSlot ==='disable'}">
+            {{dict[form.topSlot]}}
+          </div>
+          <div class="actions"></div>
+        </div>
+        <div class="menu" v-if="form.leftSlot !== 'disable'">
+          菜单
+        </div>
+        <div class="nav-bar" v-if="form.navSlot !== 'disable'" :class="{'menu-disable':form.leftSlot ==='disable'}">导航</div>
+      </div>
+    </div>
     <template #footer>
       <el-button @click="$store.commit('settingDialog',false)">取消</el-button>
       <el-button type="primary" @click="setLayout">确定</el-button>
@@ -83,15 +99,18 @@ export default defineComponent({
       $store.commit('setLayoutSetting',form.value)
     }
 
+    const dict = {
+      nav:'导航',
+      menu:'菜单',
+      bread:'面包屑',
+    }
+
     return {
       dialogFormVisible,
       form,
+      dict,
       setLayout
     }
   }
 })
 </script>
-
-<style scoped>
-
-</style>
