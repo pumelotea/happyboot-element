@@ -75,12 +75,13 @@ export default defineComponent({
     watch(show,()=>{
       if (show.value){
         getKaptcha()
+        //调用退出接口，，使token失效
+        $api.logout()
       }
     })
 
     const login = async () => {
-      //调用退出接口，，使token失效
-      await $api.logout()
+
       const res: any = await $api.login(
         user.value.data.username,
         password.value,
