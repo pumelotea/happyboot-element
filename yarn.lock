@@ -5192,10 +5192,10 @@ handlebars@^4.7.7:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-happykit@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.npmjs.org/happykit/-/happykit-1.3.4.tgz#4cd2b67f3a9299628659e070fa90fada94753053"
-  integrity sha512-YMJmL20etBkto1pG0suFVJ2Pp07kUAMzj8GI/ZsXupp3evLZ26Y+hyMIJyGLXMfhsFh5qnyWrvhsmx+6sm7siQ==
+happykit@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/happykit/-/happykit-1.4.1.tgz#bcf8fe889f71c7195878a8d44e4d93ef985922cd"
+  integrity sha512-M5PUuKEErrv3KUBzruLyYSo718+mndVi+XMFI1pUAEqiSiO1Fi847cNLhLWnt95p/2f1fqD/n6BD5Bmq/XDl+Q==
   dependencies:
     js-md5 "0.7.3"
 
