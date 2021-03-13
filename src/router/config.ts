@@ -68,7 +68,8 @@ const beforeInterceptor = createDefaultRouterInterceptor({
     routes: [],
     viewLoader(view){
       return ()=>import(`@/views${view}`)
-    }
+    },
+    randomName:true
   }
 })
 const afterInterceptor = createDefaultRouterInterceptor({
