@@ -148,6 +148,7 @@ export default defineComponent({
 
     watch(modelValue, () => {
       existList.value = modelValue.value as string[]
+      needUploadList.value = []
     })
 
     const chooseFile = () => {
